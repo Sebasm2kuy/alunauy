@@ -88,7 +88,7 @@ function App() {
               <img 
                 src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
                 alt="Aluna Logo" 
-                className="w-12 h-12 object-contain"
+                className="h-16 w-auto object-contain"
               />
               <span className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>
                 Aluna
