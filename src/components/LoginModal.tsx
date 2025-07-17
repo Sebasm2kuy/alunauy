@@ -90,12 +90,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
             </div>
           )}
 
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg text-sm">
-            <strong>Credenciales de prueba:</strong><br />
-            Usuario: admin<br />
-            Contraseña: 1234
-          </div>
-
           <button
             type="submit"
             disabled={isLoading}
