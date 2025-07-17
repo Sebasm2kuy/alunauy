@@ -88,9 +88,9 @@ function App() {
               <img 
                 src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
                 alt="Aluna Logo" 
-                className="w-10 h-10 object-contain"
+                className="w-20 h-20 object-contain"
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>
                 Aluna
               </span>
             </div>
@@ -348,9 +348,9 @@ function App() {
                 <img 
                   src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
                   alt="Aluna Logo" 
-                  className="w-10 h-10 object-contain"
+                  className="w-16 h-16 object-contain"
                 />
-                <span className="text-2xl font-bold">Aluna</span>
+                <span className="text-3xl font-light tracking-wide" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>Aluna</span>
               </div>
               <p className="text-gray-400 mb-6">
                 Belleza natural y sostenible para realzar tu esencia única.
