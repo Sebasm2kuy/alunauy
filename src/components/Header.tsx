@@ -1,50 +1,55 @@
-import { useState } from 'react';
-import { FiSearch } from 'react-icons/fi';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { FiMenu, FiX, FiSearch } from 'react-icons/fi';
+import logo from '../assets/logo.png';
 
-const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+const Header: React.FC = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsMenuOpen(false);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setMenuOpen(false);
+    }
   };
 
   return (
-    <header className="bg-white shadow-md fixed w-full z-50">
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <Link to="/" onClick={scrollToTop}>
-            <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
-          </Link>
+    <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50">
+      <div className="container mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center space-x-4 cursor-pointer" onClick={() => scrollToSection('hero')}>
+          <img src={logo} alt="Aluna Logo" className="h-10 w-auto" />
+          <span className="text-pink-600 font-bold text-xl">ALUNA</span>
         </div>
 
-        <nav className="hidden md:flex space-x-6 items-center">
-          <button onClick={scrollToTop} className="hover:text-pink-600">Inicio</button>
-          <a href="#productos" className="hover:text-pink-600">Productos</a>
-          <button onClick={scrollToTop} className="hover:text-pink-600">Sobre Nosotros</button>
-          <button onClick={scrollToTop} className="hover:text-pink-600">Contacto</button>
-          <Link to="/login" className="text-sm font-medium hover:text-pink-600">Iniciar Sesión</Link>
-          <FiSearch className="text-xl hover:text-pink-600 cursor-pointer" />
+        <nav className="hidden md:flex items-center space-x-6">
+          <button onClick={() => scrollToSection('hero')} className="text-gray-700 hover:text-pink-600">Inicio</button>
+          <button onClick={() => scrollToSection('productos')} className="text-gray-700 hover:text-pink-600">Productos</button>
+          <button onClick={() => scrollToSection('about')} className="text-gray-700 hover:text-pink-600">Sobre Nosotros</button>
+          <button onClick={() => scrollToSection('contact')} className="text-gray-700 hover:text-pink-600">Contacto</button>
+          <FiSearch className="text-gray-700 hover:text-pink-600 cursor-pointer" />
+          <a href="/login" className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+            Iniciar Sesión
+          </a>
         </nav>
 
-        {/* Mobile */}
+        {/* Mobile menu toggle */}
         <div className="md:hidden">
-          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="focus:outline-none">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-            </svg>
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FiX className="text-2xl" /> : <FiMenu className="text-2xl" />}
           </button>
         </div>
       </div>
 
-      {isMenuOpen && (
-        <div className="md:hidden bg-white px-4 pt-2 pb-4 space-y-2 shadow-md">
-          <button onClick={scrollToTop} className="block w-full text-left hover:text-pink-600">Inicio</button>
-          <a href="#productos" className="block hover:text-pink-600">Productos</a>
-          <button onClick={scrollToTop} className="block w-full text-left hover:text-pink-600">Sobre Nosotros</button>
-          <button onClick={scrollToTop} className="block w-full text-left hover:text-pink-600">Contacto</button>
-          <Link to="/login" className="block hover:text-pink-600">Iniciar Sesión</Link>
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white px-4 pb-4 space-y-3">
+          <button onClick={() => scrollToSection('hero')} className="block w-full text-left text-gray-700 hover:text-pink-600">Inicio</button>
+          <button onClick={() => scrollToSection('productos')} className="block w-full text-left text-gray-700 hover:text-pink-600">Productos</button>
+          <button onClick={() => scrollToSection('about')} className="block w-full text-left text-gray-700 hover:text-pink-600">Sobre Nosotros</button>
+          <button onClick={() => scrollToSection('contact')} className="block w-full text-left text-gray-700 hover:text-pink-600">Contacto</button>
+          <a href="/login" className="block w-full text-left bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition">
+            Iniciar Sesión
+          </a>
         </div>
       )}
     </header>
