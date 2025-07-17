@@ -1,5 +1,5 @@
-
 import React, { useEffect, useState } from 'react';
+import Header from '../components/Header';
 import ProductGallery from '../components/ProductGallery';
 
 interface HomePageProps {
@@ -34,10 +34,19 @@ const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const scrollToProducts = () => {
+    const section = document.getElementById('productos');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div className="w-full">
+    <div>
+      <Header />
+
       {/* Hero Section */}
-      <section className="relative w-full h-[400px] md:h-[500px] overflow-hidden">
+      <section className="relative w-full h-[400px] md:h-[500px] overflow-hidden mt-[160px]">
         <img
           src={heroSlides[currentSlide].image}
           alt="Hero"
@@ -50,14 +59,17 @@ const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
           <p className="text-base sm:text-lg md:text-xl text-white mb-6 max-w-xl">
             {heroSlides[currentSlide].description}
           </p>
-          <button className="bg-white text-black px-6 py-3 rounded-lg text-sm font-semibold hover:bg-gray-200 transition">
+          <button
+            onClick={scrollToProducts}
+            className="bg-white text-black px-6 py-3 rounded-lg text-sm font-semibold hover:bg-gray-200 transition"
+          >
             Explorar colección
           </button>
         </div>
       </section>
 
       {/* Product Gallery */}
-      <section className="px-4 md:px-16 py-12">
+      <section id="productos" className="px-4 md:px-16 py-12">
         <ProductGallery onAddToCart={onAddToCart} />
       </section>
     </div>
