@@ -93,17 +93,41 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                     onMouseEnter={handleProductsMouseEnter}
                     onMouseLeave={handleProductsMouseLeave}
                   >
-                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                    <button 
+                      onClick={() => onPageChange('cuidado-facial')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
                       Cuidado Facial
                     </button>
-                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                    <button 
+                      onClick={() => onPageChange('maquillaje')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
                       Maquillaje
                     </button>
-                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                    <button 
+                      onClick={() => onPageChange('cuidado-corporal')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
                       Cuidado Corporal
                     </button>
-                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                    <button 
+                      onClick={() => onPageChange('tratamientos')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
                       Tratamientos
+                    </button>
+                    <button 
+                      onClick={() => onPageChange('ofertas')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
+                      Ofertas
+                    </button>
+                    <button 
+                      onClick={() => onPageChange('otros')}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
+                      Otros
                     </button>
                   </div>
                 )}

@@ -453,6 +453,7 @@ const AdminPanel: React.FC = () => {
                         <option value="maquillaje">Maquillaje</option>
                         <option value="corporal">Cuidado Corporal</option>
                         <option value="tratamientos">Tratamientos</option>
+                        <option value="otros">Otros</option>
                       </select>
                     </div>
                   </div>

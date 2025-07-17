@@ -88,11 +88,22 @@ const ProductGallery: React.FC = () => {
     { id: 'cremas', name: 'Cremas', count: products.filter(p => p.category === 'cremas').length },
     { id: 'maquillaje', name: 'Maquillaje', count: products.filter(p => p.category === 'maquillaje').length },
     { id: 'corporal', name: 'Cuidado Corporal', count: products.filter(p => p.category === 'corporal').length },
-    { id: 'tratamientos', name: 'Tratamientos', count: products.filter(p => p.category === 'tratamientos').length }
+    { id: 'tratamientos', name: 'Tratamientos', count: products.filter(p => p.category === 'tratamientos').length },
+    { id: 'ofertas', name: 'Ofertas', count: products.filter(p => p.badge === 'OFERTA' || p.badge === 'BESTSELLER').length },
+    { id: 'otros', name: 'Otros', count: products.filter(p => p.category === 'otros').length }
   ];
 
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'todos' || product.category === selectedCategory;
+    let matchesCategory = false;
+    
+    if (selectedCategory === 'todos') {
+      matchesCategory = true;
+    } else if (selectedCategory === 'ofertas') {
+      matchesCategory = product.badge === 'OFERTA' || product.badge === 'BESTSELLER';
+    } else {
+      matchesCategory = product.category === selectedCategory;
+    }
+    
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;

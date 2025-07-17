@@ -8,6 +8,7 @@ import ProductsPage from './pages/ProductsPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
+import CategoryPage from './pages/CategoryPage';
 import AdminPanel from './components/AdminPanel';
 
 interface CartItem {
@@ -67,6 +68,42 @@ function App() {
         return <HomePage onAddToCart={handleAddToCart} />;
       case 'products':
         return <ProductsPage />;
+      case 'cuidado-facial':
+        return <CategoryPage 
+          category="cuidado-facial" 
+          title="Cuidado Facial" 
+          description="Descubre nuestra línea completa de productos para el cuidado facial, incluyendo sérums y cremas formulados con ingredientes naturales para todo tipo de piel."
+        />;
+      case 'maquillaje':
+        return <CategoryPage 
+          category="maquillaje" 
+          title="Maquillaje" 
+          description="Productos de maquillaje que realzan tu belleza natural con fórmulas suaves y colores vibrantes."
+        />;
+      case 'cuidado-corporal':
+        return <CategoryPage 
+          category="cuidado-corporal" 
+          title="Cuidado Corporal" 
+          description="Cuida tu cuerpo con nuestra selección de aceites, lociones y productos corporales nutritivos."
+        />;
+      case 'tratamientos':
+        return <CategoryPage 
+          category="tratamientos" 
+          title="Tratamientos" 
+          description="Mascarillas y tratamientos especializados para necesidades específicas de tu piel."
+        />;
+      case 'ofertas':
+        return <CategoryPage 
+          category="ofertas" 
+          title="Ofertas Especiales" 
+          description="Aprovecha nuestras mejores ofertas y productos bestseller con descuentos especiales."
+        />;
+      case 'otros':
+        return <CategoryPage 
+          category="otros" 
+          title="Otros Productos" 
+          description="Accesorios y herramientas complementarias para tu rutina de belleza."
+        />;
       case 'blog':
         return <BlogPage />;
       case 'contact':
