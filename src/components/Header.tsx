@@ -1,50 +1,222 @@
-import React from 'react';
-import { Search, User, ShoppingCart } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, User, ShoppingBag, ChevronDown, Menu } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import LoginModal from './LoginModal';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  currentPage: string;
+  onPageChange: (page: string) => void;
+  cartItems: number;
+  onCartClick: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, onCartClick }) => {
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, logout, isAuthenticated, isAdmin } = useAuth();
+
+  const handleUserClick = () => {
+    if (isAuthenticated) {
+      if (isAdmin) {
+        onPageChange('admin');
+      }
+    } else {
+      setIsLoginModalOpen(true);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    onPageChange('home');
+  };
+
   return (
-    <header className="w-full bg-white shadow-md fixed top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center gap-4">
-          <img src="/logo.png" alt="Logo" className="h-8" />
-          <h1 className="text-2xl font-semibold text-pink-600">Aluna</h1>
+    <>
+      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => onPageChange('home')}>
+              <img 
+                src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
+                alt="Aluna Logo" 
+                className="h-16 w-auto object-contain"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
+              <span 
+                className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent"
+                style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}
+              >
+                Aluna
+              </span>
+            </div>
+
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <button 
+                onClick={() => onPageChange('home')}
+                className={`font-medium transition-colors ${currentPage === 'home' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
+              >
+                Inicio
+              </button>
+              
+              <div className="relative">
+                <button 
+                  onMouseEnter={() => setIsProductsOpen(true)}
+                  onMouseLeave={() => setIsProductsOpen(false)}
+                  onClick={() => onPageChange('products')}
+                  className={`font-medium transition-colors flex items-center space-x-1 ${currentPage === 'products' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
+                >
+                  <span>Productos</span>
+                  <ChevronDown className="w-4 h-4" />
+                </button>
+                
+                {isProductsOpen && (
+                  <div 
+                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
+                    onMouseEnter={() => setIsProductsOpen(true)}
+                    onMouseLeave={() => setIsProductsOpen(false)}
+                  >
+                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                      Cuidado Facial
+                    </button>
+                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                      Maquillaje
+                    </button>
+                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                      Cuidado Corporal
+                    </button>
+                    <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
+                      Tratamientos
+                    </button>
+                  </div>
+                )}
+              </div>
+              
+              <button 
+                onClick={() => onPageChange('about')}
+                className={`font-medium transition-colors ${currentPage === 'about' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
+              >
+                Sobre Nosotros
+              </button>
+              
+              <button 
+                onClick={() => onPageChange('blog')}
+                className={`font-medium transition-colors ${currentPage === 'blog' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
+              >
+                Blog
+              </button>
+              
+              <button 
+                onClick={() => onPageChange('contact')}
+                className={`font-medium transition-colors ${currentPage === 'contact' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
+              >
+                Contacto
+              </button>
+            </nav>
+
+            {/* Right Side Icons */}
+            <div className="flex items-center space-x-4">
+              <Search className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
+              
+              <div className="relative">
+                <button 
+                  onClick={handleUserClick}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-pink-500 transition-colors"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="hidden md:block text-sm font-medium">
+                    {isAuthenticated ? (isAdmin ? 'Administrador' : user?.username) : 'Iniciar Sesión'}
+                  </span>
+                </button>
+                
+                {isAuthenticated && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 hidden group-hover:block">
+                    {isAdmin && (
+                      <button 
+                        onClick={() => onPageChange('admin')}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                      >
+                        Panel Admin
+                      </button>
+                    )}
+                    <button 
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="relative">
+                <button onClick={onCartClick}>
+                  <ShoppingBag className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
+                  {cartItems > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartItems}
+                    </span>
+                  )}
+                </button>
+              </div>
+
+              {/* Mobile Menu Button */}
+              <button 
+                className="md:hidden"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              >
+                <Menu className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Icons */}
-        <div className="flex items-center gap-4 text-xl text-gray-700">
-          <Search className="cursor-pointer" />
-          <User className="cursor-pointer" />
-          <ShoppingCart className="cursor-pointer" />
-        </div>
-      </div>
+        {/* Mobile Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden bg-white border-t border-gray-200">
+            <div className="px-4 py-2 space-y-2">
+              <button 
+                onClick={() => { onPageChange('home'); setIsMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 text-gray-700 hover:text-pink-500"
+              >
+                Inicio
+              </button>
+              <button 
+                onClick={() => { onPageChange('products'); setIsMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 text-gray-700 hover:text-pink-500"
+              >
+                Productos
+              </button>
+              <button 
+                onClick={() => { onPageChange('about'); setIsMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 text-gray-700 hover:text-pink-500"
+              >
+                Sobre Nosotros
+              </button>
+              <button 
+                onClick={() => { onPageChange('blog'); setIsMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 text-gray-700 hover:text-pink-500"
+              >
+                Blog
+              </button>
+              <button 
+                onClick={() => { onPageChange('contact'); setIsMobileMenuOpen(false); }}
+                className="block w-full text-left py-2 text-gray-700 hover:text-pink-500"
+              >
+                Contacto
+              </button>
+            </div>
+          </div>
+        )}
+      </header>
 
-      {/* Fixed Menu */}
-      <nav className="bg-gradient-to-r from-pink-500 to-purple-500 text-white text-sm">
-        <ul className="max-w-7xl mx-auto px-4 md:px-8 py-2 flex gap-6 overflow-x-auto whitespace-nowrap">
-          <li className="group relative cursor-pointer hover:underline">
-            Cuidado Facial
-            <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black mt-1 shadow-md rounded-md w-40">
-              <li className="px-4 py-2 hover:bg-gray-100">Cremas</li>
-              <li className="px-4 py-2 hover:bg-gray-100">Sérums</li>
-              <li className="px-4 py-2 hover:bg-gray-100">Mascarillas</li>
-            </ul>
-          </li>
-          <li className="group relative cursor-pointer hover:underline">
-            Maquillaje
-            <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black mt-1 shadow-md rounded-md w-40">
-              <li className="px-4 py-2 hover:bg-gray-100">Bases</li>
-              <li className="px-4 py-2 hover:bg-gray-100">Labiales</li>
-              <li className="px-4 py-2 hover:bg-gray-100">Sombras</li>
-            </ul>
-          </li>
-          <li className="hover:underline cursor-pointer">Cuidado Capilar</li>
-          <li className="hover:underline cursor-pointer">Higiene</li>
-          <li className="hover:underline cursor-pointer">Ofertas</li>
-          <li className="hover:underline cursor-pointer">Novedades</li>
-        </ul>
-      </nav>
-    </header>
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
+    </>
   );
 };
 
