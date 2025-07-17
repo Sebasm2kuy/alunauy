@@ -88,7 +88,7 @@ function App() {
               <img 
                 src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
                 alt="Aluna Logo" 
-                className="w-20 h-20 object-contain"
+                className="w-120 h-120 object-contain"
               />
               <span className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>
                 Aluna
@@ -348,7 +348,7 @@ function App() {
                 <img 
                   src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
                   alt="Aluna Logo" 
-                  className="w-16 h-16 object-contain"
+                  className="w-96 h-96 object-contain"
                 />
                 <span className="text-3xl font-light tracking-wide" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>Aluna</span>
               </div>
