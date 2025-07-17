@@ -1,282 +1,51 @@
-import React, { useState } from 'react';
-import { Menu, X, ShoppingBag, User, Search, ChevronDown, Settings, LogOut } from 'lucide-react';
-import { useAuth } from '../contexts/AuthContext';
-import LoginModal from './LoginModal';
 
-interface HeaderProps {
-  currentPage: string;
-  onPageChange: (page: string) => void;
-  cartItems: number;
-  onCartClick: () => void;
-}
+import React from 'react';
+import { FiSearch, FiUser, FiShoppingCart } from 'react-icons/fi';
 
-const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, onCartClick }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
-  const [showUserMenu, setShowUserMenu] = useState(false);
-  const { user, logout, isAuthenticated, isAdmin } = useAuth();
-
-  const categories = [
-    { id: 'serums', name: 'Sérums', items: ['Vitamina C', 'Ácido Hialurónico', 'Retinol', 'Niacinamida'] },
-    { id: 'cremas', name: 'Cremas', items: ['Hidratantes', 'Anti-edad', 'Nocturnas', 'Contorno de ojos'] },
-    { id: 'maquillaje', name: 'Maquillaje', items: ['Bases', 'Correctores', 'Labiales', 'Sombras'] },
-    { id: 'corporal', name: 'Cuidado Corporal', items: ['Aceites', 'Lociones', 'Exfoliantes', 'Protector solar'] },
-    { id: 'tratamientos', name: 'Tratamientos', items: ['Mascarillas', 'Peeling', 'Ampollas', 'Parches'] },
-    { id: 'accesorios', name: 'Accesorios', items: ['Brochas', 'Esponjas', 'Herramientas', 'Organizadores'] }
-  ];
-
-  const handleExploreCollection = () => {
-    setShowCategoriesMenu(!showCategoriesMenu);
-  };
-
-  const handleUserClick = () => {
-    if (isAuthenticated) {
-      setShowUserMenu(!showUserMenu);
-    } else {
-      setShowLoginModal(true);
-    }
-  };
-
-  const handleLogout = () => {
-    logout();
-    setShowUserMenu(false);
-  };
-
-  const handleAdminPanel = () => {
-    onPageChange('admin');
-    setShowUserMenu(false);
-  };
-
+const Header: React.FC = () => {
   return (
-    <>
-      <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={() => onPageChange('home')}>
-              <img 
-                src="/a26435bc-013e-419b-87a3-2b914c588bac-removebg-preview.png" 
-                alt="Aluna Logo" 
-                className="h-16 w-auto object-contain"
-              />
-              <span className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{fontFamily: "'Playfair Display', 'Georgia', serif"}}>
-                Aluna
-              </span>
-            </div>
-
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <button 
-                onClick={() => onPageChange('home')}
-                className={`font-medium transition-colors ${currentPage === 'home' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
-              >
-                Inicio
-              </button>
-              <div className="relative">
-                <button 
-                  onClick={() => onPageChange('products')}
-                  className={`font-medium transition-colors flex items-center space-x-1 ${currentPage === 'products' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
-                >
-                  <span>Productos</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
-              </div>
-              <button 
-                onClick={() => onPageChange('about')}
-                className={`font-medium transition-colors ${currentPage === 'about' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
-              >
-                Sobre Nosotros
-              </button>
-              <button 
-                onClick={() => onPageChange('blog')}
-                className={`font-medium transition-colors ${currentPage === 'blog' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
-              >
-                Blog
-              </button>
-              <button 
-                onClick={() => onPageChange('contact')}
-                className={`font-medium transition-colors ${currentPage === 'contact' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
-              >
-                Contacto
-              </button>
-            </nav>
-
-            {/* Header Actions */}
-            <div className="flex items-center space-x-4">
-              <Search className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
-              
-              {/* User Menu */}
-              <div className="relative">
-                <button 
-                  onClick={handleUserClick}
-                  className="flex items-center space-x-2 text-gray-700 hover:text-pink-500 transition-colors"
-                >
-                  <User className="w-5 h-5" />
-                  <span className="hidden md:block text-sm font-medium">
-                    {isAuthenticated ? user?.username : 'Iniciar Sesión'}
-                  </span>
-                </button>
-                
-                {/* User Dropdown */}
-                {showUserMenu && isAuthenticated && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                    <div className="py-2">
-                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
-                        Hola, {user?.username}
-                      </div>
-                      {isAdmin && (
-                        <button
-                          onClick={handleAdminPanel}
-                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                        >
-                          <Settings className="w-4 h-4" />
-                          <span>Panel Admin</span>
-                        </button>
-                      )}
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>Cerrar Sesión</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              
-              <div className="relative">
-                <button onClick={onCartClick}>
-                  <ShoppingBag className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
-                  {cartItems > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                      {cartItems}
-                    </span>
-                  )}
-                </button>
-              </div>
-              
-              {/* Mobile Menu Button */}
-              <button 
-                className="md:hidden"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
-          </div>
+    <header className="w-full bg-white shadow-md fixed top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
+        {/* Logo */}
+        <div className="flex items-center gap-4">
+          <img src="/logo.png" alt="Logo" className="h-8" />
+          <h1 className="text-2xl font-semibold text-pink-600">Aluna</h1>
         </div>
 
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-white border-t">
-            <nav className="container mx-auto px-4 py-4 space-y-4">
-              <button 
-                onClick={() => { onPageChange('home'); setIsMenuOpen(false); }}
-                className="block text-gray-700 hover:text-pink-500 transition-colors font-medium"
-              >
-                Inicio
-              </button>
-              <button 
-                onClick={() => { onPageChange('products'); setIsMenuOpen(false); }}
-                className="block text-gray-700 hover:text-pink-500 transition-colors font-medium"
-              >
-                Productos
-              </button>
-              <button 
-                onClick={() => { onPageChange('about'); setIsMenuOpen(false); }}
-                className="block text-gray-700 hover:text-pink-500 transition-colors font-medium"
-              >
-                Sobre Nosotros
-              </button>
-              <button 
-                onClick={() => { onPageChange('blog'); setIsMenuOpen(false); }}
-                className="block text-gray-700 hover:text-pink-500 transition-colors font-medium"
-              >
-                Blog
-              </button>
-              <button 
-                onClick={() => { onPageChange('contact'); setIsMenuOpen(false); }}
-                className="block text-gray-700 hover:text-pink-500 transition-colors font-medium"
-              >
-                Contacto
-              </button>
-            </nav>
-          </div>
-        )}
-      </header>
-
-      {/* Categories Menu Overlay */}
-      {showCategoriesMenu && (
-        <div className="fixed inset-0 bg-black/50 z-40 flex items-start justify-center pt-20" onClick={() => setShowCategoriesMenu(false)}>
-          <div className="bg-white rounded-2xl max-w-6xl w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="p-8">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-bold">Explorar Colección</h2>
-                <button
-                  onClick={() => setShowCategoriesMenu(false)}
-                  className="text-gray-500 hover:text-gray-700 transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {categories.map((category) => (
-                  <div key={category.id} className="group">
-                    <h3 className="text-xl font-semibold mb-4 text-pink-500 group-hover:text-purple-600 transition-colors cursor-pointer">
-                      {category.name}
-                    </h3>
-                    <ul className="space-y-2">
-                      {category.items.map((item, index) => (
-                        <li key={index}>
-                          <button 
-                            onClick={() => {
-                              onPageChange('products');
-                              setShowCategoriesMenu(false);
-                            }}
-                            className="text-gray-600 hover:text-pink-500 transition-colors text-left"
-                          >
-                            {item}
-                          </button>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-8 text-center">
-                <button 
-                  onClick={() => {
-                    onPageChange('products');
-                    setShowCategoriesMenu(false);
-                  }}
-                  className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
-                >
-                  Ver Todos los Productos
-                </button>
-              </div>
-            </div>
-          </div>
+        {/* Icons */}
+        <div className="flex items-center gap-4 text-xl text-gray-700">
+          <FiSearch className="cursor-pointer" />
+          <FiUser className="cursor-pointer" />
+          <FiShoppingCart className="cursor-pointer" />
         </div>
-      )}
-
-      {/* Login Modal */}
-      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
-
-      {/* Explore Collection Button - Global */}
-      <div className="fixed bottom-8 right-8 z-30">
-        <button 
-          onClick={handleExploreCollection}
-          className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center space-x-2"
-        >
-          <span>Explorar Colección</span>
-          <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${showCategoriesMenu ? 'rotate-180' : ''}`} />
-        </button>
       </div>
-    </>
+
+      {/* Fixed Menu */}
+      <nav className="bg-gradient-to-r from-pink-500 to-purple-500 text-white text-sm">
+        <ul className="max-w-7xl mx-auto px-4 md:px-8 py-2 flex gap-6 overflow-x-auto whitespace-nowrap">
+          <li className="group relative cursor-pointer hover:underline">
+            Cuidado Facial
+            <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black mt-1 shadow-md rounded-md w-40">
+              <li className="px-4 py-2 hover:bg-gray-100">Cremas</li>
+              <li className="px-4 py-2 hover:bg-gray-100">Sérums</li>
+              <li className="px-4 py-2 hover:bg-gray-100">Mascarillas</li>
+            </ul>
+          </li>
+          <li className="group relative cursor-pointer hover:underline">
+            Maquillaje
+            <ul className="absolute left-0 top-full hidden group-hover:block bg-white text-black mt-1 shadow-md rounded-md w-40">
+              <li className="px-4 py-2 hover:bg-gray-100">Bases</li>
+              <li className="px-4 py-2 hover:bg-gray-100">Labiales</li>
+              <li className="px-4 py-2 hover:bg-gray-100">Sombras</li>
+            </ul>
+          </li>
+          <li className="hover:underline cursor-pointer">Cuidado Capilar</li>
+          <li className="hover:underline cursor-pointer">Higiene</li>
+          <li className="hover:underline cursor-pointer">Ofertas</li>
+          <li className="hover:underline cursor-pointer">Novedades</li>
+        </ul>
+      </nav>
+    </header>
   );
 };
 
