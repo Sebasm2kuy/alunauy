@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Save, X, Image, Tag, DollarSign } from 'lucide-react';
+import { Plus, Edit, Trash2, Save, X, Image, Tag, DollarSign, Upload, Camera } from 'lucide-react';
 
 interface Product {
   id: number;
@@ -29,6 +29,7 @@ const AdminPanel: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'products' | 'blog'>('products');
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<Product | BlogPost | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>('');
 
   // Sample data - in a real app, this would come from a database
   const [products, setProducts] = useState<Product[]>([
@@ -170,6 +171,7 @@ const AdminPanel: React.FC = () => {
     }
     setIsEditing(false);
     setEditingItem(null);
+    setImagePreview('');
   };
 
   const handleDelete = (id: number) => {
@@ -213,6 +215,28 @@ const AdminPanel: React.FC = () => {
       setEditingItem(newPost);
     }
     setIsEditing(true);
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        setImagePreview(result);
+        if (editingItem) {
+          setEditingItem({...editingItem, image: result});
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleImageUrlChange = (url: string) => {
+    setImagePreview(url);
+    if (editingItem) {
+      setEditingItem({...editingItem, image: url});
+    }
   };
 
   return (
@@ -478,12 +502,88 @@ const AdminPanel: React.FC = () => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">URL de Imagen</label>
-                <input
-                  type="url"
-                  value={editingItem.image}
-                  onChange={(e) => setEditingItem({...editingItem, image: e.target.value})}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                />
+                <div className="space-y-4">
+                  {/* Image Preview */}
+                  <div className="flex justify-center">
+                    <div className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center overflow-hidden">
+                      {(imagePreview || editingItem.image) ? (
+                        <img 
+                          src={imagePreview || editingItem.image} 
+                          alt="Preview" 
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Image className="w-8 h-8 text-gray-400" />
+                      )}
+                    </div>
+                  </div>
+                  
+                  {/* Upload Options */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* File Upload */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Subir desde PC
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageUpload}
+                          className="hidden"
+                          id="image-upload"
+                        />
+                        <label
+                          htmlFor="image-upload"
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-colors flex items-center justify-center space-x-2"
+                        >
+                          <Upload className="w-4 h-4" />
+                          <span>Seleccionar archivo</span>
+                        </label>
+                      </div>
+                    </div>
+                    
+                    {/* URL Input */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        O usar URL
+                      </label>
+                      <input
+                        type="url"
+                        value={editingItem.image}
+                        onChange={(e) => handleImageUrlChange(e.target.value)}
+                        placeholder="https://ejemplo.com/imagen.jpg"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* Quick Actions */}
+                  <div className="flex justify-center space-x-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImagePreview('');
+                        if (editingItem) {
+                          setEditingItem({...editingItem, image: ''});
+                        }
+                      }}
+                      className="px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      Limpiar
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const defaultImage = "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=400";
+                        handleImageUrlChange(defaultImage);
+                      }}
+                      className="px-3 py-1 text-sm bg-pink-100 text-pink-700 rounded-lg hover:bg-pink-200 transition-colors"
+                    >
+                      Imagen por defecto
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
             
