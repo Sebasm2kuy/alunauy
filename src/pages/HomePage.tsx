@@ -1,5 +1,10 @@
 import React from 'react';
 
+import heroImg from '../assets/hero.jpg';
+import img1 from '../assets/MascarillaKarseell1190.jpg';
+import img2 from '../assets/PackshampooycremaKarseell1290.jpg';
+import img3 from '../assets/producto3.jpg';
+
 const HomePage: React.FC = () => {
   return (
     <main className="pt-20">
@@ -7,7 +12,7 @@ const HomePage: React.FC = () => {
       <section
         className="relative bg-cover bg-center h-[70vh] flex items-center justify-center text-center text-white"
         style={{
-          backgroundImage: `url('/hero.jpg')`,
+          backgroundImage: `url(${heroImg})`,
         }}
       >
         <div className="bg-black/50 w-full h-full absolute top-0 left-0" />
@@ -33,7 +38,7 @@ const HomePage: React.FC = () => {
           <div className="grid gap-6 md:grid-cols-3">
             {/* Producto 1 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
-              <img src="/MascarillaKarseell1190.jpg" alt="Mascarilla" className="w-full h-64 object-cover" />
+              <img src={img1} alt="Mascarilla" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">Mascarilla Karseell</h3>
                 <p className="text-pink-600 text-lg font-bold mt-2">$1190</p>
@@ -42,16 +47,16 @@ const HomePage: React.FC = () => {
 
             {/* Producto 2 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
-              <img src="/PackshampooycremaKarseell1290.jpg" alt="Pack Shampoo y Crema" className="w-full h-64 object-cover" />
+              <img src={img2} alt="Pack Shampoo y Crema" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">Pack Shampoo y Crema Karseell</h3>
                 <p className="text-pink-600 text-lg font-bold mt-2">$1290</p>
               </div>
             </div>
 
-            {/* Producto 3 (placeholder) */}
+            {/* Producto 3 */}
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition transform hover:-translate-y-1">
-              <img src="/producto3.jpg" alt="Producto 3" className="w-full h-64 object-cover" />
+              <img src={img3} alt="Producto 3" className="w-full h-64 object-cover" />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-800">Producto 3</h3>
                 <p className="text-pink-600 text-lg font-bold mt-2">$990</p>
