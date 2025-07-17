@@ -12,10 +12,25 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, onCartClick }) => {
   const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [productsTimeout, setProductsTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
+  const handleProductsMouseEnter = () => {
+    if (productsTimeout) {
+      clearTimeout(productsTimeout);
+      setProductsTimeout(null);
+    }
+    setIsProductsOpen(true);
+  };
+
+  const handleProductsMouseLeave = () => {
+    const timeout = setTimeout(() => {
+      setIsProductsOpen(false);
+    }, 300); // 300ms de retardo
+    setProductsTimeout(timeout);
+  };
   const handleUserClick = () => {
     if (isAuthenticated) {
       if (isAdmin) {
@@ -63,8 +78,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
               
               <div className="relative">
                 <button 
-                  onMouseEnter={() => setIsProductsOpen(true)}
-                  onMouseLeave={() => setIsProductsOpen(false)}
+                  onMouseEnter={handleProductsMouseEnter}
+                  onMouseLeave={handleProductsMouseLeave}
                   onClick={() => onPageChange('products')}
                   className={`font-medium transition-colors flex items-center space-x-1 ${currentPage === 'products' ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
                 >
@@ -75,8 +90,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                 {isProductsOpen && (
                   <div 
                     className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50"
-                    onMouseEnter={() => setIsProductsOpen(true)}
-                    onMouseLeave={() => setIsProductsOpen(false)}
+                    onMouseEnter={handleProductsMouseEnter}
+                    onMouseLeave={handleProductsMouseLeave}
                   >
                     <button className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors">
                       Cuidado Facial
