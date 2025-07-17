@@ -1,0 +1,21 @@
+# Archivos de configuración local que pueden contener contraseñas
+/.env
+/.env.local
+
+# Carpeta de dependencias de PHP (se instala con Composer)
+/vendor/
+
+# Carpeta de dependencias de Javascript (se instala con NPM/Yarn)
+/node_modules/
+
+# Archivos de caché y logs de Bolt
+/var/cache/*
+/var/log/*
+!/var/cache/.gitkeep
+!/var/log/.gitkeep
+
+# Archivos subidos por los usuarios a través del CMS
+/public/files/
+
+# Archivos de la base de datos local (si usas SQLite)
+/*.db
