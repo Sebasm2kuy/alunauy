@@ -18,6 +18,13 @@ interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
+  // Responsive styles added
+  const heroClass = "w-full flex flex-col md:flex-row items-center justify-between gap-8 px-4 py-12";
+  const textClass = "text-center md:text-left max-w-xl";
+  const titleClass = "text-3xl sm:text-4xl md:text-5xl font-bold mb-4";
+  const descClass = "text-base sm:text-lg md:text-xl text-gray-700 mb-6";
+  const imgClass = "w-full max-w-md md:max-w-lg rounded-lg object-cover";
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroSlides = [
