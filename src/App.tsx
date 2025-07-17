@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Cart from './components/Cart';
@@ -7,6 +8,7 @@ import ProductsPage from './pages/ProductsPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
 import AboutPage from './pages/AboutPage';
+import AdminPanel from './components/AdminPanel';
 
 interface CartItem {
   id: number;
@@ -71,34 +73,38 @@ function App() {
         return <ContactPage />;
       case 'about':
         return <AboutPage />;
+      case 'admin':
+        return <AdminPanel />;
       default:
         return <HomePage onAddToCart={handleAddToCart} />;
     }
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-        cartItems={getTotalItems()}
-        onCartClick={() => setIsCartOpen(true)}
-      />
-      
-      <main>
-        {renderCurrentPage()}
-      </main>
+    <AuthProvider>
+      <div className="min-h-screen bg-white">
+        <Header
+          currentPage={currentPage}
+          onPageChange={setCurrentPage}
+          cartItems={getTotalItems()}
+          onCartClick={() => setIsCartOpen(true)}
+        />
+        
+        <main>
+          {renderCurrentPage()}
+        </main>
 
-      <Footer onPageChange={setCurrentPage} />
+        {currentPage !== 'admin' && <Footer onPageChange={setCurrentPage} />}
 
-      <Cart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-      />
-    </div>
+        <Cart
+          isOpen={isCartOpen}
+          onClose={() => setIsCartOpen(false)}
+          items={cartItems}
+          onUpdateQuantity={handleUpdateQuantity}
+          onRemoveItem={handleRemoveItem}
+        />
+      </div>
+    </AuthProvider>
   );
 }
 

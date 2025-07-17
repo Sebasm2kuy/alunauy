@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Menu, X, ShoppingBag, User, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, ShoppingBag, User, Search, ChevronDown, Settings, LogOut } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import LoginModal from './LoginModal';
 
 interface HeaderProps {
   currentPage: string;
@@ -11,6 +13,9 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, onCartClick }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showCategoriesMenu, setShowCategoriesMenu] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
   const categories = [
     { id: 'serums', name: 'Sérums', items: ['Vitamina C', 'Ácido Hialurónico', 'Retinol', 'Niacinamida'] },
@@ -23,6 +28,24 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
 
   const handleExploreCollection = () => {
     setShowCategoriesMenu(!showCategoriesMenu);
+  };
+
+  const handleUserClick = () => {
+    if (isAuthenticated) {
+      setShowUserMenu(!showUserMenu);
+    } else {
+      setShowLoginModal(true);
+    }
+  };
+
+  const handleLogout = () => {
+    logout();
+    setShowUserMenu(false);
+  };
+
+  const handleAdminPanel = () => {
+    onPageChange('admin');
+    setShowUserMenu(false);
   };
 
   return (
@@ -82,7 +105,47 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
             {/* Header Actions */}
             <div className="flex items-center space-x-4">
               <Search className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
-              <User className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
+              
+              {/* User Menu */}
+              <div className="relative">
+                <button 
+                  onClick={handleUserClick}
+                  className="flex items-center space-x-2 text-gray-700 hover:text-pink-500 transition-colors"
+                >
+                  <User className="w-5 h-5" />
+                  <span className="hidden md:block text-sm font-medium">
+                    {isAuthenticated ? user?.username : 'Iniciar Sesión'}
+                  </span>
+                </button>
+                
+                {/* User Dropdown */}
+                {showUserMenu && isAuthenticated && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                    <div className="py-2">
+                      <div className="px-4 py-2 text-sm text-gray-700 border-b">
+                        Hola, {user?.username}
+                      </div>
+                      {isAdmin && (
+                        <button
+                          onClick={handleAdminPanel}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                        >
+                          <Settings className="w-4 h-4" />
+                          <span>Panel Admin</span>
+                        </button>
+                      )}
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 flex items-center space-x-2"
+                      >
+                        <LogOut className="w-4 h-4" />
+                        <span>Cerrar Sesión</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              
               <div className="relative">
                 <button onClick={onCartClick}>
                   <ShoppingBag className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
@@ -199,6 +262,9 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
           </div>
         </div>
       )}
+
+      {/* Login Modal */}
+      <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
 
       {/* Explore Collection Button - Global */}
       <div className="fixed bottom-8 right-8 z-30">
