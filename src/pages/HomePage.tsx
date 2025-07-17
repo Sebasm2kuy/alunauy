@@ -42,7 +42,7 @@ const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <Header />
 
       {/* Hero Section */}
