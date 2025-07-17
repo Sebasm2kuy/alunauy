@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiSearch, FiUser, FiShoppingCart } from 'react-icons/fi';
+import { Search, User, ShoppingCart } from 'lucide-react';
 
 const Header: React.FC = () => {
   return (
@@ -13,9 +13,9 @@ const Header: React.FC = () => {
 
         {/* Icons */}
         <div className="flex items-center gap-4 text-xl text-gray-700">
-          <FiSearch className="cursor-pointer" />
-          <FiUser className="cursor-pointer" />
-          <FiShoppingCart className="cursor-pointer" />
+          <Search className="cursor-pointer" />
+          <User className="cursor-pointer" />
+          <ShoppingCart className="cursor-pointer" />
         </div>
       </div>
 
