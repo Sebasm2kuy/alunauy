@@ -13,17 +13,17 @@ const HomePage: React.FC<HomePageProps> = ({ onAddToCart }) => {
     {
       title: "Nueva Colección",
       description: "Descubre nuestra línea de productos naturales para realzar tu belleza",
-      image: "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      image: "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg"
     },
     {
       title: "Cuidado Natural",
       description: "Fórmulas desarrolladas con los mejores ingredientes naturales",
-      image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg"
     },
     {
       title: "Belleza Sostenible",
       description: "Productos eco-friendly que cuidan tu piel y el planeta",
-      image: "https://images.pexels.com/photos/2720134/pexels-photo-2720134.jpeg?auto=compress&cs=tinysrgb&w=1200"
+      image: "https://images.pexels.com/photos/2720134/pexels-photo-2720134.jpeg"
     }
   ];
 
