@@ -145,8 +145,11 @@ const ContactPage: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold mb-1">Email</h3>
-                    <p className="text-gray-600">info@alunacosmeticos.com</p>
-                    <p className="text-gray-600">ventas@alunacosmeticos.com</p>
+                    <p className="text-gray-600">
+                      <a href="mailto:aluna@alunauy.es" className="hover:text-pink-500 transition-colors">
+                        aluna@alunauy.es
+                      </a>
+                    </p>
                   </div>
                 </div>
 
@@ -188,7 +191,7 @@ const ContactPage: React.FC = () => {
               <div className="pt-8 border-t">
                 <h3 className="text-xl font-semibold mb-4">Síguenos</h3>
                 <div className="flex space-x-4">
-                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">
+                  <a href="https://www.instagram.com/aluna.auy" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">
                     <Instagram className="w-6 h-6" />
                   </a>
                   <a href="#" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">

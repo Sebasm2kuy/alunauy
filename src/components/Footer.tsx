@@ -23,7 +23,9 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
               Belleza natural y sostenible para realzar tu esencia única.
             </p>
             <div className="flex space-x-4">
-              <Instagram className="w-6 h-6 text-gray-400 hover:text-pink-500 cursor-pointer transition-colors" />
+              <a href="https://www.instagram.com/aluna.auy" target="_blank" rel="noopener noreferrer">
+                <Instagram className="w-6 h-6 text-gray-400 hover:text-pink-500 cursor-pointer transition-colors" />
+              </a>
               <Facebook className="w-6 h-6 text-gray-400 hover:text-pink-500 cursor-pointer transition-colors" />
               <Twitter className="w-6 h-6 text-gray-400 hover:text-pink-500 cursor-pointer transition-colors" />
             </div>
