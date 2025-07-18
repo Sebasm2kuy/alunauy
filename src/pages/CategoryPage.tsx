@@ -19,9 +19,10 @@ interface CategoryPageProps {
   category: string;
   title: string;
   description: string;
+  onAddToCart?: (product: Product) => void;
 }
 
-const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, description }) => {
+const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, description, onAddToCart }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
@@ -126,7 +127,10 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
                     <button className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
                       <Heart className="w-5 h-5" />
                     </button>
-                    <button className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
+                    <button 
+                      onClick={() => onAddToCart?.(product)}
+                      className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150"
+                    >
                       <ShoppingCart className="w-5 h-5" />
                     </button>
                   </div>
@@ -162,7 +166,10 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
                         <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
                       )}
                     </div>
-                    <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300">
+                    <button 
+                      onClick={() => onAddToCart?.(product)}
+                      className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300"
+                    >
                       Agregar
                     </button>
                   </div>
@@ -246,7 +253,10 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
                     <Heart className="w-5 h-5" />
                     <span>Favoritos</span>
                   </button>
-                  <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
+                  <button 
+                    onClick={() => onAddToCart?.(selectedProduct)}
+                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg transition-all duration-300 flex items-center space-x-2"
+                  >
                     <ShoppingCart className="w-5 h-5" />
                     <span>Agregar al Carrito</span>
                   </button>

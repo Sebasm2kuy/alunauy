@@ -1,7 +1,11 @@
 import React from 'react';
 import { Instagram, Facebook, Twitter } from 'lucide-react';
 
-const Footer: React.FC = () => {
+interface FooterProps {
+  onPageChange?: (page: string) => void;
+}
+
+const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
   return (
     <footer className="bg-gray-900 text-white py-16">
       <div className="container mx-auto px-4">
@@ -34,10 +38,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Productos</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><button className="hover:text-white transition-colors">Cuidado Facial</button></li>
-              <li><button className="hover:text-white transition-colors">Cuidado Corporal</button></li>
-              <li><button className="hover:text-white transition-colors">Maquillaje</button></li>
-              <li><button className="hover:text-white transition-colors">Accesorios</button></li>
+              <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
+              <li><button onClick={() => onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
+              <li><button onClick={() => onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
+              <li><button onClick={() => onPageChange?.('otros')} className="hover:text-white transition-colors">Accesorios</button></li>
             </ul>
           </div>
 
@@ -45,10 +49,10 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Ayuda</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><button className="hover:text-white transition-colors">Centro de Ayuda</button></li>
+              <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Centro de Ayuda</button></li>
               <li><a href="#" className="hover:text-white transition-colors">Envíos</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Devoluciones</a></li>
-              <li><button className="hover:text-white transition-colors">Contacto</button></li>
+              <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Contacto</button></li>
             </ul>
           </div>
 
@@ -56,9 +60,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Empresa</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><button className="hover:text-white transition-colors">Sobre Nosotros</button></li>
+              <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sobre Nosotros</button></li>
               <li><a href="#" className="hover:text-white transition-colors">Carreras</a></li>
-              <li><button className="hover:text-white transition-colors">Blog</button></li>
+              <li><button onClick={() => onPageChange?.('blog')} className="hover:text-white transition-colors">Blog</button></li>
               <li><a href="#" className="hover:text-white transition-colors">Sostenibilidad</a></li>
             </ul>
           </div>

@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Truck, Shield, Award, Star, Heart, ShoppingCart, ChevronDown } from 'lucide-react';
 
-const HomePage: React.FC = () => {
+interface HomePageProps {
+  onPageChange?: (page: string) => void;
+}
+
+const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
 
@@ -62,10 +66,26 @@ const HomePage: React.FC = () => {
   };
 
   const handleSearch = (searchTerm: string) => {
-    // Aquí puedes implementar la lógica de búsqueda
-    console.log('Buscando:', searchTerm);
-    // Por ejemplo, filtrar productos o navegar a la página de productos con el término de búsqueda
+    // Navegar a la página de productos con el término de búsqueda
+    if (onPageChange) {
+      onPageChange('products');
+      // Scroll to products section after navigation
+      setTimeout(() => {
+        const productsSection = document.getElementById('gallery-section');
+        if (productsSection) {
+          productsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
   };
+
+  // Función para manejar el cambio de página (necesaria para el botón explorar)
+  const handlePageChange = (page: string) => {
+    if (onPageChange) {
+      onPageChange(page);
+    }
+  };
+
   return (
     <div>
       {/* Floating Explore Button */}
@@ -91,37 +111,37 @@ const HomePage: React.FC = () => {
                 Ver Todos los Productos
               </button>
               <button
-                onClick={() => { onPageChange('cuidado-facial'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('cuidado-facial'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Cuidado Facial
               </button>
               <button
-                onClick={() => { onPageChange('maquillaje'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('maquillaje'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Maquillaje
               </button>
               <button
-                onClick={() => { onPageChange('cuidado-corporal'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('cuidado-corporal'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Cuidado Corporal
               </button>
               <button
-                onClick={() => { onPageChange('tratamientos'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('tratamientos'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Tratamientos
               </button>
               <button
-                onClick={() => { onPageChange('ofertas'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('ofertas'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Ofertas Especiales
               </button>
               <button
-                onClick={() => { onPageChange('otros'); setIsExploreOpen(false); }}
+                onClick={() => { handlePageChange('otros'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
                 Accesorios

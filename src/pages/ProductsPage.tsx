@@ -1,7 +1,11 @@
 import React from 'react';
 import ProductGallery from '../components/ProductGallery';
 
-const ProductsPage: React.FC = () => {
+interface ProductsPageProps {
+  onAddToCart?: (product: any) => void;
+}
+
+const ProductsPage: React.FC<ProductsPageProps> = ({ onAddToCart }) => {
   return (
     <div className="pt-16">
       {/* Hero Section */}
@@ -18,7 +22,7 @@ const ProductsPage: React.FC = () => {
       </section>
 
       {/* Product Gallery */}
-      <ProductGallery />
+      <ProductGallery onAddToCart={onAddToCart} />
 
       {/* Categories Info */}
       <section className="py-20 bg-white">

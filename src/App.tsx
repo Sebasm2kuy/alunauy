@@ -148,6 +148,27 @@ const App: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [refreshKey, setRefreshKey] = useState(0);
 
+  const handleAddToCart = (product: any) => {
+    const cartItem = {
+      id: product.id,
+      name: product.name,
+      price: parseFloat(product.price.replace('$', '')),
+      quantity: 1,
+      image: product.image
+    };
+    
+    const existingItem = cartItems.find(item => item.id === product.id);
+    if (existingItem) {
+      setCartItems(cartItems.map(item => 
+        item.id === product.id 
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      ));
+    } else {
+      setCartItems([...cartItems, cartItem]);
+    }
+  };
+
   const handlePageChange = (page: string) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -210,9 +231,9 @@ const App: React.FC = () => {
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
+        return <HomePage onPageChange={handlePageChange} />;
       case 'products':
-        return <ProductsPage key={refreshKey} />;
+        return <ProductsPage key={refreshKey} onAddToCart={handleAddToCart} />;
       case 'about':
         return <AboutPage />;
       case 'blog':
@@ -234,6 +255,7 @@ const App: React.FC = () => {
             category={currentPage}
             title={categoryInfo.title}
             description={categoryInfo.description}
+            onAddToCart={handleAddToCart}
           />
         );
       default:
@@ -259,7 +281,7 @@ const App: React.FC = () => {
           {renderCurrentPage()}
         </main>
 
-        <Footer />
+        <Footer onPageChange={handlePageChange} />
 
         <Cart
           isOpen={isCartOpen}
