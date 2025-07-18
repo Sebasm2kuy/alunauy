@@ -18,7 +18,17 @@ const Navbar: React.FC = () => {
 
         <div className="hidden md:flex space-x-6">
           <Link to="hero" smooth duration={500} className="cursor-pointer text-gray-600 hover:text-blue-600">Inicio</Link>
-          <Link to="productos" smooth duration={500} className="cursor-pointer text-gray-600 hover:text-blue-600">Productos</Link>
+          
+          <div className="relative group">
+            <span className="cursor-pointer text-gray-600 hover:text-blue-600">Productos</span>
+            <div className="absolute hidden group-hover:block bg-white border shadow-lg min-w-[220px] z-20">
+              <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 whitespace-nowrap">Arte Decorativo</a>
+              <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 whitespace-nowrap">Accesorios</a>
+              <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 whitespace-nowrap">Ropa y Estilo</a>
+              <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 whitespace-nowrap">Otros</a>
+            </div>
+          </div>
+
           <Link to="about" smooth duration={500} className="cursor-pointer text-gray-600 hover:text-blue-600">Sobre Nosotros</Link>
           <Link to="contact" smooth duration={500} className="cursor-pointer text-gray-600 hover:text-blue-600">Contacto</Link>
         </div>
@@ -43,3 +53,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+
