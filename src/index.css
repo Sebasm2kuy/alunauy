@@ -20,9 +20,19 @@ html, body {
 
 /* Estilos personalizados opcionales */
 a {
-  @apply text-pink-500 hover:text-pink-600 transition-colors;
+  color: #ec4899;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #db2777;
 }
 
 button {
-  @apply focus:outline-none;
+  outline: none;
+}
+
+button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
