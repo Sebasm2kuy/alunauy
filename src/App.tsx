@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { AuthProvider } from './contexts/AuthContext';
-import { useStore } from './store/cmsStore';
+import { useStore, Product, CartItem } from './store/cmsStore';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -15,17 +15,25 @@ import ProductDetail from './components/ProductDetail';
 import Checkout from './components/Checkout';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
-import { Product } from './store/cmsStore';
 import './index.css';
 
 const App: React.FC = () => {
+  const { 
+    cart, 
+    addToCart, 
+    updateCartItem, 
+    removeFromCart, 
+    clearCart,
+    siteSettings, 
+    createOrder 
+  } = useStore();
+  
   const [currentPage, setCurrentPage] = useState('home');
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isCMSOpen, setIsCMSOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
-  
 
   const handleAddToCart = (product: Product, quantity: number = 1, variants?: Record<string, string>) => {
     addToCart({
@@ -155,6 +163,9 @@ const App: React.FC = () => {
                   // Implementar búsqueda global
                   console.log('Búsqueda global:', term);
                 }}
+                siteSettings={siteSettings}
+                createOrder={createOrder}
+                clearCart={clearCart}
               />
               
               <main>

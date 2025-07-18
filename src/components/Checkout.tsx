@@ -10,16 +10,27 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
-import { useStore, CartItem } from '../store/cmsStore';
+import { CartItem, SiteSettings } from '../store/cmsStore';
 
 interface CheckoutProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
   total: number;
+  siteSettings: SiteSettings;
+  createOrder: (customer: { name: string; email: string; phone: string; address: string }, paymentMethod: string) => string;
+  clearCart: () => void;
 }
 
-const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, total }) => {
+const Checkout: React.FC<CheckoutProps> = ({ 
+  isOpen, 
+  onClose, 
+  items, 
+  total, 
+  siteSettings, 
+  createOrder, 
+  clearCart 
+}) => {
   const [step, setStep] = useState(1);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState('');
