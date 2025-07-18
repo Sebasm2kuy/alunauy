@@ -85,13 +85,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
-              {['home', 'about', 'blog', 'contact'].map(page => (
+              {['home', 'blog', 'contact'].map(page => (
                 <button 
                   key={page}
                   onClick={() => onPageChange(page)}
                   className={`font-medium transition-colors ${currentPage === page ? 'text-pink-500' : 'text-gray-700 hover:text-pink-500'}`}
                 >
-                  {page === 'home' ? 'Inicio' : page === 'about' ? 'Sobre Nosotros' : page === 'contact' ? 'Contacto' : page.charAt(0).toUpperCase() + page.slice(1)}
+                  {page === 'home' ? 'Inicio' : page === 'contact' ? 'Contacto' : page.charAt(0).toUpperCase() + page.slice(1)}
                 </button>
               ))}
               <div className="relative">
@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                 </button>
                 {isProductsOpen && (
                   <div
-                    className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50"
+                    className="absolute top-full left-0 mt-2 w-72 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50"
                     onMouseEnter={handleProductsMouseEnter}
                     onMouseLeave={handleProductsMouseLeave}
                   >
@@ -116,12 +116,12 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                       { id: 'cuidado-corporal', name: 'Cuidado Corporal' },
                       { id: 'tratamientos', name: 'Tratamientos' },
                       { id: 'ofertas', name: 'Ofertas' },
-                      { id: 'otros', name: 'Accesorios y Otros' }
+                      { id: 'otros', name: 'Accesorios' }
                     ].map(cat => (
                       <button
                         key={cat.id}
                         onClick={() => onPageChange(cat.id)}
-                        className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                        className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
                       >
                         {cat.name}
                       </button>
@@ -198,7 +198,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
         {isMobileMenuOpen && (
           <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
             <div className="px-4 py-4 space-y-1">
-              {['home', 'products', 'about', 'blog', 'contact'].map(page => (
+              {['home', 'products', 'blog', 'contact'].map(page => (
                 <button
                   key={page}
                   onClick={() => { onPageChange(page); setIsMobileMenuOpen(false); }}
@@ -206,7 +206,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                     currentPage === page ? 'text-pink-500 bg-pink-50' : 'text-gray-700 hover:text-pink-500 hover:bg-gray-50'
                   }`}
                 >
-                  {page === 'home' ? 'Inicio' : page === 'about' ? 'Sobre Nosotros' : page === 'contact' ? 'Contacto' : page === 'products' ? 'Productos' : page.charAt(0).toUpperCase() + page.slice(1)}
+                  {page === 'home' ? 'Inicio' : page === 'contact' ? 'Contacto' : page === 'products' ? 'Productos' : page.charAt(0).toUpperCase() + page.slice(1)}
                 </button>
               ))}
               
@@ -219,7 +219,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                   { id: 'cuidado-corporal', name: 'Cuidado Corporal' },
                   { id: 'tratamientos', name: 'Tratamientos' },
                   { id: 'ofertas', name: 'Ofertas' },
-                  { id: 'otros', name: 'Otros' }
+                  { id: 'otros', name: 'Accesorios' }
                 ].map(cat => (
                   <button
                     key={cat.id}

@@ -63,7 +63,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
               <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sobre Nosotros</button></li>
               <li><a href="#" className="hover:text-white transition-colors">Carreras</a></li>
               <li><button onClick={() => onPageChange?.('blog')} className="hover:text-white transition-colors">Blog</button></li>
-              <li><a href="#" className="hover:text-white transition-colors">Sostenibilidad</a></li>
+              <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sostenibilidad</button></li>
             </ul>
           </div>
         </div>

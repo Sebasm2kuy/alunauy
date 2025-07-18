@@ -207,20 +207,20 @@ const BlogPage: React.FC = () => {
 
       {/* Newsletter Subscription */}
       <section className="py-20 bg-gradient-to-r from-pink-500 to-purple-600">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-4 text-center max-w-4xl">
           <h2 className="text-4xl font-bold text-white mb-6">
             No te Pierdas Nuestros Consejos
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Suscríbete a nuestro blog y recibe los mejores consejos de belleza directamente en tu email
           </p>
-          <div className="max-w-md mx-auto flex">
+          <div className="max-w-md mx-auto flex flex-col sm:flex-row gap-2 sm:gap-0">
             <input
               type="email"
               placeholder="Tu email"
-              className="flex-1 px-6 py-4 rounded-l-full focus:outline-none focus:ring-2 focus:ring-white/50"
+              className="flex-1 px-6 py-4 rounded-full sm:rounded-l-full sm:rounded-r-none focus:outline-none focus:ring-2 focus:ring-white/50"
             />
-            <button className="bg-white text-pink-500 px-8 py-4 rounded-r-full font-semibold hover:bg-gray-100 transition-colors">
+            <button className="bg-white text-pink-500 px-8 py-4 rounded-full sm:rounded-l-none sm:rounded-r-full font-semibold hover:bg-gray-100 transition-colors">
               Suscribirse
             </button>
           </div>
