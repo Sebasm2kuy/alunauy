@@ -45,7 +45,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
   };
 
   const handleAdminClick = () => {
-    onPageChange('admin');
+    onPageChange('admin'); // This will trigger the CMS editor in App.tsx
     setIsUserMenuOpen(false);
   };
 

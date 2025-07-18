@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import { AuthProvider } from './contexts/AuthContext';
+import { useCMSStore } from './store/cmsStore';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -7,166 +10,33 @@ import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
 import ContactPage from './pages/ContactPage';
 import CategoryPage from './pages/CategoryPage';
-import AdminPanel from './components/AdminPanel';
+import CMSEditor from './components/admin/CMSEditor';
+import ProductDetail from './components/ProductDetail';
+import Checkout from './components/Checkout';
 import Cart from './components/Cart';
 import Footer from './components/Footer';
+import { Product } from './store/cmsStore';
 import './index.css';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
-
-// Estado global para productos (en una app real esto estaría en un contexto o store)
-let globalProducts = [
-  {
-    id: 1,
-    name: "Sérum Regenerador Premium",
-    category: "serums",
-    price: "$125.99",
-    originalPrice: "$159.99",
-    image: "/IMG-20250716-WA0022.jpg",
-    description: "Sérum concentrado con ingredientes activos para regeneración celular profunda",
-    rating: 4.9,
-    reviews: 156,
-    badge: "BESTSELLER"
-  },
-  {
-    id: 2,
-    name: "Crema Hidratante Intensiva",
-    category: "cremas",
-    price: "$89.99",
-    originalPrice: "$110.00",
-    image: "/IMG-20250716-WA0023.jpg",
-    description: "Hidratación profunda de 24 horas con ácido hialurónico y vitamina E",
-    rating: 4.8,
-    reviews: 203,
-    badge: "NUEVO"
-  },
-  {
-    id: 3,
-    name: "Base Líquida Natural",
-    category: "maquillaje",
-    price: "$65.99",
-    originalPrice: "$85.00",
-    image: "/IMG-20250716-WA0024.jpg",
-    description: "Cobertura natural con protección solar SPF 30 y acabado mate",
-    rating: 4.7,
-    reviews: 89,
-    badge: "OFERTA"
-  },
-  {
-    id: 4,
-    name: "Aceite Corporal Nutritivo",
-    category: "corporal",
-    price: "$75.99",
-    originalPrice: "$95.00",
-    image: "/IMG-20250716-WA0025.jpg",
-    description: "Aceite multifuncional con extractos naturales para piel suave y radiante",
-    rating: 4.9,
-    reviews: 134,
-    badge: "PREMIUM"
-  },
-  {
-    id: 5,
-    name: "Mascarilla Purificante",
-    category: "tratamientos",
-    price: "$55.99",
-    originalPrice: "$70.00",
-    image: "/IMG-20250716-WA0026.jpg",
-    description: "Mascarilla de arcilla con carbón activado para poros profundos",
-    rating: 4.6,
-    reviews: 98,
-    badge: "POPULAR"
-  },
-  {
-    id: 6,
-    name: "Sérum Vitamina C",
-    category: "serums",
-    price: "$89.99",
-    originalPrice: "$120.00",
-    image: "https://images.pexels.com/photos/7755515/pexels-photo-7755515.jpeg?auto=compress&cs=tinysrgb&w=400",
-    description: "Sérum concentrado con vitamina C para iluminar y proteger la piel",
-    rating: 4.8,
-    reviews: 124,
-    badge: "CLÁSICO"
-  },
-  {
-    id: 7,
-    name: "Crema Hidratante Nocturna",
-    category: "cremas",
-    price: "$65.99",
-    originalPrice: "$85.00",
-    image: "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=400",
-    description: "Crema hidratante de noche con ácido hialurónico",
-    rating: 4.9,
-    reviews: 89,
-    badge: "NOCTURNO"
-  },
-  {
-    id: 8,
-    name: "Mascarilla Facial Revitalizante",
-    category: "tratamientos",
-    price: "$45.99",
-    originalPrice: "$60.00",
-    image: "https://images.pexels.com/photos/7755501/pexels-photo-7755501.jpeg?auto=compress&cs=tinysrgb&w=400",
-    description: "Mascarilla revitalizante con extractos naturales",
-    rating: 4.7,
-    reviews: 156,
-    badge: "NATURAL"
-  },
-  {
-    id: 9,
-    name: "Aceite Facial Regenerador",
-    category: "serums",
-    price: "$95.99",
-    originalPrice: "$125.00",
-    image: "https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg?auto=compress&cs=tinysrgb&w=400",
-    description: "Aceite facial con propiedades regeneradoras y anti-edad",
-    rating: 4.9,
-    reviews: 203,
-    badge: "ANTI-EDAD"
-  }
-];
-
-// Función para actualizar productos globalmente
-export const updateGlobalProducts = (products: any[]) => {
-  globalProducts = products;
-};
-
-// Función para obtener productos globalmente
-export const getGlobalProducts = () => {
-  return globalProducts;
-};
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isCMSOpen, setIsCMSOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  
+  const { cart, addToCart, updateCartItem, removeFromCart, products } = useCMSStore();
 
-  const handleAddToCart = (product: any) => {
-    const cartItem = {
-      id: product.id,
+  const handleAddToCart = (product: Product, quantity: number = 1, variants?: Record<string, string>) => {
+    addToCart({
+      productId: product.id,
       name: product.name,
-      price: parseFloat(product.price.replace('$', '')),
-      quantity: 1,
-      image: product.image
-    };
-    
-    const existingItem = cartItems.find(item => item.id === product.id);
-    if (existingItem) {
-      setCartItems(cartItems.map(item => 
-        item.id === product.id 
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
-      ));
-    } else {
-      setCartItems([...cartItems, cartItem]);
-    }
+      price: product.price,
+      quantity,
+      image: product.images[0] || '',
+      variants
+    });
   };
 
   const handlePageChange = (page: string) => {
@@ -180,22 +50,29 @@ const App: React.FC = () => {
     setIsCartOpen(true);
   };
 
-  const handleUpdateQuantity = (id: number, quantity: number) => {
-    if (quantity === 0) {
-      setCartItems(cartItems.filter(item => item.id !== id));
-    } else {
-      setCartItems(cartItems.map(item => 
-        item.id === id ? { ...item, quantity } : item
-      ));
-    }
+  const handleUpdateQuantity = (id: string, quantity: number) => {
+    updateCartItem(id, quantity);
   };
 
-  const handleRemoveItem = (id: number) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
+  const handleRemoveItem = (id: string) => {
+    removeFromCart(id);
   };
 
   const getTotalItems = () => {
-    return cartItems.reduce((total, item) => total + item.quantity, 0);
+    return cart.reduce((total, item) => total + item.quantity, 0);
+  };
+
+  const getTotalPrice = () => {
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  };
+
+  const handleProductClick = (product: Product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleCheckout = () => {
+    setIsCartOpen(false);
+    setIsCheckoutOpen(true);
   };
 
   const getCategoryInfo = (category: string) => {
@@ -241,7 +118,8 @@ const App: React.FC = () => {
       case 'contact':
         return <ContactPage />;
       case 'admin':
-        return <AdminPanel key={refreshKey} />;
+        setIsCMSOpen(true);
+        return null;
       case 'cuidado-facial':
       case 'maquillaje':
       case 'cuidado-corporal':
@@ -264,34 +142,67 @@ const App: React.FC = () => {
   };
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen bg-white">
-        <Header
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-          cartItems={getTotalItems()}
-          onCartClick={handleCartClick}
-          onSearch={(term) => {
-            // Implementar búsqueda global
-            console.log('Búsqueda global:', term);
-          }}
-        />
-        
-        <main>
-          {renderCurrentPage()}
-        </main>
+    <DndProvider backend={HTML5Backend}>
+      <AuthProvider>
+        <div className="min-h-screen bg-white">
+          {!isCMSOpen && (
+            <>
+              <Header
+                currentPage={currentPage}
+                onPageChange={handlePageChange}
+                cartItems={getTotalItems()}
+                onCartClick={handleCartClick}
+                onSearch={(term) => {
+                  // Implementar búsqueda global
+                  console.log('Búsqueda global:', term);
+                }}
+              />
+              
+              <main>
+                {renderCurrentPage()}
+              </main>
 
-        <Footer onPageChange={handlePageChange} />
+              <Footer onPageChange={handlePageChange} />
+            </>
+          )}
 
-        <Cart
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          items={cartItems}
-          onUpdateQuantity={handleUpdateQuantity}
-          onRemoveItem={handleRemoveItem}
-        />
-      </div>
-    </AuthProvider>
+          {/* CMS Editor */}
+          {isCMSOpen && (
+            <CMSEditor onClose={() => {
+              setIsCMSOpen(false);
+              setCurrentPage('home');
+            }} />
+          )}
+
+          {/* Product Detail Modal */}
+          {selectedProduct && (
+            <ProductDetail
+              product={selectedProduct}
+              onClose={() => setSelectedProduct(null)}
+              onAddToCart={handleAddToCart}
+            />
+          )}
+
+          {/* Cart */}
+          <Cart
+            isOpen={isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            items={cart}
+            onUpdateQuantity={handleUpdateQuantity}
+            onRemoveItem={handleRemoveItem}
+            onCheckout={handleCheckout}
+          />
+
+          {/* Checkout */}
+          <Checkout
+            isOpen={isCheckoutOpen}
+            onClose={() => setIsCheckoutOpen(false)}
+            items={cart}
+            total={getTotalPrice()}
+          />
+        </div>
+      </AuthProvider>
+    </DndProvider>
   );
 };
 

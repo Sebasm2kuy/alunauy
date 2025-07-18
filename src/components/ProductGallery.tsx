@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import { Filter, Search, Eye, ShoppingCart, Heart } from 'lucide-react';
-import { getGlobalProducts } from '../App';
-
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: string;
-  originalPrice?: string;
-  image: string;
-  description: string;
-  rating: number;
-  reviews: number;
-  badge?: string;
-}
+import { useCMSStore, Product } from '../store/cmsStore';
 
 interface ProductGalleryProps {
   onAddToCart?: (product: Product) => void;
@@ -24,20 +11,21 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const products: Product[] = getGlobalProducts();
+  const { products } = useCMSStore();
+  const activeProducts = products.filter(p => p.active);
 
   const categories = [
-    { id: 'todos', name: 'Todos los Productos', count: products.length },
-    { id: 'serums', name: 'Sérums', count: products.filter(p => p.category === 'serums').length },
-    { id: 'cremas', name: 'Cremas', count: products.filter(p => p.category === 'cremas').length },
-    { id: 'maquillaje', name: 'Maquillaje', count: products.filter(p => p.category === 'maquillaje').length },
-    { id: 'corporal', name: 'Cuidado Corporal', count: products.filter(p => p.category === 'corporal').length },
-    { id: 'tratamientos', name: 'Tratamientos', count: products.filter(p => p.category === 'tratamientos').length },
-    { id: 'ofertas', name: 'Ofertas', count: products.filter(p => p.badge === 'OFERTA' || p.badge === 'BESTSELLER').length },
-    { id: 'otros', name: 'Otros', count: products.filter(p => p.category === 'otros').length }
+    { id: 'todos', name: 'Todos los Productos', count: activeProducts.length },
+    { id: 'serums', name: 'Sérums', count: activeProducts.filter(p => p.category === 'serums').length },
+    { id: 'cremas', name: 'Cremas', count: activeProducts.filter(p => p.category === 'cremas').length },
+    { id: 'maquillaje', name: 'Maquillaje', count: activeProducts.filter(p => p.category === 'maquillaje').length },
+    { id: 'corporal', name: 'Cuidado Corporal', count: activeProducts.filter(p => p.category === 'corporal').length },
+    { id: 'tratamientos', name: 'Tratamientos', count: activeProducts.filter(p => p.category === 'tratamientos').length },
+    { id: 'ofertas', name: 'Ofertas', count: activeProducts.filter(p => p.badge === 'OFERTA' || p.badge === 'BESTSELLER').length },
+    { id: 'otros', name: 'Otros', count: activeProducts.filter(p => p.category === 'otros').length }
   ];
 
-  const filteredProducts = products.filter(product => {
+  const filteredProducts = activeProducts.filter(product => {
     let matchesCategory = false;
     
     if (selectedCategory === 'todos') {
@@ -52,6 +40,13 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('es-UY', {
+      style: 'currency',
+      currency: 'UYU',
+    }).format(price);
+  };
 
   const openProductModal = (product: Product) => {
     setSelectedProduct(product);
@@ -118,7 +113,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                   alt={product.name}
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                   onError={(e) => {
-                    // Fallback to a placeholder if image fails to load
                     e.currentTarget.src = "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=400";
                   }}
                 />
@@ -163,12 +157,15 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-pink-500">{product.price}</span>
+                    <span className="text-3xl font-bold text-pink-500">{formatPrice(selectedProduct.price)}</span>
                     {product.originalPrice && (
-                      <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                      <span className="text-lg text-gray-500 line-through">{formatPrice(selectedProduct.originalPrice)}</span>
                     )}
                   </div>
-                  <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300">
+                  <button 
+                    onClick={() => onAddToCart?.(product)}
+                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300"
+                  >
                     Agregar
                   </button>
                 </div>

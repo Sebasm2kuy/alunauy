@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Truck, Shield, Award, Star, Heart, ShoppingCart, ChevronDown } from 'lucide-react';
+import { useCMSStore, Product } from '../store/cmsStore';
 
 interface HomePageProps {
   onPageChange?: (page: string) => void;
-  onAddToCart?: (product: any) => void;
+  onAddToCart?: (product: Product, quantity?: number) => void;
 }
 
 const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
+  
+  const { products } = useCMSStore();
+  const featuredProducts = products.filter(p => p.active && p.featured).slice(0, 3);
 
   const slides = [
     {
@@ -28,28 +32,12 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
     }
   ];
 
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Sérum Vitamina C",
-      price: "$89.99",
-      originalPrice: "$120",
-      image: "https://images.pexels.com/photos/7755515/pexels-photo-7755515.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 4.8,
-      reviews: 124,
-      badge: "BESTSELLER"
-    },
-    {
-      id: 2,
-      name: "Crema Hidratante Nocturna",
-      price: "$65.99",
-      originalPrice: "$85",
-      image: "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=400",
-      rating: 4.9,
-      reviews: 89,
-      badge: "NUEVO"
-    }
-  ];
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('es-UY', {
+      style: 'currency',
+      currency: 'UYU',
+    }).format(price);
+  };
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -212,18 +200,13 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                     BESTSELLER
                   </span>
                   <img
-                    src="/PackshampooycremaKarseell1290.jpg"
-                    alt="Pack Shampoo + Crema Karseell"
+                    src={featuredProducts[0]?.images[0] || "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=400"}
+                    alt={featuredProducts[0]?.name || "Producto Destacado"}
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
                     <button 
-                      onClick={() => onAddToCart?.({
-                        id: 101,
-                        name: "Pack Shampoo + Crema Karseell",
-                        price: "$1290",
-                        image: "/PackshampooycremaKarseell1290.jpg"
-                      })}
+                      onClick={() => featuredProducts[0] && onAddToCart?.(featuredProducts[0])}
                       className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                     >
                       Agregar al Carrito
@@ -235,7 +218,7 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
-                    Pack Shampoo + Crema Karseell
+                    {featuredProducts[0]?.name || "Producto Destacado 1"}
                   </h3>
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center">
@@ -243,16 +226,18 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                         <Star
                           key={i}
                           className={`w-4 h-4 ${
-                            i < 5 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                            i < Math.floor(featuredProducts[0]?.rating || 5) ? 'text-yellow-400 fill-current' : 'text-gray-300'
                           }`}
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600">(156)</span>
+                    <span className="text-sm text-gray-600">({featuredProducts[0]?.reviews || 0})</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-pink-500">$1290</span>
-                    <span className="text-sm text-gray-500 line-through">$1590</span>
+                    <span className="text-xl font-bold text-pink-500">{formatPrice(featuredProducts[0]?.price || 0)}</span>
+                    {featuredProducts[0]?.originalPrice && (
+                      <span className="text-sm text-gray-500 line-through">{formatPrice(featuredProducts[0].originalPrice)}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -263,18 +248,13 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                     POPULAR
                   </span>
                   <img
-                    src="/MascarillaKarseell1190.jpg"
-                    alt="Mascarilla Karseell"
+                    src={featuredProducts[1]?.images[0] || "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=400"}
+                    alt={featuredProducts[1]?.name || "Producto Destacado"}
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
                     <button 
-                      onClick={() => onAddToCart?.({
-                        id: 102,
-                        name: "Mascarilla Karseell",
-                        price: "$1190",
-                        image: "/MascarillaKarseell1190.jpg"
-                      })}
+                      onClick={() => featuredProducts[1] && onAddToCart?.(featuredProducts[1])}
                       className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                     >
                       Agregar al Carrito
@@ -286,7 +266,7 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
-                    Mascarilla Karseell
+                    {featuredProducts[1]?.name || "Producto Destacado 2"}
                   </h3>
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center">
@@ -294,16 +274,18 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                         <Star
                           key={i}
                           className={`w-4 h-4 ${
-                            i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                            i < Math.floor(featuredProducts[1]?.rating || 4) ? 'text-yellow-400 fill-current' : 'text-gray-300'
                           }`}
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600">(89)</span>
+                    <span className="text-sm text-gray-600">({featuredProducts[1]?.reviews || 0})</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-pink-500">$1190</span>
-                    <span className="text-sm text-gray-500 line-through">$1490</span>
+                    <span className="text-xl font-bold text-pink-500">{formatPrice(featuredProducts[1]?.price || 0)}</span>
+                    {featuredProducts[1]?.originalPrice && (
+                      <span className="text-sm text-gray-500 line-through">{formatPrice(featuredProducts[1].originalPrice)}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -314,18 +296,13 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                     NUEVO
                   </span>
                   <img
-                    src="/producto3.jpg"
-                    alt="Producto Destacado 3"
+                    src={featuredProducts[2]?.images[0] || "https://images.pexels.com/photos/3373736/pexels-photo-3373736.jpeg?auto=compress&cs=tinysrgb&w=400"}
+                    alt={featuredProducts[2]?.name || "Producto Destacado"}
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
                     <button 
-                      onClick={() => onAddToCart?.({
-                        id: 103,
-                        name: "Producto Destacado 3",
-                        price: "$990",
-                        image: "/producto3.jpg"
-                      })}
+                      onClick={() => featuredProducts[2] && onAddToCart?.(featuredProducts[2])}
                       className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                     >
                       Agregar al Carrito
@@ -337,7 +314,7 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                 </div>
                 <div className="space-y-2">
                   <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
-                    Producto Destacado 3
+                    {featuredProducts[2]?.name || "Producto Destacado 3"}
                   </h3>
                   <div className="flex items-center space-x-2">
                     <div className="flex items-center">
@@ -345,16 +322,18 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                         <Star
                           key={i}
                           className={`w-4 h-4 ${
-                            i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                            i < Math.floor(featuredProducts[2]?.rating || 4) ? 'text-yellow-400 fill-current' : 'text-gray-300'
                           }`}
                         />
                       ))}
                     </div>
-                    <span className="text-sm text-gray-600">(67)</span>
+                    <span className="text-sm text-gray-600">({featuredProducts[2]?.reviews || 0})</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <span className="text-xl font-bold text-pink-500">$990</span>
-                    <span className="text-sm text-gray-500 line-through">$1290</span>
+                    <span className="text-xl font-bold text-pink-500">{formatPrice(featuredProducts[2]?.price || 0)}</span>
+                    {featuredProducts[2]?.originalPrice && (
+                      <span className="text-sm text-gray-500 line-through">{formatPrice(featuredProducts[2].originalPrice)}</span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -395,35 +374,35 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
             {/* Category Filters */}
             <div className="flex flex-wrap justify-center gap-4 mb-12">
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-gradient-to-r from-pink-500 to-purple-600 text-white shadow-lg">
-                Todos los Productos (2)
+                Todos los Productos ({products.filter(p => p.active).length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Sérums (1)
+                Sérums ({products.filter(p => p.active && p.category === 'serums').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Cremas (1)
+                Cremas ({products.filter(p => p.active && p.category === 'cremas').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Maquillaje (0)
+                Maquillaje ({products.filter(p => p.active && p.category === 'maquillaje').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Cuidado Corporal (0)
+                Cuidado Corporal ({products.filter(p => p.active && p.category === 'corporal').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Tratamientos (0)
+                Tratamientos ({products.filter(p => p.active && p.category === 'tratamientos').length})
               </button>
             </div>
 
             {/* Products Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {featuredProducts.map((product) => (
+              {products.filter(p => p.active).slice(0, 8).map((product) => (
                 <div key={product.id} className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   <div className="relative overflow-hidden">
                     <span className="absolute top-4 left-4 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {product.badge}
+                      {product.badge || 'NUEVO'}
                     </span>
                     <img
-                      src={product.image}
+                      src={product.images[0] || "https://images.pexels.com/photos/3762879/pexels-photo-3762879.jpeg?auto=compress&cs=tinysrgb&w=400"}
                       alt={product.name}
                       className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                     />
@@ -448,7 +427,7 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                       {product.name}
                     </h3>
                     <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                      Sérum concentrado con vitamina C para iluminar y proteger la piel
+                      {product.shortDescription || product.description}
                     </p>
                     <div className="flex items-center mb-3">
                       <div className="flex items-center">
@@ -468,8 +447,10 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
-                        <span className="text-xl font-bold text-pink-500">{product.price}</span>
-                        <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                        <span className="text-xl font-bold text-pink-500">{formatPrice(product.price)}</span>
+                        {product.originalPrice && (
+                          <span className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</span>
+                        )}
                       </div>
                       <button 
                         onClick={() => onAddToCart?.(product)}

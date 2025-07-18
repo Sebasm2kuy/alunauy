@@ -1,19 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Eye, ShoppingCart, Heart, Filter } from 'lucide-react';
-import { getGlobalProducts } from '../App';
-
-interface Product {
-  id: number;
-  name: string;
-  category: string;
-  price: string;
-  originalPrice?: string;
-  image: string;
-  description: string;
-  rating: number;
-  reviews: number;
-  badge?: string;
-}
+import { useCMSStore, Product } from '../store/cmsStore';
 
 interface CategoryPageProps {
   category: string;
@@ -27,7 +14,15 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Todos los productos disponibles
-  const allProducts: Product[] = getGlobalProducts();
+  const { products } = useCMSStore();
+  const allProducts = products.filter(p => p.active);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('es-UY', {
+      style: 'currency',
+      currency: 'UYU',
+    }).format(price);
+  };
 
   // Filtrar productos según la categoría
   const getFilteredProducts = () => {
@@ -161,9 +156,9 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="text-xl font-bold text-pink-500">{product.price}</span>
+                      <span className="text-xl font-bold text-pink-500">{formatPrice(product.price)}</span>
                       {product.originalPrice && (
-                        <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
+                        <span className="text-sm text-gray-500 line-through">{formatPrice(product.originalPrice)}</span>
                       )}
                     </div>
                     <button 
@@ -243,9 +238,9 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <span className="text-3xl font-bold text-pink-500">{selectedProduct.price}</span>
+                  <span className="text-3xl font-bold text-pink-500">{formatPrice(selectedProduct.price)}</span>
                   {selectedProduct.originalPrice && (
-                    <span className="text-lg text-gray-500 line-through">{selectedProduct.originalPrice}</span>
+                    <span className="text-lg text-gray-500 line-through">{formatPrice(selectedProduct.originalPrice)}</span>
                   )}
                 </div>
                 <div className="flex space-x-3">

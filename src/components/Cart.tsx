@@ -1,24 +1,25 @@
 import React from 'react';
-import { X, Plus, Minus, Trash2, ShoppingBag } from 'lucide-react';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { X, Plus, Minus, Trash2, ShoppingBag, CreditCard } from 'lucide-react';
+import { CartItem } from '../store/cmsStore';
 
 interface CartProps {
   isOpen: boolean;
   onClose: () => void;
   items: CartItem[];
-  onUpdateQuantity: (id: number, quantity: number) => void;
-  onRemoveItem: (id: number) => void;
+  onUpdateQuantity: (id: string, quantity: number) => void;
+  onRemoveItem: (id: string) => void;
+  onCheckout: () => void;
 }
 
-const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem }) => {
+const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, onRemoveItem, onCheckout }) => {
   const total = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('es-UY', {
+      style: 'currency',
+      currency: 'UYU',
+    }).format(price);
+  };
 
   if (!isOpen) return null;
 
@@ -84,7 +85,12 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
                       className="text-red-500 hover:text-red-700 transition-colors"
                     >
                       <Trash2 className="w-5 h-5" />
-                    </button>
+                    {item.variants && Object.keys(item.variants).length > 0 && (
+                      <p className="text-xs text-gray-500">
+                        {Object.entries(item.variants).map(([key, value]) => `${key}: ${value}`).join(', ')}
+                      </p>
+                    )}
+                    <p className="text-pink-500 font-bold">{formatPrice(item.price)}</p>
                   </div>
                 ))}
               </div>
@@ -93,10 +99,14 @@ const Cart: React.FC<CartProps> = ({ isOpen, onClose, items, onUpdateQuantity, o
             <div className="border-t p-6">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-xl font-semibold">Total:</span>
-                <span className="text-2xl font-bold text-pink-500">${total.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-pink-500">{formatPrice(total)}</span>
               </div>
-              <button className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 mb-3">
-                Proceder al Pago
+              <button 
+                onClick={onCheckout}
+                className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 rounded-full font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 mb-3 flex items-center justify-center space-x-2"
+              >
+                <CreditCard className="w-5 h-5" />
+                <span>Proceder al Pago</span>
               </button>
               <button 
                 onClick={onClose}
