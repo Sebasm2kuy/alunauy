@@ -132,10 +132,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                   <button className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
                     <Heart className="w-5 h-5" />
                   </button>
-                  <button 
-                    onClick={() => onAddToCart?.(product)}
-                    className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150"
-                  >
+                  <button className="bg-white text-gray-900 p-3 rounded-full hover:bg-gray-100 transition-colors transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-150">
                     <ShoppingCart className="w-5 h-5" />
                   </button>
                 </div>
@@ -171,10 +168,7 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                       <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
                     )}
                   </div>
-                  <button 
-                    onClick={() => onAddToCart?.(product)}
-                    className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300"
-                  >
+                  <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300">
                     Agregar
                   </button>
                 </div>
