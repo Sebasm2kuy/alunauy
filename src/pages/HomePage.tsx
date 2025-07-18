@@ -88,43 +88,43 @@ const HomePage: React.FC = () => {
                 onClick={scrollToProducts}
                 className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium"
               >
-                🛍️ Ver Todos los Productos
+                Ver Todos los Productos
               </button>
               <button
                 onClick={() => { onPageChange('cuidado-facial'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                ✨ Cuidado Facial
+                Cuidado Facial
               </button>
               <button
                 onClick={() => { onPageChange('maquillaje'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                💄 Maquillaje
+                Maquillaje
               </button>
               <button
                 onClick={() => { onPageChange('cuidado-corporal'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                🧴 Cuidado Corporal
+                Cuidado Corporal
               </button>
               <button
                 onClick={() => { onPageChange('tratamientos'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                🎭 Tratamientos
+                Tratamientos
               </button>
               <button
                 onClick={() => { onPageChange('ofertas'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                🔥 Ofertas Especiales
+                Ofertas Especiales
               </button>
               <button
                 onClick={() => { onPageChange('otros'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                🔧 Accesorios
+                Accesorios
               </button>
             </div>
           )}
@@ -312,35 +312,6 @@ const HomePage: React.FC = () => {
                     <span className="text-sm text-gray-500 line-through">$1290</span>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Features Section */}
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Truck className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Envío Gratis</h3>
-                <p className="text-gray-600">En compras superiores a $50.000</p>
-              </div>
-              <div className="text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Shield className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Garantía Total</h3>
-                <p className="text-gray-600">30 días de garantía en todos los productos</p>
-              </div>
-              <div className="text-center group">
-                <div className="w-16 h-16 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  <Award className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="text-xl font-semibold mb-2">Calidad Premium</h3>
-                <p className="text-gray-600">Productos certificados y dermatológicamente probados</p>
               </div>
             </div>
           </div>

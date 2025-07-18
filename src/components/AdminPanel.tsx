@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Save, X, Image, Tag, DollarSign, Upload, Camera } from 'lucide-react';
+import { updateGlobalProducts, getGlobalProducts } from '../App';
 
 interface Product {
   id: number;
@@ -30,118 +31,10 @@ const AdminPanel: React.FC = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [editingItem, setEditingItem] = useState<Product | BlogPost | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   // Sample data - in a real app, this would come from a database
-  const [products, setProducts] = useState<Product[]>([
-    {
-      id: 1,
-      name: "Sérum Regenerador Premium",
-      category: "serums",
-      price: "$125.99",
-      originalPrice: "$159.99",
-      image: "/IMG-20250716-WA0022.jpg",
-      description: "Sérum concentrado con ingredientes activos para regeneración celular profunda",
-      rating: 4.9,
-      reviews: 156,
-      badge: "BESTSELLER"
-    },
-    {
-      id: 2,
-      name: "Crema Hidratante Intensiva",
-      category: "cremas",
-      price: "$89.99",
-      originalPrice: "$110.00",
-      image: "/IMG-20250716-WA0023.jpg",
-      description: "Hidratación profunda de 24 horas con ácido hialurónico y vitamina E",
-      rating: 4.8,
-      reviews: 203,
-      badge: "NUEVO"
-    },
-    {
-      id: 3,
-      name: "Base Líquida Natural",
-      category: "maquillaje",
-      price: "$65.99",
-      originalPrice: "$85.00",
-      image: "/IMG-20250716-WA0024.jpg",
-      description: "Cobertura natural con protección solar SPF 30 y acabado mate",
-      rating: 4.7,
-      reviews: 89,
-      badge: "OFERTA"
-    },
-    {
-      id: 4,
-      name: "Aceite Corporal Nutritivo",
-      category: "corporal",
-      price: "$75.99",
-      originalPrice: "$95.00",
-      image: "/IMG-20250716-WA0025.jpg",
-      description: "Aceite multifuncional con extractos naturales para piel suave y radiante",
-      rating: 4.9,
-      reviews: 134,
-      badge: "PREMIUM"
-    },
-    {
-      id: 5,
-      name: "Mascarilla Purificante",
-      category: "tratamientos",
-      price: "$55.99",
-      originalPrice: "$70.00",
-      image: "/IMG-20250716-WA0026.jpg",
-      description: "Mascarilla de arcilla con carbón activado para poros profundos",
-      rating: 4.6,
-      reviews: 98,
-      badge: "POPULAR"
-    },
-    {
-      id: 6,
-      name: "Sérum Vitamina C",
-      category: "serums",
-      price: "$89.99",
-      originalPrice: "$120.00",
-      image: "https://images.pexels.com/photos/7755515/pexels-photo-7755515.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Sérum concentrado con vitamina C para iluminar y proteger la piel",
-      rating: 4.8,
-      reviews: 124,
-      badge: "CLÁSICO"
-    },
-    {
-      id: 7,
-      name: "Crema Hidratante Nocturna",
-      category: "cremas",
-      price: "$65.99",
-      originalPrice: "$85.00",
-      image: "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Crema hidratante de noche con ácido hialurónico",
-      rating: 4.9,
-      reviews: 89,
-      badge: "NOCTURNO"
-    },
-    {
-      id: 8,
-      name: "Mascarilla Facial Revitalizante",
-      category: "tratamientos",
-      price: "$45.99",
-      originalPrice: "$60.00",
-      image: "https://images.pexels.com/photos/7755501/pexels-photo-7755501.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Mascarilla revitalizante con extractos naturales",
-      rating: 4.7,
-      reviews: 156,
-      badge: "NATURAL"
-    },
-    {
-      id: 9,
-      name: "Aceite Facial Regenerador",
-      category: "serums",
-      price: "$95.99",
-      originalPrice: "$125.00",
-      image: "https://images.pexels.com/photos/4465831/pexels-photo-4465831.jpeg?auto=compress&cs=tinysrgb&w=400",
-      description: "Aceite facial con propiedades regeneradoras y anti-edad",
-      rating: 4.9,
-      reviews: 203,
-      badge: "ANTI-EDAD"
-    }
-  ]);
+  const [products, setProducts] = useState<Product[]>(getGlobalProducts());
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
     {
@@ -164,7 +57,9 @@ const AdminPanel: React.FC = () => {
   const handleSave = () => {
     if (editingItem) {
       if (activeTab === 'products') {
-        setProducts(products.map(p => p.id === editingItem.id ? editingItem as Product : p));
+        const updatedProducts = products.map(p => p.id === editingItem.id ? editingItem as Product : p);
+        setProducts(updatedProducts);
+        updateGlobalProducts(updatedProducts);
       } else {
         setBlogPosts(blogPosts.map(b => b.id === editingItem.id ? editingItem as BlogPost : b));
       }
@@ -172,15 +67,19 @@ const AdminPanel: React.FC = () => {
     setIsEditing(false);
     setEditingItem(null);
     setImagePreview('');
+    setForceUpdate(prev => prev + 1);
   };
 
   const handleDelete = (id: number) => {
     if (confirm('¿Estás seguro de que quieres eliminar este elemento?')) {
       if (activeTab === 'products') {
-        setProducts(products.filter(p => p.id !== id));
+        const updatedProducts = products.filter(p => p.id !== id);
+        setProducts(updatedProducts);
+        updateGlobalProducts(updatedProducts);
       } else {
         setBlogPosts(blogPosts.filter(b => b.id !== id));
       }
+      setForceUpdate(prev => prev + 1);
     }
   };
 
@@ -198,7 +97,9 @@ const AdminPanel: React.FC = () => {
         rating: 5,
         reviews: 0
       };
-      setProducts([...products, newProduct]);
+      const updatedProducts = [...products, newProduct];
+      setProducts(updatedProducts);
+      updateGlobalProducts(updatedProducts);
       setEditingItem(newProduct);
     } else {
       const newPost: BlogPost = {

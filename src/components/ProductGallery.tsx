@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Filter, Search, Eye, ShoppingCart, Heart } from 'lucide-react';
+import { getGlobalProducts } from '../App';
 
 interface Product {
   id: number;
@@ -19,68 +20,7 @@ const ProductGallery: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const products: Product[] = [
-    {
-      id: 1,
-      name: "Sérum Regenerador Premium",
-      category: "serums",
-      price: "$125.99",
-      originalPrice: "$159.99",
-      image: "/IMG-20250716-WA0022.jpg",
-      description: "Sérum concentrado con ingredientes activos para regeneración celular profunda",
-      rating: 4.9,
-      reviews: 156,
-      badge: "BESTSELLER"
-    },
-    {
-      id: 2,
-      name: "Crema Hidratante Intensiva",
-      category: "cremas",
-      price: "$89.99",
-      originalPrice: "$110.00",
-      image: "/IMG-20250716-WA0023.jpg",
-      description: "Hidratación profunda de 24 horas con ácido hialurónico y vitamina E",
-      rating: 4.8,
-      reviews: 203,
-      badge: "NUEVO"
-    },
-    {
-      id: 3,
-      name: "Base Líquida Natural",
-      category: "maquillaje",
-      price: "$65.99",
-      originalPrice: "$85.00",
-      image: "/IMG-20250716-WA0024.jpg",
-      description: "Cobertura natural con protección solar SPF 30 y acabado mate",
-      rating: 4.7,
-      reviews: 89,
-      badge: "OFERTA"
-    },
-    {
-      id: 4,
-      name: "Aceite Corporal Nutritivo",
-      category: "corporal",
-      price: "$75.99",
-      originalPrice: "$95.00",
-      image: "/IMG-20250716-WA0025.jpg",
-      description: "Aceite multifuncional con extractos naturales para piel suave y radiante",
-      rating: 4.9,
-      reviews: 134,
-      badge: "PREMIUM"
-    },
-    {
-      id: 5,
-      name: "Mascarilla Purificante",
-      category: "tratamientos",
-      price: "$55.99",
-      originalPrice: "$70.00",
-      image: "/IMG-20250716-WA0026.jpg",
-      description: "Mascarilla de arcilla con carbón activado para poros profundos",
-      rating: 4.6,
-      reviews: 98,
-      badge: "POPULAR"
-    }
-  ];
+  const products: Product[] = getGlobalProducts();
 
   const categories = [
     { id: 'todos', name: 'Todos los Productos', count: products.length },
