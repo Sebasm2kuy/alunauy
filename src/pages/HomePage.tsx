@@ -54,7 +54,7 @@ const HomePage: React.FC = () => {
   }, [slides.length]);
 
   const scrollToProducts = () => {
-    const productsSection = document.getElementById('products-section');
+    const productsSection = document.getElementById('gallery-section');
     if (productsSection) {
       productsSection.scrollIntoView({ behavior: 'smooth' });
     }
@@ -80,12 +80,51 @@ const HomePage: React.FC = () => {
           </button>
           
           {isExploreOpen && (
-            <div className="absolute bottom-full right-0 mb-2 w-48 bg-white rounded-lg shadow-lg py-2">
+            <div className="absolute bottom-full right-0 mb-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2">
+              <div className="px-4 py-2 border-b border-gray-100">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Categorías</p>
+              </div>
               <button
                 onClick={scrollToProducts}
+                className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium"
+              >
+                🛍️ Ver Todos los Productos
+              </button>
+              <button
+                onClick={() => { onPageChange('cuidado-facial'); setIsExploreOpen(false); }}
                 className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
               >
-                Ver Productos
+                ✨ Cuidado Facial
+              </button>
+              <button
+                onClick={() => { onPageChange('maquillaje'); setIsExploreOpen(false); }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+              >
+                💄 Maquillaje
+              </button>
+              <button
+                onClick={() => { onPageChange('cuidado-corporal'); setIsExploreOpen(false); }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+              >
+                🧴 Cuidado Corporal
+              </button>
+              <button
+                onClick={() => { onPageChange('tratamientos'); setIsExploreOpen(false); }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+              >
+                🎭 Tratamientos
+              </button>
+              <button
+                onClick={() => { onPageChange('ofertas'); setIsExploreOpen(false); }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+              >
+                🔥 Ofertas Especiales
+              </button>
+              <button
+                onClick={() => { onPageChange('otros'); setIsExploreOpen(false); }}
+                className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+              >
+                🔧 Accesorios
               </button>
             </div>
           )}
@@ -136,6 +175,149 @@ const HomePage: React.FC = () => {
         </section>
 
         {/* Features Section */}
+        <section className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">Productos Destacados</h2>
+              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                Descubre nuestra selección de productos más populares, cuidadosamente seleccionados para ti
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-2xl mb-4">
+                  <span className="absolute top-4 left-4 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    BESTSELLER
+                  </span>
+                  <img
+                    src="/PackshampooycremaKarseell1290.jpg"
+                    alt="Pack Shampoo + Crema Karseell"
+                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      Agregar al Carrito
+                    </button>
+                    <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                      <Heart className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
+                    Pack Shampoo + Crema Karseell
+                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < 5 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-600">(156)</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl font-bold text-pink-500">$1290</span>
+                    <span className="text-sm text-gray-500 line-through">$1590</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-2xl mb-4">
+                  <span className="absolute top-4 left-4 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    POPULAR
+                  </span>
+                  <img
+                    src="/MascarillaKarseell1190.jpg"
+                    alt="Mascarilla Karseell"
+                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      Agregar al Carrito
+                    </button>
+                    <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                      <Heart className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
+                    Mascarilla Karseell
+                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-600">(89)</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl font-bold text-pink-500">$1190</span>
+                    <span className="text-sm text-gray-500 line-through">$1490</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="group cursor-pointer">
+                <div className="relative overflow-hidden rounded-2xl mb-4">
+                  <span className="absolute top-4 left-4 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                    NUEVO
+                  </span>
+                  <img
+                    src="/producto3.jpg"
+                    alt="Producto Destacado 3"
+                    className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
+                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                      Agregar al Carrito
+                    </button>
+                    <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                      <Heart className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
+                    Producto Destacado 3
+                  </h3>
+                  <div className="flex items-center space-x-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm text-gray-600">(67)</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-xl font-bold text-pink-500">$990</span>
+                    <span className="text-sm text-gray-500 line-through">$1290</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -164,67 +346,8 @@ const HomePage: React.FC = () => {
           </div>
         </section>
 
-        {/* Featured Products */}
-        <section id="products-section" className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">Productos Destacados</h2>
-              <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-                Descubre nuestra selección de productos más populares, formulados con ingredientes naturales de la más alta calidad
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {featuredProducts.map((product) => (
-                <div key={product.id} className="group cursor-pointer">
-                  <div className="relative overflow-hidden rounded-2xl mb-4">
-                    <span className="absolute top-4 left-4 z-10 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {product.badge}
-                    </span>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                      <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                        Agregar al Carrito
-                      </button>
-                      <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                        <Heart className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    <h3 className="text-lg font-semibold group-hover:text-pink-500 transition-colors">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center space-x-2">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-4 h-4 ${
-                              i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm text-gray-600">({product.reviews})</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-xl font-bold text-pink-500">{product.price}</span>
-                      <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
         {/* Product Gallery Section */}
-        <section className="py-20 bg-gray-50">
+        <section id="gallery-section" className="py-20 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">Galería de Productos</h2>
