@@ -60,14 +60,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-3 cursor-pointer" onClick={scrollToTop}>
+            <div className="flex items-center space-x-2 cursor-pointer flex-shrink-0" onClick={scrollToTop}>
               <img 
                 src="/logo.png" 
                 alt="Aluna Logo" 
-                className="h-20 w-auto object-contain" 
+                className="h-12 md:h-20 w-auto object-contain" 
                 style={{ imageRendering: 'crisp-edges' }}
               />
-              <span className="text-5xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
+              <span className="text-2xl md:text-5xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                 Aluna
               </span>
             </div>
@@ -121,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
             </nav>
 
             {/* Right Side */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4 flex-shrink-0">
               <div className="relative hidden md:block">
                 <form onSubmit={handleSearchSubmit} className="flex">
                   <div className="relative">
@@ -138,11 +138,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
               </div>
               
               {/* Mobile Search Icon */}
-              <Search className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors md:hidden" />
+              <Search className="w-6 h-6 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors md:hidden" />
               
               <div className="relative">
                 <button onClick={handleUserClick} className="flex items-center space-x-2 text-gray-700 hover:text-pink-500 transition-colors">
-                  <User className="w-5 h-5" />
+                  <User className="w-6 h-6 md:w-5 md:h-5" />
                   <span className="hidden md:block text-sm font-medium">
                     {isAuthenticated ? (isAdmin ? 'Administrador' : user?.username) : 'Iniciar Sesión'}
                   </span>
@@ -168,7 +168,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
               </div>
               <div className="relative">
                 <button onClick={onCartClick}>
-                  <ShoppingBag className="w-5 h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
+                  <ShoppingBag className="w-6 h-6 md:w-5 md:h-5 text-gray-600 hover:text-pink-500 cursor-pointer transition-colors" />
                   {cartItems > 0 && (
                     <span className="absolute -top-2 -right-2 bg-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                       {cartItems}
@@ -177,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                 </button>
               </div>
               <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                <Menu className="w-6 h-6" />
+                <Menu className="w-7 h-7" />
               </button>
             </div>
           </div>
