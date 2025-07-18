@@ -16,6 +16,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
   const [productsTimeout, setProductsTimeout] = useState<NodeJS.Timeout | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const { user, logout, isAuthenticated, isAdmin } = useAuth();
 
@@ -31,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
 
   const handleUserClick = () => {
     if (isAuthenticated) {
-      if (isAdmin) onPageChange('admin');
+      setIsUserMenuOpen(!isUserMenuOpen);
     } else {
       setIsLoginModalOpen(true);
     }
@@ -39,7 +40,13 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
 
   const handleLogout = () => {
     logout();
+    setIsUserMenuOpen(false);
     onPageChange('home');
+  };
+
+  const handleAdminClick = () => {
+    onPageChange('admin');
+    setIsUserMenuOpen(false);
   };
 
   const scrollToTop = () => {
@@ -147,11 +154,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                     {isAuthenticated ? (isAdmin ? 'Administrador' : user?.username) : 'Iniciar Sesión'}
                   </span>
                 </button>
-                {isAuthenticated && (
+                {isAuthenticated && isUserMenuOpen && (
                   <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50">
                     {isAdmin && (
                       <button
-                        onClick={() => onPageChange('admin')}
+                        onClick={handleAdminClick}
                         className="block w-full text-left px-4 py-3 text-sm font-medium text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
                       >
                         Panel Admin
@@ -226,7 +233,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                   <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide px-2 mb-2">Cuenta</p>
                   {isAdmin && (
                     <button
-                      onClick={() => { onPageChange('admin'); setIsMobileMenuOpen(false); }}
+                      onClick={() => { handleAdminClick(); setIsMobileMenuOpen(false); }}
                       className="block w-full text-left py-2 px-2 text-sm text-gray-600 hover:text-pink-500 hover:bg-gray-50 rounded-lg transition-colors"
                     >
                       Panel Admin
