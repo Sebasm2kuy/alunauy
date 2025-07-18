@@ -21,8 +21,7 @@
     "@types/react-dom": "^18.0.10",
     "typescript": "^4.6.4",
     "vite": "^4.0.0",
-    "@types/zustand": "^4.5.2"
+    "@types/zustand": "^4.1.0"
   }
 }
-
 
