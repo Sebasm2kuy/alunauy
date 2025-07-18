@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 export interface Product {
   id: string;
@@ -428,7 +428,8 @@ export const useCMSStore = create<CMSState>()(
     }),
     {
       name: 'aluna-cms-store',
-      version: 1
+      version: 1,
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
