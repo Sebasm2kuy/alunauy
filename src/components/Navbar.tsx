@@ -20,14 +20,26 @@ const Navbar = () => {
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
-            {/* Menú desplegable */}
-            <div className="absolute left-0 mt-2 min-w-[240px] whitespace-nowrap bg-white border border-gray-200 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 py-2 px-2">
-              <a href="#cuidado-facial" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Cuidado Facial</a>
-              <a href="#maquillaje" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Maquillaje</a>
-              <a href="#cuidado-corporal" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Cuidado Corporal</a>
-              <a href="#tratamientos" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Tratamientos</a>
-              <a href="#ofertas" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Ofertas</a>
-              <a href="#accesorios" className="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Accesorios</a>
+            {/* Menú desplegable con estilos igual a "Explorar Colección" */}
+            <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none group-hover:pointer-events-auto">
+              <a href="#cuidado-facial" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Cuidado Facial
+              </a>
+              <a href="#maquillaje" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Maquillaje
+              </a>
+              <a href="#cuidado-corporal" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Cuidado Corporal
+              </a>
+              <a href="#tratamientos" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Tratamientos
+              </a>
+              <a href="#ofertas" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Ofertas
+              </a>
+              <a href="#accesorios" className="block w-full text-left px-4 py-3 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors font-medium">
+                Accesorios
+              </a>
             </div>
           </div>
           <a href="#about" className="text-gray-600 hover:text-pink-500 font-medium transition-colors">
