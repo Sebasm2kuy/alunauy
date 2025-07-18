@@ -10,7 +10,7 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
-import { useCMSStore, CartItem } from '../store/cmsStore';
+import { useStore, CartItem } from '../store/cmsStore';
 
 interface CheckoutProps {
   isOpen: boolean;
@@ -20,7 +20,6 @@ interface CheckoutProps {
 }
 
 const Checkout: React.FC<CheckoutProps> = ({ isOpen, onClose, items, total }) => {
-  const { siteSettings, createOrder, clearCart } = useCMSStore();
   const [step, setStep] = useState(1);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderId, setOrderId] = useState('');

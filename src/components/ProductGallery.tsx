@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Filter, Search, Eye, ShoppingCart, Heart } from 'lucide-react';
-import { useCMSStore, Product } from '../store/cmsStore';
+import { useStore, Product } from '../store/cmsStore';
 
 interface ProductGalleryProps {
   onAddToCart?: (product: Product) => void;
@@ -11,7 +11,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const { products } = useCMSStore();
   const activeProducts = products.filter(p => p.active);
 
   const categories = [

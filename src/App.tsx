@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { AuthProvider } from './contexts/AuthContext';
-import { useCMSStore } from './store/cmsStore';
+import { useStore } from './store/cmsStore';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -26,7 +26,6 @@ const App: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
   
-  const { cart, addToCart, updateCartItem, removeFromCart, products } = useCMSStore();
 
   const handleAddToCart = (product: Product, quantity: number = 1, variants?: Record<string, string>) => {
     addToCart({
