@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Search, User, ShoppingBag, ChevronDown, Menu } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import LoginModal from './LoginModal';
-import logo from '../assets/logo.png';
 
 interface HeaderProps {
   currentPage: string;
@@ -52,13 +51,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <div className="flex items-center space-x-2 cursor-pointer" onClick={scrollToTop}>
+            <div className="flex items-center space-x-3 cursor-pointer" onClick={scrollToTop}>
               <img 
-                src={logo} 
+                src="/logo.png" 
                 alt="Aluna Logo" 
-                className="h-16 w-auto object-contain" 
+                className="h-20 w-auto object-contain" 
+                style={{ imageRendering: 'crisp-edges' }}
               />
-              <span className="text-4xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <span className="text-5xl font-light tracking-wide bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                 Aluna
               </span>
             </div>
@@ -90,13 +90,20 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                     onMouseEnter={handleProductsMouseEnter}
                     onMouseLeave={handleProductsMouseLeave}
                   >
-                    {['cuidado-facial', 'maquillaje', 'cuidado-corporal', 'tratamientos', 'ofertas', 'otros'].map(cat => (
+                    {[
+                      { id: 'cuidado-facial', name: 'Cuidado Facial' },
+                      { id: 'maquillaje', name: 'Maquillaje' },
+                      { id: 'cuidado-corporal', name: 'Cuidado Corporal' },
+                      { id: 'tratamientos', name: 'Tratamientos' },
+                      { id: 'ofertas', name: 'Ofertas' },
+                      { id: 'otros', name: 'Otros' }
+                    ].map(cat => (
                       <button
-                        key={cat}
-                        onClick={() => onPageChange(cat)}
+                        key={cat.id}
+                        onClick={() => onPageChange(cat.id)}
                         className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
                       >
-                        {cat.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                        {cat.name}
                       </button>
                     ))}
                   </div>
@@ -114,6 +121,24 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                     {isAuthenticated ? (isAdmin ? 'Administrador' : user?.username) : 'Iniciar Sesión'}
                   </span>
                 </button>
+                {isAuthenticated && (
+                  <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                    {isAdmin && (
+                      <button
+                        onClick={() => onPageChange('admin')}
+                        className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                      >
+                        Panel Admin
+                      </button>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
+                    >
+                      Cerrar Sesión
+                    </button>
+                  </div>
+                )}
               </div>
               <div className="relative">
                 <button onClick={onCartClick}>
