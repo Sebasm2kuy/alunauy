@@ -22,7 +22,7 @@ export interface Product {
     options: string[];
     price?: number;
   }>;
-  customFields?: Record<string, any>;
+  customFields?: Record<string, unknown>;
   seoTitle?: string;
   seoDescription?: string;
   featured: boolean;
@@ -57,7 +57,7 @@ export interface PageContent {
   page: string;
   section: string;
   type: 'text' | 'image' | 'html' | 'slider' | 'block';
-  content: any;
+  content: unknown;
   order: number;
   active: boolean;
 }
@@ -148,7 +148,7 @@ export interface CMSState {
 
   // Page Content
   pageContent: PageContent[];
-  updatePageContent: (id: string, content: any) => void;
+  updatePageContent: (id: string, content: unknown) => void;
   addPageContent: (content: Omit<PageContent, 'id'>) => void;
   deletePageContent: (id: string) => void;
   reorderPageContent: (page: string, section: string, contentIds: string[]) => void;
@@ -408,8 +408,11 @@ export const useCMSStore = create<CMSState>()(
         try {
           const parsed = JSON.parse(data);
           set((state) => ({
-            ...state,
-            ...parsed
+            products: parsed.products ?? state.products,
+            blogPosts: parsed.blogPosts ?? state.blogPosts,
+            pageContent: parsed.pageContent ?? state.pageContent,
+            siteSettings: parsed.siteSettings ?? state.siteSettings,
+            orders: parsed.orders ?? state.orders,
           }));
         } catch (error) {
           console.error('Error importing data:', error);
@@ -429,7 +432,9 @@ export const useCMSStore = create<CMSState>()(
     {
       name: 'aluna-cms-store',
       version: 1,
-      storage: createJSONStorage(() => localStorage),
+      storage: typeof window !== 'undefined'
+        ? createJSONStorage(() => localStorage)
+        : undefined,
     }
   )
 );
