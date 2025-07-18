@@ -209,6 +209,9 @@ const App: React.FC = () => {
             onClose={() => setIsCheckoutOpen(false)}
             items={cart}
             total={getTotalPrice()}
+            siteSettings={siteSettings}
+            createOrder={createOrder}
+            clearCart={clearCart}
           />
         </div>
       </AuthProvider>
