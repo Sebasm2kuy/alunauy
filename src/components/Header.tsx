@@ -59,6 +59,10 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
     if (onSearch && searchTerm.trim()) {
       onSearch(searchTerm.trim());
       setSearchTerm('');
+    } else if (searchTerm.trim()) {
+      // Si no hay función onSearch, navegar a productos
+      onPageChange('products');
+      setSearchTerm('');
     }
   };
   return (

@@ -3,9 +3,10 @@ import { Truck, Shield, Award, Star, Heart, ShoppingCart, ChevronDown } from 'lu
 
 interface HomePageProps {
   onPageChange?: (page: string) => void;
+  onAddToCart?: (product: any) => void;
 }
 
-const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
+const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
 
@@ -216,7 +217,15 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <button 
+                      onClick={() => onAddToCart?.({
+                        id: 101,
+                        name: "Pack Shampoo + Crema Karseell",
+                        price: "$1290",
+                        image: "/PackshampooycremaKarseell1290.jpg"
+                      })}
+                      className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    >
                       Agregar al Carrito
                     </button>
                     <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
@@ -259,7 +268,15 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <button 
+                      onClick={() => onAddToCart?.({
+                        id: 102,
+                        name: "Mascarilla Karseell",
+                        price: "$1190",
+                        image: "/MascarillaKarseell1190.jpg"
+                      })}
+                      className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    >
                       Agregar al Carrito
                     </button>
                     <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
@@ -302,7 +319,15 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
                     className="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center space-x-4">
-                    <button className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <button 
+                      onClick={() => onAddToCart?.({
+                        id: 103,
+                        name: "Producto Destacado 3",
+                        price: "$990",
+                        image: "/producto3.jpg"
+                      })}
+                      className="bg-white text-gray-900 px-6 py-2 rounded-full font-semibold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    >
                       Agregar al Carrito
                     </button>
                     <button className="bg-white text-gray-900 p-2 rounded-full transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
@@ -446,7 +471,10 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange }) => {
                         <span className="text-xl font-bold text-pink-500">{product.price}</span>
                         <span className="text-sm text-gray-500 line-through">{product.originalPrice}</span>
                       </div>
-                      <button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300">
+                      <button 
+                        onClick={() => onAddToCart?.(product)}
+                        className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all duration-300"
+                      >
                         Agregar
                       </button>
                     </div>

@@ -231,7 +231,7 @@ const App: React.FC = () => {
   const renderCurrentPage = () => {
     switch (currentPage) {
       case 'home':
-        return <HomePage onPageChange={handlePageChange} />;
+        return <HomePage onPageChange={handlePageChange} onAddToCart={handleAddToCart} />;
       case 'products':
         return <ProductsPage key={refreshKey} onAddToCart={handleAddToCart} />;
       case 'about':
