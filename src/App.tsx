@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import { useStore, Product, CartItem } from './store/cmsStore';
+import AdminApp from './components/admin/AdminApp';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ProductsPage from './pages/ProductsPage';
@@ -18,6 +20,17 @@ import Footer from './components/Footer';
 import './index.css';
 
 const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/admin/*" element={<AdminApp />} />
+        <Route path="/*" element={<MainApp />} />
+      </Routes>
+    </Router>
+  );
+};
+
+const MainApp: React.FC = () => {
   const { 
     cart, 
     addToCart, 
@@ -163,9 +176,6 @@ const App: React.FC = () => {
                   // Implementar búsqueda global
                   console.log('Búsqueda global:', term);
                 }}
-                siteSettings={siteSettings}
-                createOrder={createOrder}
-                clearCart={clearCart}
               />
               
               <main>
