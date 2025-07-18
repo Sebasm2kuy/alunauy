@@ -1,12 +1,13 @@
-// src/components/Navbar.tsx
 import React, { useState } from "react";
 import { Link } from "react-scroll";
-import logo from "/logo.png"; // Asegúrate de que esté en public o usa otro que tengas
+import logo from "/logo.png";
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSubOpen, setIsSubOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleSubMenu = () => setIsSubOpen(!isSubOpen);
 
   return (
     <nav className="bg-white shadow-md fixed w-full z-10">
@@ -18,7 +19,7 @@ const Navbar: React.FC = () => {
 
         <div className="hidden md:flex space-x-6">
           <Link to="hero" smooth duration={500} className="cursor-pointer text-gray-600 hover:text-blue-600">Inicio</Link>
-          
+
           <div className="relative group">
             <span className="cursor-pointer text-gray-600 hover:text-blue-600">Productos</span>
             <div className="absolute hidden group-hover:block bg-white border shadow-lg min-w-[220px] z-20">
@@ -43,7 +44,17 @@ const Navbar: React.FC = () => {
       {isOpen && (
         <div className="md:hidden bg-white px-4 pb-4 space-y-2">
           <Link to="hero" smooth duration={500} className="block text-gray-600 hover:text-blue-600">Inicio</Link>
-          <Link to="productos" smooth duration={500} className="block text-gray-600 hover:text-blue-600">Productos</Link>
+
+          <button onClick={toggleSubMenu} className="w-full text-left text-gray-600 hover:text-blue-600">Productos ▾</button>
+          {isSubOpen && (
+            <div className="pl-4 space-y-1">
+              <a href="#" className="block text-gray-600 hover:text-blue-600">Arte Decorativo</a>
+              <a href="#" className="block text-gray-600 hover:text-blue-600">Accesorios</a>
+              <a href="#" className="block text-gray-600 hover:text-blue-600">Ropa y Estilo</a>
+              <a href="#" className="block text-gray-600 hover:text-blue-600">Otros</a>
+            </div>
+          )}
+
           <Link to="about" smooth duration={500} className="block text-gray-600 hover:text-blue-600">Sobre Nosotros</Link>
           <Link to="contact" smooth duration={500} className="block text-gray-600 hover:text-blue-600">Contacto</Link>
         </div>
