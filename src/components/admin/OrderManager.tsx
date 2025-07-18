@@ -13,7 +13,7 @@ import {
   CreditCard,
   Calendar
 } from 'lucide-react';
-import { useCMSStore, Order } from '../../store/cmsStore';
+import { useStore, Order } from '../../store/cmsStore';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 
@@ -22,7 +22,7 @@ interface OrderManagerProps {
 }
 
 const OrderManager: React.FC<OrderManagerProps> = ({ searchTerm }) => {
-  const { orders, updateOrderStatus } = useCMSStore();
+  const { orders, updateOrderStatus } = useStore();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [filter, setFilter] = useState('all');
 

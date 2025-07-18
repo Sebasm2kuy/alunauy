@@ -10,10 +10,10 @@ import {
   ArrowUp,
   ArrowDown
 } from 'lucide-react';
-import { useCMSStore } from '../../store/cmsStore';
+import { useStore } from '../../store/cmsStore';
 
 const Analytics: React.FC = () => {
-  const { products, blogPosts, orders, cart } = useCMSStore();
+  const { products, blogPosts, orders, cart } = useStore();
 
   // Calculate metrics
   const totalProducts = products.length;

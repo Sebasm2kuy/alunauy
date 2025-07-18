@@ -14,7 +14,7 @@ import {
   Copy,
   Archive
 } from 'lucide-react';
-import { useCMSStore, Product } from '../../store/cmsStore';
+import { useStore, Product } from '../../store/cmsStore';
 import ProductEditor from './ProductEditor';
 
 interface ProductManagerProps {
@@ -166,7 +166,7 @@ const ProductManager: React.FC<ProductManagerProps> = ({ searchTerm }) => {
     updateProduct, 
     deleteProduct, 
     reorderProducts 
-  } = useCMSStore();
+  } = useStore();
   
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isCreating, setIsCreating] = useState(false);

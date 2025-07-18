@@ -17,7 +17,7 @@ import {
   Award,
   Zap
 } from 'lucide-react';
-import { useCMSStore, PageContent } from '../../store/cmsStore';
+import { useStore, PageContent } from '../../store/cmsStore';
 import ContentBlockEditor from './ContentBlockEditor';
 
 interface DragItem {
@@ -132,7 +132,7 @@ const ContentBlock: React.FC<{
 };
 
 const PageEditor: React.FC = () => {
-  const { pageContent, updatePageContent, addPageContent, deletePageContent, reorderPageContent } = useCMSStore();
+  const { pageContent, updatePageContent, addPageContent, deletePageContent, reorderPageContent } = useStore();
   const [selectedPage, setSelectedPage] = useState('home');
   const [selectedSection, setSelectedSection] = useState('hero');
   const [editingContent, setEditingContent] = useState<PageContent | null>(null);

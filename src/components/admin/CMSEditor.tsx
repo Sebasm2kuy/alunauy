@@ -18,7 +18,7 @@ import {
   Search,
   Filter
 } from 'lucide-react';
-import { useCMSStore } from '../../store/cmsStore';
+import { useStore } from '../../store/cmsStore';
 import ProductManager from './ProductManager';
 import BlogManager from './BlogManager';
 import PageEditor from './PageEditor';
@@ -35,7 +35,7 @@ interface CMSEditorProps {
 const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
-  const { exportData, importData, products, blogPosts, orders } = useCMSStore();
+  const { exportData, importData, products, blogPosts, orders } = useStore();
 
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: BarChart3 },

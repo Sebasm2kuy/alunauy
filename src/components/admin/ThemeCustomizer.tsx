@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Save, RefreshCw, Eye, Palette, Type, Layout, Smartphone, Monitor, Tablet } from 'lucide-react';
-import { useCMSStore } from '../../store/cmsStore';
+import { useStore } from '../../store/cmsStore';
 
 const ThemeCustomizer: React.FC = () => {
-  const { siteSettings, updateSiteSettings } = useCMSStore();
+  const { siteSettings, updateSiteSettings } = useStore();
   const [previewMode, setPreviewMode] = useState<'desktop' | 'tablet' | 'mobile'>('desktop');
   const [activeSection, setActiveSection] = useState('colors');
 

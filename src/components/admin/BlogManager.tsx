@@ -13,7 +13,7 @@ import {
   Star,
   Copy
 } from 'lucide-react';
-import { useCMSStore, BlogPost } from '../../store/cmsStore';
+import { useStore, BlogPost } from '../../store/cmsStore';
 import BlogEditor from './BlogEditor';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -165,7 +165,7 @@ const BlogManager: React.FC<BlogManagerProps> = ({ searchTerm }) => {
     updateBlogPost, 
     deleteBlogPost, 
     reorderBlogPosts 
-  } = useCMSStore();
+  } = useStore();
   
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null);
   const [isCreating, setIsCreating] = useState(false);

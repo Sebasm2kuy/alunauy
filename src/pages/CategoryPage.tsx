@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Eye, ShoppingCart, Heart, Filter } from 'lucide-react';
-import { useCMSStore, Product } from '../store/cmsStore';
+import { useStore, Product } from '../store/cmsStore';
 
 interface CategoryPageProps {
   category: string;
@@ -14,7 +14,7 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Todos los productos disponibles
-  const { products } = useCMSStore();
+  const { products } = useStore();
   const allProducts = products.filter(p => p.active);
 
   const formatPrice = (price: number) => {

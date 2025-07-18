@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Truck, Shield, Award, Star, Heart, ShoppingCart, ChevronDown } from 'lucide-react';
-import { useCMSStore, Product } from '../store/cmsStore';
+import { useStore, Product } from '../store/cmsStore';
 
 interface HomePageProps {
   onPageChange?: (page: string) => void;
@@ -11,7 +11,7 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   
-  const { products } = useCMSStore();
+  const { products } = useStore();
   const featuredProducts = products.filter(p => p.active && p.featured).slice(0, 3);
 
   const slides = [

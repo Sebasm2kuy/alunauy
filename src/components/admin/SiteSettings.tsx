@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Save, Upload, Palette, Globe, CreditCard, Truck, Mail, Phone, MapPin } from 'lucide-react';
-import { useCMSStore } from '../../store/cmsStore';
+import { useStore } from '../../store/cmsStore';
 
 const SiteSettings: React.FC = () => {
-  const { siteSettings, updateSiteSettings } = useCMSStore();
+  const { siteSettings, updateSiteSettings } = useStore();
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState(siteSettings);
 
