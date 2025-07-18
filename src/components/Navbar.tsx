@@ -9,10 +9,10 @@
       <a href="#hero" class="text-gray-600 hover:text-blue-600">Inicio</a>
       <div class="relative group">
         <button class="text-gray-600 hover:text-blue-600">Productos</button>
-        <div class="absolute left-0 mt-2 w-56 bg-white border border-gray-200 rounded-md shadow-lg 
+        <div class="absolute left-0 mt-2 min-w-[220px] bg-white border border-gray-200 rounded-md shadow-lg 
                    opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20
-                   py-2 px-2"> <!-- Ajustes aquí -->
-          <a href="#producto1" class="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Producto 1</a> <!-- Aumento px-5 -->
+                   py-2 px-2">
+          <a href="#producto1" class="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Producto 1</a>
           <a href="#producto2" class="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Producto 2</a>
           <a href="#producto3" class="block px-5 py-2 text-sm text-gray-700 hover:bg-gray-100">Producto 3</a>
         </div>
@@ -41,12 +41,3 @@
     <a href="#contact" class="block text-gray-600 hover:text-blue-600">Contacto</a>
   </div>
 </nav>
-
-<script>
-  const menuBtn = document.getElementById("mobile-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  menuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-</script>
