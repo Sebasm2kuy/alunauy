@@ -1,7 +1,7 @@
 // src/components/Navbar.tsx
 import React, { useState } from "react";
 import { Link } from "react-scroll";
-import logo from "/logo192.png"; // Asegúrate de que esté en public o usa otro que tengas
+import logo from "/logo.png"; // Asegúrate de que esté en public o usa otro que tengas
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
