@@ -61,6 +61,11 @@ const HomePage: React.FC = () => {
     setIsExploreOpen(false);
   };
 
+  const handleSearch = (searchTerm: string) => {
+    // Aquí puedes implementar la lógica de búsqueda
+    console.log('Buscando:', searchTerm);
+    // Por ejemplo, filtrar productos o navegar a la página de productos con el término de búsqueda
+  };
   return (
     <div>
       {/* Floating Explore Button */}
@@ -238,6 +243,11 @@ const HomePage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Buscar productos..."
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(e.currentTarget.value);
+                    }
+                  }}
                   className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 />
               </div>

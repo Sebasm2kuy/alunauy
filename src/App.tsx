@@ -123,6 +123,10 @@ const App: React.FC = () => {
           onPageChange={handlePageChange}
           cartItems={getTotalItems()}
           onCartClick={handleCartClick}
+          onSearch={(term) => {
+            // Implementar búsqueda global
+            console.log('Búsqueda global:', term);
+          }}
         />
         
         <main>
