@@ -1,247 +1,140 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, Instagram, Facebook, Twitter } from 'lucide-react';
+import { Search, Eye, ShoppingCart, Heart, Filter, ChevronDown } from 'lucide-react';
+import { useCMSStore, Product } from '../store/cmsStore'; // CORREGIDO: Cambiado 'useStore' a 'useCMSStore'
 
-const ContactPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+interface CategoryPageProps {
+  category: string;
+  title: string;
+  description: string;
+  onAddToCart: (product: Product, quantity?: number) => void;
+}
+
+const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, description, onAddToCart }) => {
+  const { products } = useCMSStore(); // Usar useCMSStore
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('default'); // 'default', 'price-asc', 'price-desc', 'name-asc', 'name-desc'
+
+  const filteredProducts = products.filter(product => {
+    const matchesCategory = product.category === category;
+    const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  }).sort((a, b) => {
+    if (sortOrder === 'price-asc') return a.price - b.price;
+    if (sortOrder === 'price-desc') return b.price - a.price;
+    if (sortOrder === 'name-asc') return a.name.localeCompare(b.name);
+    if (sortOrder === 'name-desc') return b.name.localeCompare(a.name);
+    return 0; // default order or by 'order' property if exists
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    alert('¡Mensaje enviado! Te responderemos pronto.');
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
   return (
-    <div className="pt-16">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-r from-pink-50 to-purple-50">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Contáctanos
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            ¿Tienes alguna pregunta sobre nuestros productos o necesitas asesoramiento personalizado? 
-            Estamos aquí para ayudarte en tu camino hacia la belleza natural.
-          </p>
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-3xl font-bold text-gray-800 text-center mb-4">{title}</h2>
+      <p className="text-lg text-gray-600 text-center mb-8">{description}</p>
+
+      {/* Filters and Search (similar to ProductGallery) */}
+      <div className="flex flex-col md:flex-row justify-between items-center mb-8 space-y-4 md:space-y-0 md:space-x-4">
+        {/* Search Bar */}
+        <div className="relative w-full md:w-1/2">
+          <input
+            type="text"
+            placeholder={`Buscar en ${title.toLowerCase()}...`}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
         </div>
-      </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <h2 className="text-3xl font-bold mb-6">Envíanos un Mensaje</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                      Nombre Completo
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-colors"
-                      placeholder="Tu nombre"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-colors"
-                      placeholder="tu@email.com"
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Asunto
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-colors"
-                  >
-                    <option value="">Selecciona un asunto</option>
-                    <option value="consulta-producto">Consulta sobre Producto</option>
-                    <option value="asesoramiento">Asesoramiento Personalizado</option>
-                    <option value="pedido">Consulta sobre Pedido</option>
-                    <option value="devolucion">Devolución o Cambio</option>
-                    <option value="colaboracion">Colaboración</option>
-                    <option value="otro">Otro</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Mensaje
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    value={formData.message}
-                    onChange={handleChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-colors resize-none"
-                    placeholder="Cuéntanos cómo podemos ayudarte..."
-                  />
-                </div>
-                
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white py-4 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center justify-center space-x-2"
-                >
-                  <Send className="w-5 h-5" />
-                  <span>Enviar Mensaje</span>
-                </button>
-              </form>
-            </div>
-
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h2 className="text-3xl font-bold mb-6">Información de Contacto</h2>
-                <p className="text-gray-600 mb-8">
-                  Estamos disponibles para resolver todas tus dudas y brindarte la mejor atención personalizada.
-                </p>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1">Email</h3>
-                    <p className="text-gray-600">
-                      <a href="mailto:aluna@alunauy.es" className="hover:text-pink-500 transition-colors">
-                        aluna@alunauy.es
-                      </a>
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1">Teléfono</h3>
-                    <p className="text-gray-600">+598 2XXX XXXX</p>
-                    <p className="text-gray-600">WhatsApp: +598 9X XXX XXX</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1">Dirección</h3>
-                    <p className="text-gray-600">Av. Principal 123</p>
-                    <p className="text-gray-600">Montevideo, Uruguay</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold mb-1">Horarios</h3>
-                    <p className="text-gray-600">Lunes a Viernes: 9:00 - 18:00</p>
-                    <p className="text-gray-600">Sábados: 9:00 - 14:00</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Social Media */}
-              <div className="pt-8 border-t">
-                <h3 className="text-xl font-semibold mb-4">Síguenos</h3>
-                <div className="flex space-x-4">
-                  <a href="https://www.instagram.com/aluna.auy" target="_blank" rel="noopener noreferrer" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">
-                    <Instagram className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">
-                    <Facebook className="w-6 h-6" />
-                  </a>
-                  <a href="#" className="w-12 h-12 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full flex items-center justify-center text-white hover:shadow-lg transform hover:scale-110 transition-all duration-300">
-                    <Twitter className="w-6 h-6" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+        {/* Sort Order */}
+        <div className="relative w-full md:w-1/2">
+          <select
+            className="w-full pl-4 pr-10 py-2 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500"
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="default">Ordenar por</option>
+            <option value="price-asc">Precio: Menor a Mayor</option>
+            <option value="price-desc">Precio: Mayor a Menor</option>
+            <option value="name-asc">Nombre: A-Z</option>
+            <option value="name-desc">Nombre: Z-A</option>
+          </select>
+          <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
         </div>
-      </section>
+      </div>
 
-      {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Preguntas Frecuentes</h2>
-            <p className="text-xl text-gray-600">
-              Encuentra respuestas rápidas a las consultas más comunes
-            </p>
-          </div>
-
-          <div className="max-w-3xl mx-auto space-y-6">
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">¿Cuál es el tiempo de entrega?</h3>
-              <p className="text-gray-600">Los pedidos se procesan en 24-48 horas y la entrega toma entre 3-5 días hábiles en Montevideo y 5-7 días en el interior.</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">¿Puedo devolver un producto?</h3>
-              <p className="text-gray-600">Sí, aceptamos devoluciones dentro de los 30 días posteriores a la compra, siempre que el producto esté sin usar y en su empaque original.</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">¿Los productos son cruelty-free?</h3>
-              <p className="text-gray-600">Absolutamente. Todos nuestros productos son libres de crueldad animal y muchos cuentan con certificaciones veganas.</p>
-            </div>
-
-            <div className="bg-white rounded-lg p-6 shadow-sm">
-              <h3 className="text-lg font-semibold mb-2">¿Ofrecen asesoramiento personalizado?</h3>
-              <p className="text-gray-600">Sí, nuestro equipo de especialistas puede ayudarte a elegir los productos ideales para tu tipo de piel y necesidades específicas.</p>
-            </div>
-          </div>
+      {/* Product Grid */}
+      {filteredProducts.length === 0 ? (
+        <div className="text-center py-12">
+          <p className="text-gray-600 text-lg">No se encontraron productos en esta categoría que coincidan con tu búsqueda.</p>
         </div>
-      </section>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          {filteredProducts.map(product => (
+            <ProductCard key={product.id} product={product} onAddToCart={onAddToCart} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default ContactPage;
+// ProductCard Component (assuming it's defined elsewhere or inline as in HomePage)
+interface ProductCardProps {
+  product: Product;
+  onAddToCart: (product: Product, quantity?: number) => void;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className="bg-white rounded-lg shadow-md overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-xl relative"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      {product.badge && (
+        <span className="absolute top-2 left-2 bg-pink-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10">
+          {product.badge}
+        </span>
+      )}
+      <img
+        src={product.images[0]}
+        alt={product.name}
+        className="w-full h-48 object-cover"
+        onError={(e) => { e.currentTarget.src = `https://placehold.co/600x400/FFC0CB/FFFFFF?text=${product.name.replace(/ /g, '+')}`; }}
+      />
+      <div className="p-4">
+        <h3 className="font-semibold text-lg text-gray-800 truncate">{product.name}</h3>
+        <p className="text-gray-500 text-sm mb-2 capitalize">{product.category.replace(/-/g, ' ')}</p>
+        <div className="flex items-center mb-3">
+          <div className="flex text-yellow-400">
+            {Array(5).fill(0).map((_, i) => (
+              <Star key={i} className={`w-4 h-4 ${i < product.rating ? 'fill-current' : ''}`} />
+            ))}
+          </div>
+          <span className="text-gray-600 text-sm ml-2">({product.reviews} reseñas)</span>
+        </div>
+        <div className="flex items-baseline mb-4">
+          <span className="text-pink-600 font-bold text-xl">${product.price}</span>
+          {product.originalPrice > 0 && (
+            <span className="text-gray-400 text-sm line-through ml-2">${product.originalPrice}</span>
+          )}
+        </div>
+        <button
+          onClick={() => onAddToCart(product)}
+          className={`w-full bg-pink-500 text-white py-2 rounded-lg font-semibold transition-all duration-300 ${
+            isHovered ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
+          } absolute bottom-0 left-0 right-0 transform group-hover:opacity-100 group-hover:translate-y-0`}
+          style={{ opacity: isHovered ? 1 : 0, transform: isHovered ? 'translateY(0)' : 'translateY(8px)' }}
+        >
+          <ShoppingCart className="inline-block w-5 h-5 mr-2" />
+          Añadir al Carrito
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default CategoryPage;
