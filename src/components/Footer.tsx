@@ -50,8 +50,6 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
             <h3 className="text-lg font-semibold mb-6">Ayuda</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Centro de Ayuda</button></li>
-              <li><a href="#" className="hover:text-white transition-colors">Envíos</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Devoluciones</a></li>
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Contacto</button></li>
             </ul>
           </div>
@@ -61,9 +59,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
             <h3 className="text-lg font-semibold mb-6">Empresa</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sobre Nosotros</button></li>
-              <li><a href="#" className="hover:text-white transition-colors">Carreras</a></li>
               <li><button onClick={() => onPageChange?.('blog')} className="hover:text-white transition-colors">Blog</button></li>
-              <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sostenibilidad</button></li>
             </ul>
           </div>
         </div>

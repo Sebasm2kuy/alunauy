@@ -97,6 +97,24 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
     }
   };
 
+  const handleSave = () => {
+    // Trigger save for the current active tab
+    const saveEvent = new CustomEvent('cms-save', { detail: { tab: activeTab } });
+    window.dispatchEvent(saveEvent);
+    
+    // Show success notification
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+    notification.textContent = 'Cambios guardados correctamente';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 3000);
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="fixed inset-0 bg-gray-100 z-50 flex">
@@ -186,7 +204,10 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
                   {activeTab === 'blog' && `${blogPosts.length} artículos`}
                   {activeTab === 'orders' && `${orders.length} pedidos`}
                 </div>
-                <button className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-2">
+                <button 
+                  onClick={handleSave}
+                  className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-2"
+                >
                   <Save className="w-4 h-4" />
                   <span>Guardar</span>
                 </button>

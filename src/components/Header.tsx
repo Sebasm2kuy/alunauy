@@ -106,7 +106,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                 </button>
                 {isProductsOpen && (
                   <div
-                    className="absolute top-full left-0 mt-2 w-80 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50"
+                    className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50"
                     onMouseEnter={handleProductsMouseEnter}
                     onMouseLeave={handleProductsMouseLeave}
                   >
@@ -121,7 +121,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, onPageChange, cartItems, o
                       <button
                         key={cat.id}
                         onClick={() => onPageChange(cat.id)}
-                        className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors whitespace-nowrap"
+                        className="block w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-500 transition-colors"
                       >
                         {cat.name}
                       </button>
