@@ -10,6 +10,8 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
   const [selectedCategory, setSelectedCategory] = useState('todos');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  
+  const { products } = useStore();
 
   const activeProducts = products.filter(p => p.active);
 
@@ -156,9 +158,9 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <span className="text-3xl font-bold text-pink-500">{formatPrice(selectedProduct.price)}</span>
+                    <span className="text-3xl font-bold text-pink-500">{formatPrice(product.price)}</span>
                     {product.originalPrice && (
-                      <span className="text-lg text-gray-500 line-through">{formatPrice(selectedProduct.originalPrice)}</span>
+                      <span className="text-lg text-gray-500 line-through">{formatPrice(product.originalPrice)}</span>
                     )}
                   </div>
                   <button 
