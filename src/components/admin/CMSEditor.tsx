@@ -41,7 +41,7 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
     { id: 'dashboard', name: 'Dashboard', icon: BarChart3 },
     { id: 'products', name: 'Productos', icon: Package },
     { id: 'blog', name: 'Blog', icon: FileText },
-    { id: 'pages', name: 'Páginas', icon: Image },
+    { id: 'pages', name: 'Páginas', icon: FileText },
     { id: 'orders', name: 'Pedidos', icon: ShoppingCart },
     { id: 'media', name: 'Medios', icon: Image },
     { id: 'theme', name: 'Tema', icon: Palette },
