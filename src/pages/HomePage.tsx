@@ -195,3 +195,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
 }; // Cierre del componente ProductCard
 
 export default HomePage;
+
