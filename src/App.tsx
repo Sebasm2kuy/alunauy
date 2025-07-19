@@ -60,6 +60,13 @@ const App: React.FC = () => {
       'serums', 'cremas', 'maquillaje', 'corporal', 'tratamientos', 'ofertas', 'accesorios', 'cuidado-facial'
     ];
 
+    // Verificar si currentPage es una categoría conocida
+    if (knownCategories.includes(currentPage)) {
+        const categoryTitle = currentPage.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        const categoryDescription = `Explora nuestros productos de ${categoryTitle.toLowerCase()}.`;
+        return <CategoryPage category={currentPage} title={categoryTitle} description={categoryDescription} onAddToCart={handleAddToCart} />;
+    }
+
     switch (currentPage) {
       case 'home':
         return <HomePage onPageChange={setCurrentPage} onAddToCart={handleAddToCart} />;
@@ -73,11 +80,6 @@ const App: React.FC = () => {
         return <ContactPage />;
       case 'admin':
         return <CMSEditor onClose={() => { setIsCMSOpen(false); setCurrentPage('home'); }} />;
-      // Si currentPage es una categoría conocida, renderiza CategoryPage
-      case knownCategories.find(cat => cat === currentPage): // Esto permitirá que 'cuidado-facial', 'maquillaje', etc. funcionen
-        const categoryTitle = currentPage.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-        const categoryDescription = `Explora nuestros productos de ${categoryTitle.toLowerCase()}.`;
-        return <CategoryPage category={currentPage} title={categoryTitle} description={categoryDescription} onAddToCart={handleAddToCart} />;
       default:
         // Si no es una página conocida ni una categoría, por defecto vuelve a Home
         return <HomePage onPageChange={setCurrentPage} onAddToCart={handleAddToCart} />;
@@ -88,6 +90,7 @@ const App: React.FC = () => {
     <DndProvider backend={HTML5Backend}>
       <AuthProvider>
         <div className="min-h-screen flex flex-col">
+          {/* Renderiza el contenido principal si el CMS no está abierto */}
           {!isCMSOpen && (
             <>
               <Header
@@ -96,16 +99,12 @@ const App: React.FC = () => {
                 cartItems={getTotalItems()}
                 onCartClick={handleCartClick}
                 onSearch={(term) => {
-                  // Implementar búsqueda global
                   console.log('Búsqueda global:', term);
-                  // Podrías redirigir a la página de productos y aplicar el filtro de búsqueda
                   setCurrentPage('products');
-                  // Necesitarías una forma de pasar el término de búsqueda a ProductsPage
-                  // Por ahora, solo logeamos.
                 }}
               />
 
-              <main className="flex-grow pt-16"> {/* Añadido pt-16 para compensar el header fijo */}
+              <main className="flex-grow pt-16">
                 {renderCurrentPage()}
               </main>
 
@@ -113,7 +112,7 @@ const App: React.FC = () => {
             </>
           )}
 
-          {/* CMS Editor */}
+          {/* CMS Editor (condicional) */}
           {isCMSOpen && (
             <CMSEditor onClose={() => {
               setIsCMSOpen(false);
@@ -121,7 +120,7 @@ const App: React.FC = () => {
             }} />
           )}
 
-          {/* Product Detail Modal */}
+          {/* Product Detail Modal (condicional) */}
           {selectedProduct && (
             <ProductDetail
               product={selectedProduct}
@@ -130,7 +129,7 @@ const App: React.FC = () => {
             />
           )}
 
-          {/* Cart */}
+          {/* Cart Modal (condicional por prop isOpen) */}
           <Cart
             isOpen={isCartOpen}
             onClose={() => setIsCartOpen(false)}
@@ -140,7 +139,7 @@ const App: React.FC = () => {
             onCheckout={handleCheckout}
           />
 
-          {/* Checkout */}
+          {/* Checkout Modal (condicional por prop isOpen) */}
           <Checkout
             isOpen={isCheckoutOpen}
             onClose={() => setIsCheckoutOpen(false)}
@@ -148,13 +147,6 @@ const App: React.FC = () => {
             total={getTotalPrice()}
           />
         </div>
-      </AuthProvider>
-    </DndProvider>
-  );
-};
-
-export default App;
-
       </AuthProvider>
     </DndProvider>
   );
