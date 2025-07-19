@@ -1,4 +1,8 @@
+// src/store/cmsStore.ts
+
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
+import { v4 as uuidv4 } from 'uuid'
 
 export interface Product {
   id: string
@@ -62,6 +66,8 @@ export interface SiteSettings {
     metaDescription: string
     ogImage: string
   }
+  adminUser?: string          // <-- agregado adminUser
+  adminPassword?: string      // <-- agregado adminPassword
 }
 
 export interface CartItem {
@@ -129,9 +135,6 @@ interface StoreState {
   exportData: () => string
 }
 
-import { persist, createJSONStorage } from 'zustand/middleware'
-import { v4 as uuidv4 } from 'uuid'
-
 export const useCMSStore = create<StoreState>()(
   persist(
     (set, get) => ({
@@ -170,6 +173,8 @@ export const useCMSStore = create<StoreState>()(
           metaDescription: 'Descubre productos de belleza natural y sostenible para el cuidado capilar y personal. Calidad premium en Uruguay.',
           ogImage: 'https://placehold.co/1200x630/EC4899/FFFFFF?text=Aluna+UY',
         },
+        adminUser: 'admin',           // <-- valor por defecto
+        adminPassword: '1234',        // <-- valor por defecto
       },
       orders: [],
       cart: [],
@@ -287,7 +292,7 @@ export const useCMSStore = create<StoreState>()(
             return {
               cart: [
                 ...state.cart,
-                { id: product.id, name: product.name, price: product.price, quantity, image: product.image, variants },
+                { id: product.id, name: product.title, price: product.price, quantity, image: product.image, variants },
               ],
             }
           }
@@ -340,5 +345,5 @@ export const useCMSStore = create<StoreState>()(
   )
 )
 
-// Exportamos el alias para compatibilidad con imports antiguos
+// Export alias para compatibilidad con imports antiguos
 export { useCMSStore as useStore }
