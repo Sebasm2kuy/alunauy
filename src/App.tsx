@@ -29,7 +29,7 @@ const App: React.FC = () => {
 
   const handleAddToCart = (product: Product, quantity: number = 1, variants?: Record<string, string>) => {
     addToCart(product, quantity, variants);
-    setIsCartOpen(true); // Abrir carrito al añadir producto
+    setIsCartOpen(true);
   };
 
   const handleUpdateQuantity = (id: string, quantity: number) => {
@@ -40,22 +40,17 @@ const App: React.FC = () => {
     removeFromCart(id);
   };
 
-  const getTotalItems = () => {
-    return cart.reduce((total, item) => total + item.quantity, 0);
-  };
+  const getTotalItems = () => cart.reduce((total, item) => total + item.quantity, 0);
 
-  const getTotalPrice = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
-  };
+  const getTotalPrice = () => cart.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
     setIsCartOpen(false);
     setIsCheckoutOpen(true);
   };
 
-  // ¡Aquí definimos la función que faltaba!
   const handleCartClick = () => {
-    setIsCartOpen(!isCartOpen); // Alterna abrir/cerrar carrito
+    setIsCartOpen(true);
   };
 
   const renderCurrentPage = () => {
@@ -64,7 +59,11 @@ const App: React.FC = () => {
     ];
 
     if (knownCategories.includes(currentPage)) {
-      const categoryTitle = currentPage.replace(/-/g, ' ').split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+      const categoryTitle = currentPage
+        .replace(/-/g, ' ')
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
       const categoryDescription = `Explora nuestros productos de ${categoryTitle.toLowerCase()}.`;
       return <CategoryPage category={currentPage} title={categoryTitle} description={categoryDescription} onAddToCart={handleAddToCart} />;
     }
@@ -93,11 +92,12 @@ const App: React.FC = () => {
         <div className="min-h-screen flex flex-col">
           {!isCMSOpen && (
             <>
+              {/* Aquí usamos la función definida para manejar clic en carrito */}
               <Header
                 currentPage={currentPage}
                 onPageChange={setCurrentPage}
                 cartItems={getTotalItems()}
-                onCartClick={handleCartClick}  {/* Aquí usamos la función definida */}
+                onCartClick={handleCartClick}
                 onSearch={(term) => {
                   console.log('Búsqueda global:', term);
                   setCurrentPage('products');
