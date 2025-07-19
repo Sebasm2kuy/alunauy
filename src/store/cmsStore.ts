@@ -1,14 +1,14 @@
 import { create } from 'zustand';
 
-interface Product {
-  id: string;
+export interface Product {
+  id: number;
   name: string;
-  description: string;
   price: number;
+  description: string;
   image: string;
-  category: string;
   stock: number;
-  // Agrega otros campos si son necesarios
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface StoreState {
@@ -16,57 +16,21 @@ interface StoreState {
   selectedProduct: Product | null;
   isLoading: boolean;
   error: string | null;
-
-  fetchProducts: () => Promise<void>;
+  setProducts: (products: Product[]) => void;
   selectProduct: (product: Product) => void;
   clearSelectedProduct: () => void;
-  addProduct: (product: Product) => void;
-  updateProduct: (updatedProduct: Product) => void;
-  deleteProduct: (productId: string) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
 }
 
-export const useStore = create<StoreState>((set, get) => ({
+export const useStore = create<StoreState>((set) => ({
   products: [],
   selectedProduct: null,
   isLoading: false,
   error: null,
-
-  fetchProducts: async () => {
-    set({ isLoading: true, error: null });
-    try {
-      // Simulamos una llamada a una API
-      const response = await fetch('/api/products');
-      const data = await response.json();
-      set({ products: data, isLoading: false });
-    } catch (error: any) {
-      set({ error: error.message, isLoading: false });
-    }
-  },
-
-  selectProduct: (product) => {
-    set({ selectedProduct: product });
-  },
-
-  clearSelectedProduct: () => {
-    set({ selectedProduct: null });
-  },
-
-  addProduct: (product) => {
-    set({ products: [...get().products, product] });
-  },
-
-  updateProduct: (updatedProduct) => {
-    set({
-      products: get().products.map((p) =>
-        p.id === updatedProduct.id ? updatedProduct : p
-      ),
-    });
-  },
-
-  deleteProduct: (productId) => {
-    set({
-      products: get().products.filter((p) => p.id !== productId),
-    });
-  },
+  setProducts: (products) => set({ products }),
+  selectProduct: (product) => set({ selectedProduct: product }),
+  clearSelectedProduct: () => set({ selectedProduct: null }),
+  setLoading: (isLoading) => set({ isLoading }),
+  setError: (error) => set({ error }),
 }));
-
