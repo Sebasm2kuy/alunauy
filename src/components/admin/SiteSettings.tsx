@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Palette, Globe, CreditCard, Truck, Mail, Shield } from 'lucide-react';
-import { useStore } from '../../store/cmsStore';
+import { useCMSStore } from '@/stores/cms-store';
 
 const SiteSettings: React.FC = () => {
-  const { siteSettings, updateSiteSettings } = useStore();
+  const { settings, updateSiteSettings } = useCMSStore();
   const [activeTab, setActiveTab] = useState('general');
-  const [formData, setFormData] = useState(siteSettings);
+  const [formData, setFormData] = useState(settings);
   const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    setFormData(settings);
+  }, [settings]);
 
   useEffect(() => {
     const handleSave = (event: CustomEvent) => {
@@ -14,7 +18,6 @@ const SiteSettings: React.FC = () => {
         handleSubmit(new Event('submit') as any);
       }
     };
-
     window.addEventListener('cms-save', handleSave as EventListener);
     return () => window.removeEventListener('cms-save', handleSave as EventListener);
   }, [formData]);
@@ -73,7 +76,7 @@ const SiteSettings: React.FC = () => {
 
         <div className="flex-1">
           <form onSubmit={handleSubmit} className="p-6">
-            {/* Otras pestañas ... */}
+            {/* Aquí puedes agregar el contenido de cada pestaña */}
 
             {activeTab === 'security' && (
               <div className="space-y-6 max-w-md">
