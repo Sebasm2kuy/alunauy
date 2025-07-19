@@ -40,12 +40,13 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
             <h3 className="text-lg font-semibold mb-6">Productos</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('products')} className="hover:text-white transition-colors">Todos los Productos</button></li>
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li> {/* Añadido */}
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('tratamientos')} className="hover:text-white transition-colors">Tratamientos</button></li>
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('ofertas')} className="hover:text-white transition-colors">Ofertas</button></li>
-              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('accesorios')} className="hover:text-white transition-colors">Accesorios</button></li>
+              {/* CORREGIDO: Pasar directamente la categoría */}
+              <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
+              <li><button onClick={() => onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
+              <li><button onClick={() => onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
+              <li><button onClick={() => onPageChange?.('tratamientos')} className="hover:text-white transition-colors">Tratamientos</button></li>
+              <li><button onClick={() => onPageChange?.('ofertas')} className="hover:text-white transition-colors">Ofertas</button></li>
+              <li><button onClick={() => onPageChange?.('accesorios')} className="hover:text-white transition-colors">Accesorios</button></li>
             </ul>
           </div>
 
