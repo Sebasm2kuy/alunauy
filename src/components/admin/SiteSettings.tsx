@@ -7,6 +7,16 @@ const SiteSettings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState(siteSettings);
 
+  React.useEffect(() => {
+    const handleSave = (event: CustomEvent) => {
+      if (event.detail.tab === 'settings') {
+        handleSubmit(new Event('submit') as any);
+      }
+    };
+
+    window.addEventListener('cms-save', handleSave as EventListener);
+    return () => window.removeEventListener('cms-save', handleSave as EventListener);
+  }, [formData]);
   useEffect(() => {
     const handleSave = (event: CustomEvent) => {
       if (event.detail.tab === 'settings') {
@@ -21,6 +31,18 @@ const SiteSettings: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateSiteSettings(formData);
+    
+    // Show success notification
+    const notification = document.createElement('div');
+    notification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+    notification.textContent = 'Configuración guardada correctamente';
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+      if (document.body.contains(notification)) {
+        document.body.removeChild(notification);
+      }
+    }, 3000);
   };
 
   const tabs = [

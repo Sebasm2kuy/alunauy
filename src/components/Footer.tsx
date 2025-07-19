@@ -39,6 +39,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
             <h3 className="text-lg font-semibold mb-6">Productos</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
+              <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
               <li><button onClick={() => onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
               <li><button onClick={() => onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
               <li><button onClick={() => onPageChange?.('otros')} className="hover:text-white transition-colors">Accesorios</button></li>
@@ -46,8 +47,6 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
           </div>
 
           {/* Help */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Ayuda</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Centro de Ayuda</button></li>
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Contacto</button></li>
@@ -57,9 +56,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
           {/* Company */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Empresa</h3>
-            <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sobre Nosotros</button></li>
-              <li><button onClick={() => onPageChange?.('blog')} className="hover:text-white transition-colors">Blog</button></li>
             </ul>
           </div>
         </div>

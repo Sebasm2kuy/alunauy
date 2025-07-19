@@ -35,7 +35,7 @@ interface CMSEditorProps {
 const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('dashboard');
   const [searchTerm, setSearchTerm] = useState('');
-  const { exportData, importData, products, blogPosts, orders } = useStore();
+  const { exportData, importData, products, blogPosts, orders, updateSiteSettings, updateProduct, updateBlogPost } = useStore();
 
   const tabs = [
     { id: 'dashboard', name: 'Dashboard', icon: BarChart3 },
@@ -204,13 +204,15 @@ const CMSEditor: React.FC<CMSEditorProps> = ({ onClose }) => {
                   {activeTab === 'blog' && `${blogPosts.length} artículos`}
                   {activeTab === 'orders' && `${orders.length} pedidos`}
                 </div>
-                <button 
-                  onClick={handleSave}
-                  className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-2"
-                >
-                  <Save className="w-4 h-4" />
-                  <span>Guardar</span>
-                </button>
+                {activeTab !== 'dashboard' && (
+                  <button 
+                    onClick={handleSave}
+                    className="bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600 transition-colors flex items-center space-x-2"
+                  >
+                    <Save className="w-4 h-4" />
+                    <span>Guardar</span>
+                  </button>
+                )}
               </div>
             </div>
           </div>
