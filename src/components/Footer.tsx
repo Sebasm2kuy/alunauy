@@ -40,7 +40,7 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
             <h3 className="text-lg font-semibold mb-6">Productos</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('products')} className="hover:text-white transition-colors">Todos los Productos</button></li>
-              {/* CORREGIDO: Pasar directamente la categoría */}
+              {/* CORREGIDO: Pasar directamente la categoría. Esta es la línea 43 */}
               <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
               <li><button onClick={() => onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
               <li><button onClick={() => onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
