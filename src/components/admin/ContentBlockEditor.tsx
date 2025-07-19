@@ -15,6 +15,17 @@ const ContentBlockEditor: React.FC<ContentBlockEditorProps> = ({ content, onSave
     setFormData(content.content);
   }, [content]);
 
+  useEffect(() => {
+    const handleSave = (event: CustomEvent) => {
+      if (event.detail.tab === 'pages') {
+        handleSubmit(new Event('submit') as any);
+      }
+    };
+
+    window.addEventListener('cms-save', handleSave as EventListener);
+    return () => window.removeEventListener('cms-save', handleSave as EventListener);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);

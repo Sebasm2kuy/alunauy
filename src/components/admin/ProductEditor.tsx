@@ -26,11 +26,9 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, onSave, onCancel
     name: '',
     description: '',
     shortDescription: '',
-    category: 'serums',
+    category: 'cuidado-facial',
     price: 0,
     originalPrice: 0,
-    priceUSD: 0,
-    originalPriceUSD: 0,
     images: [''],
     rating: 5,
     reviews: 0,
@@ -57,8 +55,6 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, onSave, onCancel
         category: product.category,
         price: product.price,
         originalPrice: product.originalPrice || 0,
-        priceUSD: product.priceUSD || 0,
-        originalPriceUSD: product.originalPriceUSD || 0,
         images: product.images.length > 0 ? product.images : [''],
         rating: product.rating,
         reviews: product.reviews,
@@ -74,6 +70,17 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, onSave, onCancel
       });
     }
   }, [product]);
+
+  useEffect(() => {
+    const handleSave = (event: CustomEvent) => {
+      if (event.detail.tab === 'products') {
+        handleSubmit(new Event('submit') as any);
+      }
+    };
+
+    window.addEventListener('cms-save', handleSave as EventListener);
+    return () => window.removeEventListener('cms-save', handleSave as EventListener);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -212,10 +219,9 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, onSave, onCancel
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                       required
                     >
-                      <option value="serums">Sérums</option>
-                      <option value="cremas">Cremas</option>
+                      <option value="cuidado-facial">Cuidado Facial</option>
                       <option value="maquillaje">Maquillaje</option>
-                      <option value="corporal">Cuidado Corporal</option>
+                      <option value="cuidado-corporal">Cuidado Corporal</option>
                       <option value="tratamientos">Tratamientos</option>
                       <option value="otros">Otros</option>
                     </select>
@@ -407,34 +413,6 @@ const ProductEditor: React.FC<ProductEditorProps> = ({ product, onSave, onCancel
                       type="number"
                       value={formData.originalPrice}
                       onChange={(e) => setFormData({ ...formData, originalPrice: parseFloat(e.target.value) || 0 })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      min="0"
-                      step="0.01"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Precio en Dólares (USD)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.priceUSD}
-                      onChange={(e) => setFormData({ ...formData, priceUSD: parseFloat(e.target.value) || 0 })}
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      min="0"
-                      step="0.01"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Precio Original en Dólares (USD)
-                    </label>
-                    <input
-                      type="number"
-                      value={formData.originalPriceUSD}
-                      onChange={(e) => setFormData({ ...formData, originalPriceUSD: parseFloat(e.target.value) || 0 })}
                       className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                       min="0"
                       step="0.01"

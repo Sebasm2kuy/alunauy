@@ -17,12 +17,10 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
 
   const categories = [
     { id: 'todos', name: 'Todos los Productos', count: activeProducts.length },
-    { id: 'serums', name: 'Sérums', count: activeProducts.filter(p => p.category === 'serums').length },
-    { id: 'cremas', name: 'Cremas', count: activeProducts.filter(p => p.category === 'cremas').length },
+    { id: 'cuidado-facial', name: 'Cuidado Facial', count: activeProducts.filter(p => p.category === 'cuidado-facial').length },
     { id: 'maquillaje', name: 'Maquillaje', count: activeProducts.filter(p => p.category === 'maquillaje').length },
-    { id: 'corporal', name: 'Cuidado Corporal', count: activeProducts.filter(p => p.category === 'corporal').length },
+    { id: 'cuidado-corporal', name: 'Cuidado Corporal', count: activeProducts.filter(p => p.category === 'cuidado-corporal').length },
     { id: 'tratamientos', name: 'Tratamientos', count: activeProducts.filter(p => p.category === 'tratamientos').length },
-    { id: 'ofertas', name: 'Ofertas', count: activeProducts.filter(p => p.badge === 'OFERTA' || p.badge === 'BESTSELLER').length },
     { id: 'otros', name: 'Otros', count: activeProducts.filter(p => p.category === 'otros').length }
   ];
 
@@ -31,8 +29,6 @@ const ProductGallery: React.FC<ProductGalleryProps> = ({ onAddToCart }) => {
     
     if (selectedCategory === 'todos') {
       matchesCategory = true;
-    } else if (selectedCategory === 'ofertas') {
-      matchesCategory = product.badge === 'OFERTA' || product.badge === 'BESTSELLER';
     } else {
       matchesCategory = product.category === selectedCategory;
     }

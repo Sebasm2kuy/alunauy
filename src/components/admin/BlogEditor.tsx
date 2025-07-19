@@ -66,6 +66,17 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ post, onSave, onCancel }) => {
     }
   }, [post]);
 
+  useEffect(() => {
+    const handleSave = (event: CustomEvent) => {
+      if (event.detail.tab === 'blog') {
+        handleSubmit(new Event('submit') as any);
+      }
+    };
+
+    window.addEventListener('cms-save', handleSave as EventListener);
+    return () => window.removeEventListener('cms-save', handleSave as EventListener);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     

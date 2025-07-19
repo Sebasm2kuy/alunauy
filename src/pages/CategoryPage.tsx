@@ -29,11 +29,11 @@ const CategoryPage: React.FC<CategoryPageProps> = ({ category, title, descriptio
     let categoryProducts = [];
     
     if (category === 'cuidado-facial') {
-      categoryProducts = allProducts.filter(p => p.category === 'serums' || p.category === 'cremas');
+      categoryProducts = allProducts.filter(p => p.category === 'cuidado-facial');
     } else if (category === 'maquillaje') {
       categoryProducts = allProducts.filter(p => p.category === 'maquillaje');
     } else if (category === 'cuidado-corporal') {
-      categoryProducts = allProducts.filter(p => p.category === 'corporal');
+      categoryProducts = allProducts.filter(p => p.category === 'cuidado-corporal');
     } else if (category === 'tratamientos') {
       categoryProducts = allProducts.filter(p => p.category === 'tratamientos');
     } else if (category === 'ofertas') {

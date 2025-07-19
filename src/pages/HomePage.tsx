@@ -377,16 +377,13 @@ const HomePage: React.FC<HomePageProps> = ({ onPageChange, onAddToCart }) => {
                 Todos los Productos ({products.filter(p => p.active).length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Sérums ({products.filter(p => p.active && p.category === 'serums').length})
-              </button>
-              <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Cremas ({products.filter(p => p.active && p.category === 'cremas').length})
+                Cuidado Facial ({products.filter(p => p.active && p.category === 'cuidado-facial').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
                 Maquillaje ({products.filter(p => p.active && p.category === 'maquillaje').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
-                Cuidado Corporal ({products.filter(p => p.active && p.category === 'corporal').length})
+                Cuidado Corporal ({products.filter(p => p.active && p.category === 'cuidado-corporal').length})
               </button>
               <button className="px-6 py-3 rounded-full font-semibold transition-all duration-300 bg-white text-gray-700 hover:bg-gray-100 border border-gray-200">
                 Tratamientos ({products.filter(p => p.active && p.category === 'tratamientos').length})

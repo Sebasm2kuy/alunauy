@@ -7,10 +7,20 @@ const SiteSettings: React.FC = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [formData, setFormData] = useState(siteSettings);
 
+  useEffect(() => {
+    const handleSave = (event: CustomEvent) => {
+      if (event.detail.tab === 'settings') {
+        handleSubmit(new Event('submit') as any);
+      }
+    };
+
+    window.addEventListener('cms-save', handleSave as EventListener);
+    return () => window.removeEventListener('cms-save', handleSave as EventListener);
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateSiteSettings(formData);
-    alert('Configuración guardada correctamente');
   };
 
   const tabs = [
