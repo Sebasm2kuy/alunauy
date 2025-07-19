@@ -13,10 +13,11 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
           {/* Logo and Description */}
           <div>
             <div className="flex items-center space-x-2 mb-6">
-              <img 
-                src="/logo.png" 
-                alt="Aluna Logo" 
-                className="w-10 h-10 object-contain" 
+              <img
+                src="/logo.png"
+                alt="Aluna Logo"
+                className="w-10 h-10 object-contain"
+                onError={(e) => { e.currentTarget.src = 'https://placehold.co/40x40/FFC0CB/FFFFFF?text=Logo'; }}
               />
               <span className="text-3xl font-light tracking-wide" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>
                 Aluna
@@ -38,17 +39,23 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
           <div>
             <h3 className="text-lg font-semibold mb-6">Productos</h3>
             <ul className="space-y-3 text-gray-400">
-              <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
-              <li><button onClick={() => onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li>
-              <li><button onClick={() => onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
-              <li><button onClick={() => onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
-              <li><button onClick={() => onPageChange?.('otros')} className="hover:text-white transition-colors">Accesorios</button></li>
+              <li><button onClick={() => onPageChange?.('products')} className="hover:text-white transition-colors">Todos los Productos</button></li>
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('cuidado-facial')} className="hover:text-white transition-colors">Cuidado Facial</button></li> {/* Añadido */}
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('maquillaje')} className="hover:text-white transition-colors">Maquillaje</button></li>
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('cuidado-corporal')} className="hover:text-white transition-colors">Cuidado Corporal</button></li>
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('tratamientos')} className="hover:text-white transition-colors">Tratamientos</button></li>
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('ofertas')} className="hover:text-white transition-colors">Ofertas</button></li>
+              <li><button onClick={() => onPageChange?.('category'); onPageChange?.('accesorios')} className="hover:text-white transition-colors">Accesorios</button></li>
             </ul>
           </div>
 
           {/* Help */}
+          <div>
+            <h3 className="text-lg font-semibold mb-6">Ayuda</h3>
             <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Centro de Ayuda</button></li>
+              <li><a href="#" className="hover:text-white transition-colors">Envíos</a></li>
+              {/* <li><a href="#" className="hover:text-white transition-colors">Devoluciones</a></li> Eliminado */}
               <li><button onClick={() => onPageChange?.('contact')} className="hover:text-white transition-colors">Contacto</button></li>
             </ul>
           </div>
@@ -56,7 +63,11 @@ const Footer: React.FC<FooterProps> = ({ onPageChange }) => {
           {/* Company */}
           <div>
             <h3 className="text-lg font-semibold mb-6">Empresa</h3>
+            <ul className="space-y-3 text-gray-400">
               <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sobre Nosotros</button></li>
+              {/* <li><a href="#" className="hover:text-white transition-colors">Carreras</a></li> Eliminado */}
+              <li><button onClick={() => onPageChange?.('blog')} className="hover:text-white transition-colors">Blog</button></li>
+              {/* <li><button onClick={() => onPageChange?.('about')} className="hover:text-white transition-colors">Sostenibilidad</button></li> Eliminado */}
             </ul>
           </div>
         </div>
