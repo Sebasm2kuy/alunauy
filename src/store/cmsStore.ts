@@ -227,18 +227,6 @@ export const useStore = create<StoreState>()(
       orders: [],
 
       // Product actions
-      addProduct: (product) => set((state) => ({ products: [...state.products, product] })),
-        products: [...state.products, { 
-          ...product, 
-          id: Date.now().toString(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }] 
-        set((state) => ({
-          products: state.products.map((p) => 
-            p.id === id ? { ...p, ...updated, updatedAt: new Date().toISOString() } : p
-          ),
-        })),
       addProduct: (product) => set((state) => ({ 
         products: [...state.products, { 
           ...product, 
@@ -305,18 +293,6 @@ export const useStore = create<StoreState>()(
       clearCart: () => set({ cart: [] }),
 
       // Blog actions
-      addBlogPost: (post) => set((state) => ({ blogPosts: [...state.blogPosts, post] })),
-        blogPosts: [...state.blogPosts, { 
-          ...post, 
-          id: Date.now().toString(),
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        }] 
-        set((state) => ({
-          blogPosts: state.blogPosts.map((p) => 
-            p.id === id ? { ...p, ...updated, updatedAt: new Date().toISOString() } : p
-          ),
-        })),
       addBlogPost: (post) => set((state) => ({ 
         blogPosts: [...state.blogPosts, { 
           ...post, 
