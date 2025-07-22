@@ -211,7 +211,7 @@ p {
 ---------------------------------*/
 
 .top_cont_outer {
-    background: #df0031;
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
     position: relative;
 }
 
@@ -238,7 +238,7 @@ p {
 
 .top_left_cont h3 {
     font-size: 16px;
-    color: #f56eab;
+    color: #ffeaa7;
     margin: 0 0 20px 0;
     text-align: left;
     font-weight: 700;
@@ -259,7 +259,7 @@ p {
 
 .top_left_cont p {
     font-size: 16px;
-    color: #FFABAB;
+    color: #ffeaa7;
     margin: 0 0 30px 0;
     line-height: 26px;
 }
@@ -285,7 +285,7 @@ a.read_more2 {
 
 a.read_more2:hover {
     background: #fff;
-    color: #df0031;
+    color: #c44569;
     border: 1px solid #fff;
 }
 
@@ -319,7 +319,7 @@ a.read_more2:hover {
 }
 
 .service_icon {
-    border: 2px solid #df0031;
+    border: 2px solid #ff6b9d;
     border-radius: 50%;
     width: 90px;
     height: 90px;
@@ -327,11 +327,11 @@ a.read_more2:hover {
 }
 
 .service_icon.icon2 {
-    border: 2px solid #df0031;
+    border: 2px solid #ff6b9d;
 }
 
 .service_icon.icon3 {
-    border: 2px solid #df0031;
+    border: 2px solid #ff6b9d;
 }
 
 .service_icon span {
@@ -343,7 +343,7 @@ a.read_more2:hover {
 }
 
 .service_icon i {
-    color: #df0031;
+    color: #ff6b9d;
     font-size: 40px;
     margin-top: 0;
     position: relative;
@@ -447,7 +447,7 @@ a.contact_btn {
 }
 
 a.contact_btn:hover {
-    background: #df0031;
+    background: #ff6b9d;
     color: #fff;
 }
 
@@ -492,7 +492,7 @@ a.contact_btn:hover {
 }
 
 .Portfolio-nav li a:hover {
-    background: #df0031;
+    background: #ff6b9d;
     color: #fff;
     text-decoration: none;
 }
@@ -522,7 +522,7 @@ a.contact_btn:hover {
 }
 
 .Portfolio-nav li a.current {
-    background: #df0031;
+    background: #ff6b9d;
     color: #fff;
     text-decoration: none;
 }
@@ -612,7 +612,7 @@ img {
 
 
 .client_logos {
-    background: #df0031;
+    background: linear-gradient(135deg, #ff6b9d, #c44569);
     padding: 60px 0;
     margin-top: 60px;
 }
@@ -692,7 +692,7 @@ img {
     display: block;
     width: 100%;
     height: 100%;
-    border-bottom: 4px solid #df0031;
+    border-bottom: 4px solid #ff6b9d;
 }
 
 .team_box:hover .team_box_shadow {
@@ -955,7 +955,7 @@ img {
     width: 175px;
     height: 50px;
     letter-spacing: 0px;
-    background: #df0031;
+    background: #ff6b9d;
     border-radius: 3px;
     color: #ffffff;
     font-size: 16px;
@@ -993,7 +993,7 @@ img {
 
 .footer_bottom span a {
     display: inline-block;
-    color: #df0031;
+    color: #ff6b9d;
     font-size: 16px;
     transition: all 0.3s ease-in-out;
     -moz-transition: all 0.3s ease-in-out;
@@ -1113,9 +1113,9 @@ img {
 
 #filters ul li a:hover h5, #filters ul li a.active h5 {
     background: #fff;
-    color: #df0031;
+    color: #ff6b9d;
     text-decoration: none;
-    border: #df0031 solid 1px;
+    border: #ff6b9d solid 1px;
 }
 
 .section-title h2 {
@@ -1206,7 +1206,7 @@ img {
 }
 
 .item_overlay:hover {
-    background: rgba(223, 0, 49, 0.7);
+    background: rgba(255, 107, 157, 0.8);
 }
 
 .item_info {

@@ -55,6 +55,17 @@ $(document).ready(function() {
         }
     });
 
+    // Smooth scrolling for product links
+    $('a[href^="#products"]').on('click', function(e) {
+        e.preventDefault();
+        var target = $(this.getAttribute('href'));
+        if (target.length) {
+            $('html, body').stop().animate({
+                scrollTop: target.offset().top - 70
+            }, 1000);
+        }
+    });
+
     var container = $('#portfolio_wrapper');
 
 
