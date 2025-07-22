@@ -40,7 +40,7 @@
 			  <li><a href="#benefits" class="scroll-link">Beneficios</a></li>
 			  <li><a href="#testimonials" class="scroll-link">Testimonios</a></li>
 			  <li><a href="#contact" class="scroll-link">Contacto</a></li>
-			  <li><a href="admin/" target="_blank" style="background: #ff6b9d; color: white; border-radius: 3px; padding: 8px 15px;"><i class="fa fa-cog"></i> Admin</a></li>
+			  <li><a href="#" onclick="showAdminLogin()" class="admin-login-btn"><i class="fa fa-user-circle"></i> Iniciar Sesión</a></li>
 			</ul>
       </div>
 	 </nav>
@@ -443,6 +443,39 @@
   </div>
 </footer>
 
+<!-- Modal de Login Admin -->
+<div id="adminLoginModal" class="admin-modal" style="display: none;">
+  <div class="admin-modal-content">
+    <div class="admin-modal-header">
+      <h3><i class="fa fa-shield"></i> Acceso Administrativo</h3>
+      <span class="admin-close" onclick="closeAdminLogin()">&times;</span>
+    </div>
+    <div class="admin-modal-body">
+      <form id="adminLoginForm" onsubmit="validateAdminLogin(event)">
+        <div class="admin-form-group">
+          <label for="adminUser"><i class="fa fa-user"></i> Usuario</label>
+          <input type="text" id="adminUser" name="username" required placeholder="Ingrese su usuario">
+        </div>
+        <div class="admin-form-group">
+          <label for="adminPass"><i class="fa fa-lock"></i> Contraseña</label>
+          <input type="password" id="adminPass" name="password" required placeholder="Ingrese su contraseña">
+        </div>
+        <div class="admin-form-group">
+          <button type="submit" class="admin-login-submit">
+            <i class="fa fa-sign-in"></i> Ingresar al Panel
+          </button>
+        </div>
+        <div id="adminLoginError" class="admin-error" style="display: none;">
+          <i class="fa fa-exclamation-triangle"></i> Usuario o contraseña incorrectos
+        </div>
+      </form>
+    </div>
+    <div class="admin-modal-footer">
+      <small><i class="fa fa-info-circle"></i> Panel exclusivo para administradores de ALuna</small>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/jquery-scrolltofixed.js"></script>
@@ -452,6 +485,7 @@
 <script type="text/javascript" src="js/wow.js"></script> 
 <script type="text/javascript" src="js/custom.js"></script>
 <script type="text/javascript" src="js/ecommerce.js"></script>
+<script type="text/javascript" src="js/admin-auth.js"></script>
 
 </body>
 </html>
