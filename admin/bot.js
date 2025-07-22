@@ -22,6 +22,7 @@ class AdminBot {
     createBotInterface() {
         const botContainer = document.createElement('div');
         botContainer.id = 'admin-bot';
+        botContainer.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 10000;';
         botContainer.innerHTML = `
             <div class="bot-toggle" onclick="adminBot.toggleBot()">
                 <i class="fas fa-robot"></i>
@@ -90,6 +91,11 @@ class AdminBot {
 
         document.body.appendChild(botContainer);
         this.addBotStyles();
+        
+        // Mostrar notificación de que el bot está disponible
+        setTimeout(() => {
+            this.showNotification('🤖 Asistente ALuna disponible - Haz clic en el botón para empezar', 'info');
+        }, 2000);
     }
 
     // Agregar estilos del bot
@@ -116,11 +122,25 @@ class AdminBot {
                 align-items: center;
                 gap: 8px;
                 font-weight: 600;
+                animation: pulse 2s infinite;
             }
 
             .bot-toggle:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+                animation: none;
+            }
+
+            @keyframes pulse {
+                0% {
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                }
+                50% {
+                    box-shadow: 0 4px 25px rgba(102, 126, 234, 0.8);
+                }
+                100% {
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                }
             }
 
             .bot-panel {
@@ -1000,6 +1020,32 @@ class AdminBot {
 
 // Inicializar bot
 let adminBot;
-document.addEventListener('DOMContentLoaded', () => {
-    adminBot = new AdminBot();
-});
+
+// Función para inicializar el bot
+function initializeAdminBot() {
+    if (typeof AdminBot !== 'undefined' && !window.adminBot) {
+        try {
+            window.adminBot = new AdminBot();
+            console.log('🤖 Bot administrativo ALuna inicializado correctamente');
+            return true;
+        } catch (error) {
+            console.error('❌ Error al inicializar el bot:', error);
+            return false;
+        }
+    }
+    return false;
+}
+
+// Intentar inicializar cuando el DOM esté listo
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAdminBot);
+} else {
+    initializeAdminBot();
+}
+
+// También intentar cuando la ventana esté completamente cargada
+window.addEventListener('load', initializeAdminBot);
+
+// Hacer disponible globalmente
+window.AdminBot = AdminBot;
+window.initializeAdminBot = initializeAdminBot;

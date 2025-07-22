@@ -177,7 +177,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin.js"></script>
-    <script src="bot.js"></script>
-    <script src="github-api.js"></script>
+    <script src="bot.js" defer></script>
+    <script src="github-api.js" defer></script>
+    
+    <script>
+        // Asegurar que el bot se inicialice después de que todo esté cargado
+        window.addEventListener('load', function() {
+            if (typeof AdminBot !== 'undefined' && !window.adminBot) {
+                window.adminBot = new AdminBot();
+                console.log('🤖 Bot administrativo inicializado');
+            }
+        });
+    </script>
 </body>
 </html>
