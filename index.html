@@ -40,7 +40,7 @@
 			  <li><a href="#benefits" class="scroll-link">Beneficios</a></li>
 			  <li><a href="#testimonials" class="scroll-link">Testimonios</a></li>
 			  <li><a href="#contact" class="scroll-link">Contacto</a></li>
-			  <li><a href="#" onclick="showAdminLogin()" class="admin-login-btn"><i class="fa fa-user-circle"></i> Iniciar Sesión</a></li>
+			  <li><a href="#" onclick="showAdminLogin()" class="admin-login-btn"><i class="fa fa-user-circle"></i> Admin</a></li>
 			</ul>
       </div>
 	 </nav>
@@ -205,21 +205,39 @@
       
       <!-- Portfolio Item -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four   appleIOS isotope-item">
-        <div class="portfolio_img"> <img src="img/MascarillaKarseell1190.jpg"  alt="Mascarilla Karseell"> </div>        
+        <div class="portfolio_img"> 
+          <img src="img/MascarillaKarseell1190.jpg" alt="Mascarilla Karseell"> 
+          <div class="product-price-overlay">$1190 UYU</div>
+        </div>        
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Mascarilla Karseell</h4>
+            <p class="project_description">Tratamiento capilar intensivo que repara y nutre el cabello dañado.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(1)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
-        </div>
+      </div>
       <!--/Portfolio Item --> 
       
       <!-- Portfolio Item-->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(337px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design isotope-item">
-        <div class="portfolio_img"> <img src="img/PackshampooycremaKarseell1290.jpg" alt="Pack Shampoo y Crema Karseell"> </div>
+        <div class="portfolio_img"> 
+          <img src="img/PackshampooycremaKarseell1290.jpg" alt="Pack Shampoo y Crema Karseell">
+          <div class="product-price-overlay">$1290 UYU</div>
+        </div>
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Pack Shampoo y Crema Karseell</h4>
+            <p class="project_description">Combo completo para el cuidado capilar diario.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(2)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -227,10 +245,19 @@
       
       <!-- Portfolio Item -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(674px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design  isotope-item">
-        <div class="portfolio_img"> <img src="img/IMG-20250716-WA0039.jpg" alt="Producto de Belleza"> </div>
+        <div class="portfolio_img"> 
+          <img src="img/IMG-20250716-WA0039.jpg" alt="Producto de Belleza">
+          <div class="product-price-overlay">$890 UYU</div>
+        </div>
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Tratamiento Capilar Premium</h4>
+            <p class="project_description">Tratamiento profesional para cabello dañado y sin brillo.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(3)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -238,10 +265,19 @@
       
       <!-- Portfolio Item-->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(1011px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  android  prototype web isotope-item">
-        <div class="portfolio_img"> <img src="img/portfolio_pic4.jpg" alt="Portfolio 1"> </div>
+        <div class="portfolio_img"> 
+          <img src="img/portfolio_pic4.jpg" alt="Serum Facial">
+          <div class="product-price-overlay">$750 UYU</div>
+        </div>
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Serum Facial Hidratante</h4>
+            <p class="project_description">Serum concentrado para hidratar y rejuvenecer la piel.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(4)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -249,10 +285,19 @@
       
       <!-- Portfolio Item -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(0px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design isotope-item">
-        <div class="portfolio_img"> <img src="img/portfolio_pic5.jpg" alt="Portfolio 1"> </div>
+        <div class="portfolio_img"> 
+          <img src="img/portfolio_pic5.jpg" alt="Crema Antiarrugas">
+          <div class="product-price-overlay">$1450 UYU</div>
+        </div>
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Crema Antiarrugas</h4>
+            <p class="project_description">Crema premium con ingredientes activos anti-edad.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(5)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -260,10 +305,19 @@
       
       <!-- Portfolio Item -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(337px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  web isotope-item">
-        <div class="portfolio_img"> <img src="img/portfolio_pic6.jpg" alt="Portfolio 1"> </div>
+        <div class="portfolio_img"> 
+          <img src="img/portfolio_pic6.jpg" alt="Base de Maquillaje">
+          <div class="product-price-overlay">$980 UYU</div>
+        </div>
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Base de Maquillaje</h4>
+            <p class="project_description">Base de larga duración con cobertura natural.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(6)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -271,24 +325,42 @@
       
       <!-- Portfolio Item  -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(674px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design web isotope-item">
-        <div class="portfolio_img"> <img src="img/portfolio_pic7.jpg" alt="Portfolio 1"> </div>       
+        <div class="portfolio_img"> 
+          <img src="img/portfolio_pic7.jpg" alt="Kit de Labiales">
+          <div class="product-price-overlay">$650 UYU</div>
+        </div>       
         <div class="item_overlay">
           <div class="item_info"> 
             <h4 class="project_name">Kit de Labiales</h4>
+            <p class="project_description">Set de 3 labiales en tonos naturales y vibrantes.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(7)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
-       </div>
+      </div>
       <!--/Portfolio Item --> 
       
       <!-- Portfolio Item -->
       <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(1011px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four   android isotope-item">
-        <div class="portfolio_img"> <img src="img/portfolio_pic8.jpg" alt="Portfolio 1"> </div>       
+        <div class="portfolio_img"> 
+          <img src="img/portfolio_pic8.jpg" alt="Set de Regalo">
+          <div class="product-price-overlay">$1850 UYU</div>
+        </div>       
         <div class="item_overlay">
           <div class="item_info"> 
-				<h4 class="project_name">Set de Regalo Completo</h4>
+            <h4 class="project_name">Set de Regalo Completo</h4>
+            <p class="project_description">Set premium con productos seleccionados para regalo.</p>
+            <div class="product-actions">
+              <button class="btn-add-cart" onclick="ecommerce.addToCart(8)">
+                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
+              </button>
+            </div>
           </div>
         </div>
-        </a> </div>
+      </div>
       <!--/Portfolio Item --> 
       
     </div>

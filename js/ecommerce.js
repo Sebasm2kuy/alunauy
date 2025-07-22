@@ -32,7 +32,99 @@ class AlunaEcommerce {
 
     // Cargar productos
     loadProducts() {
-        return JSON.parse(localStorage.getItem('aluna_products') || '[]');
+        const defaultProducts = [
+            {
+                id: 1,
+                name: 'Mascarilla Karseell',
+                price: 1190,
+                description: 'Tratamiento capilar intensivo que repara y nutre el cabello dañado.',
+                category: 'cabello',
+                image: 'img/MascarillaKarseell1190.jpg',
+                stock: 15,
+                weight: 250,
+                featured: true
+            },
+            {
+                id: 2,
+                name: 'Pack Shampoo y Crema Karseell',
+                price: 1290,
+                description: 'Combo completo para el cuidado capilar diario.',
+                category: 'cabello',
+                image: 'img/PackshampooycremaKarseell1290.jpg',
+                stock: 10,
+                weight: 500,
+                featured: true
+            },
+            {
+                id: 3,
+                name: 'Tratamiento Capilar Premium',
+                price: 890,
+                description: 'Tratamiento profesional para cabello dañado y sin brillo.',
+                category: 'cabello',
+                image: 'img/IMG-20250716-WA0039.jpg',
+                stock: 8,
+                weight: 200,
+                featured: false
+            },
+            {
+                id: 4,
+                name: 'Serum Facial Hidratante',
+                price: 750,
+                description: 'Serum concentrado para hidratar y rejuvenecer la piel.',
+                category: 'rostro',
+                image: 'img/portfolio_pic4.jpg',
+                stock: 12,
+                weight: 50,
+                featured: false
+            },
+            {
+                id: 5,
+                name: 'Crema Antiarrugas',
+                price: 1450,
+                description: 'Crema premium con ingredientes activos anti-edad.',
+                category: 'rostro',
+                image: 'img/portfolio_pic5.jpg',
+                stock: 6,
+                weight: 100,
+                featured: true
+            },
+            {
+                id: 6,
+                name: 'Base de Maquillaje',
+                price: 980,
+                description: 'Base de larga duración con cobertura natural.',
+                category: 'maquillaje',
+                image: 'img/portfolio_pic6.jpg',
+                stock: 20,
+                weight: 75,
+                featured: false
+            },
+            {
+                id: 7,
+                name: 'Kit de Labiales',
+                price: 650,
+                description: 'Set de 3 labiales en tonos naturales y vibrantes.',
+                category: 'maquillaje',
+                image: 'img/portfolio_pic7.jpg',
+                stock: 15,
+                weight: 30,
+                featured: false
+            },
+            {
+                id: 8,
+                name: 'Set de Regalo Completo',
+                price: 1850,
+                description: 'Set premium con productos seleccionados para regalo.',
+                category: 'sets',
+                image: 'img/portfolio_pic8.jpg',
+                stock: 5,
+                weight: 800,
+                featured: true
+            }
+        ];
+        
+        const saved = localStorage.getItem('aluna_products');
+        return saved ? JSON.parse(saved) : defaultProducts;
     }
 
     // Cargar carrito
@@ -81,6 +173,7 @@ class AlunaEcommerce {
                 align-items: center;
                 justify-content: center;
                 font-weight: bold;
+                min-width: 20px;
             }
             .product-card {
                 border: 1px solid #ddd;
@@ -97,18 +190,6 @@ class AlunaEcommerce {
                 color: #ff6b9d;
                 font-size: 24px;
                 font-weight: bold;
-            }
-            .btn-add-cart {
-                background: #ff6b9d;
-                border: none;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 5px;
-                transition: all 0.3s ease;
-            }
-            .btn-add-cart:hover {
-                background: #c44569;
-                transform: scale(1.05);
             }
             .cart-modal {
                 position: fixed;
@@ -143,22 +224,10 @@ class AlunaEcommerce {
         document.head.appendChild(style);
     }
 
-    // Configurar botones de productos
+    // Los botones ya están en el HTML, no necesitamos configurarlos aquí
     setupProductButtons() {
-        // Agregar botones "Comprar" a productos existentes
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        portfolioItems.forEach((item, index) => {
-            const overlay = item.querySelector('.item_overlay .item_info');
-            if (overlay && this.products[index]) {
-                const product = this.products[index];
-                overlay.innerHTML += `
-                    <div class="product-price">$${product.price} ${this.config.currency}</div>
-                    <button class="btn-add-cart" onclick="ecommerce.addToCart(${product.id})">
-                        Agregar al Carrito
-                    </button>
-                `;
-            }
-        });
+        // Los productos ya tienen los botones integrados en el HTML
+        console.log('Productos configurados con botones integrados');
     }
 
     // Renderizar productos destacados
@@ -213,7 +282,10 @@ class AlunaEcommerce {
     // Agregar al carrito
     addToCart(productId) {
         const product = this.products.find(p => p.id === productId);
-        if (!product) return;
+        if (!product) {
+            this.showNotification('Producto no encontrado', 'error');
+            return;
+        }
 
         const existingItem = this.cart.find(item => item.id === productId);
         if (existingItem) {
