@@ -47,10 +47,15 @@ git push origin main
 - [x] Meta tags SEO optimizados
 - [x] Estructura compatible con GitHub Pages
 
-## 🔧 Personalización del dominio (opcional)
-Si tienes un dominio propio:
-1. Edita el archivo `CNAME` con tu dominio
-2. Configura los DNS de tu dominio para apuntar a GitHub Pages
+## 🔧 Configuración del dominio personalizado (cuando esté listo)
+Si más adelante quieres usar tu dominio `alunauy.es`:
+1. Configura los DNS de tu dominio para apuntar a GitHub Pages:
+   - Tipo A: 185.199.108.153
+   - Tipo A: 185.199.109.153  
+   - Tipo A: 185.199.110.153
+   - Tipo A: 185.199.111.153
+2. Edita el archivo `CNAME` con tu dominio: `alunauy.es`
+3. En GitHub Pages settings, agrega tu dominio personalizado
 
 ## 📞 Soporte
 Si tienes problemas, revisa la [documentación oficial de GitHub Pages](https://docs.github.com/en/pages)
