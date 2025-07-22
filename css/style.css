@@ -1741,3 +1741,34 @@ background: #F9F9F9;
 width: 99%;
 }
 }
+/* Asegurar navegación horizontal en desktop */
+@media (min-width: 769px) {
+    .navStyle ul li {
+        display: inline-block !important;
+        margin: 0 5px !important;
+    }
+    
+    .navbar-inverse .navbar-nav > li > a {
+        background: transparent !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+    }
+    
+    .navbar-collapse {
+        display: block !important;
+    }
+    
+    .navStyle {
+        float: right !important;
+        width: auto !important;
+        text-align: right !important;
+    }
+    
+    .navStyle ul {
+        display: flex !important;
+        flex-direction: row !important;
+        list-style: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+}
