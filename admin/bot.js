@@ -23,16 +23,11 @@ class AdminBot {
         const botContainer = document.createElement('div');
         botContainer.id = 'admin-bot';
         botContainer.style.cssText = 'position: fixed; bottom: 20px; right: 20px; z-index: 10000;';
-        botContainer.innerHTML = `
-            <div class="bot-toggle" onclick="adminBot.toggleBot()">
-                <i class="fas fa-robot"></i>
-                <span>Asistente</span>
-            </div>
-            
+        botContainer.innerHTML = `            
             <div class="bot-panel" id="bot-panel" style="display: none;">
                 <div class="bot-header">
                     <h3><i class="fas fa-robot"></i> Asistente ALuna</h3>
-                    <button class="bot-close" onclick="adminBot.toggleBot()">
+                    <button class="bot-close" onclick="window.adminBot.toggleBot()">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
@@ -41,48 +36,48 @@ class AdminBot {
                     <div class="bot-section">
                         <h4><i class="fas fa-box"></i> PRODUCTOS</h4>
                         <div class="bot-buttons">
-                            <button onclick="adminBot.showPriceManager()">Cambiar Precios</button>
-                            <button onclick="adminBot.showTextEditor('products')">Editar Textos</button>
-                            <button onclick="adminBot.showStockManager()">Gestionar Stock</button>
-                            <button onclick="adminBot.showFeaturedManager()">Productos Destacados</button>
+                            <button onclick="window.adminBot.showPriceManager()">Cambiar Precios</button>
+                            <button onclick="window.adminBot.showTextEditor('products')">Editar Textos</button>
+                            <button onclick="window.adminBot.showStockManager()">Gestionar Stock</button>
+                            <button onclick="window.adminBot.showFeaturedManager()">Productos Destacados</button>
                         </div>
                     </div>
 
                     <div class="bot-section">
                         <h4><i class="fas fa-palette"></i> DISEÑO</h4>
                         <div class="bot-buttons">
-                            <button onclick="adminBot.showColorManager()">Cambiar Colores</button>
-                            <button onclick="adminBot.showImageManager()">Subir Logo/Imágenes</button>
-                            <button onclick="adminBot.showTextEditor('design')">Editar Títulos</button>
-                            <button onclick="adminBot.showLayoutManager()">Modificar Layout</button>
+                            <button onclick="window.adminBot.showColorManager()">Cambiar Colores</button>
+                            <button onclick="window.adminBot.showImageManager()">Subir Logo/Imágenes</button>
+                            <button onclick="window.adminBot.showTextEditor('design')">Editar Títulos</button>
+                            <button onclick="window.adminBot.showLayoutManager()">Modificar Layout</button>
                         </div>
                     </div>
 
                     <div class="bot-section">
                         <h4><i class="fas fa-shopping-cart"></i> SHOPIFY</h4>
                         <div class="bot-buttons">
-                            <button onclick="adminBot.syncShopify()">Sincronizar</button>
-                            <button onclick="adminBot.showShippingConfig()">Config. Envíos</button>
-                            <button onclick="adminBot.showPaymentConfig()">Métodos Pago</button>
-                            <button onclick="adminBot.showOrdersView()">Ver Pedidos</button>
+                            <button onclick="window.adminBot.syncShopify()">Sincronizar</button>
+                            <button onclick="window.adminBot.showShippingConfig()">Config. Envíos</button>
+                            <button onclick="window.adminBot.showPaymentConfig()">Métodos Pago</button>
+                            <button onclick="window.adminBot.showOrdersView()">Ver Pedidos</button>
                         </div>
                     </div>
 
                     <div class="bot-section">
                         <h4><i class="fas fa-chart-bar"></i> ESTADÍSTICAS</h4>
                         <div class="bot-buttons">
-                            <button onclick="adminBot.showStats()">Productos + Vendidos</button>
-                            <button onclick="adminBot.showInventory()">Inventario</button>
-                            <button onclick="adminBot.showAnalytics()">Analytics</button>
+                            <button onclick="window.adminBot.showStats()">Productos + Vendidos</button>
+                            <button onclick="window.adminBot.showInventory()">Inventario</button>
+                            <button onclick="window.adminBot.showAnalytics()">Analytics</button>
                         </div>
                     </div>
 
                     <div class="bot-section">
                         <h4><i class="fas fa-cog"></i> CONFIGURACIÓN</h4>
                         <div class="bot-buttons">
-                            <button onclick="adminBot.showGitHubConfig()">Config. GitHub</button>
-                            <button onclick="adminBot.showBackup()">Backup/Restore</button>
-                            <button onclick="adminBot.showChangeLog()">Historial Cambios</button>
+                            <button onclick="window.adminBot.showGitHubConfig()">Config. GitHub</button>
+                            <button onclick="window.adminBot.showBackup()">Backup/Restore</button>
+                            <button onclick="window.adminBot.showChangeLog()">Historial Cambios</button>
                         </div>
                     </div>
                 </div>
@@ -91,11 +86,6 @@ class AdminBot {
 
         document.body.appendChild(botContainer);
         this.addBotStyles();
-        
-        // Mostrar notificación de que el bot está disponible
-        setTimeout(() => {
-            this.showNotification('🤖 Asistente ALuna disponible - Haz clic en el botón para empezar', 'info');
-        }, 2000);
     }
 
     // Agregar estilos del bot
@@ -122,25 +112,11 @@ class AdminBot {
                 align-items: center;
                 gap: 8px;
                 font-weight: 600;
-                animation: pulse 2s infinite;
             }
 
             .bot-toggle:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-                animation: none;
-            }
-
-            @keyframes pulse {
-                0% {
-                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-                }
-                50% {
-                    box-shadow: 0 4px 25px rgba(102, 126, 234, 0.8);
-                }
-                100% {
-                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-                }
             }
 
             .bot-panel {
@@ -1021,31 +997,23 @@ class AdminBot {
 // Inicializar bot
 let adminBot;
 
-// Función para inicializar el bot
-function initializeAdminBot() {
-    if (typeof AdminBot !== 'undefined' && !window.adminBot) {
-        try {
-            window.adminBot = new AdminBot();
-            console.log('🤖 Bot administrativo ALuna inicializado correctamente');
-            return true;
-        } catch (error) {
-            console.error('❌ Error al inicializar el bot:', error);
-            return false;
-        }
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        adminBot = new AdminBot();
+        window.adminBot = adminBot;
+        console.log('🤖 Bot administrativo ALuna inicializado correctamente');
+    } catch (error) {
+        console.error('❌ Error al inicializar el bot:', error);
+        // Reintentar después de un segundo
+        setTimeout(function() {
+            try {
+                adminBot = new AdminBot();
+                window.adminBot = adminBot;
+                console.log('🤖 Bot administrativo ALuna inicializado en segundo intento');
+            } catch (retryError) {
+                console.error('❌ Error en segundo intento:', retryError);
+            }
+        }, 1000);
     }
-    return false;
-}
-
-// Intentar inicializar cuando el DOM esté listo
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeAdminBot);
-} else {
-    initializeAdminBot();
-}
-
-// También intentar cuando la ventana esté completamente cargada
-window.addEventListener('load', initializeAdminBot);
-
-// Hacer disponible globalmente
-window.AdminBot = AdminBot;
-window.initializeAdminBot = initializeAdminBot;
+});
