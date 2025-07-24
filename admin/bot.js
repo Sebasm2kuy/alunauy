@@ -442,7 +442,7 @@ class AdminBot {
             
             <div class="bot-actions">
                 <button class="bot-btn bot-btn-secondary" onclick="adminBot.closeModal()">Cancelar</button>
-                <button class="bot-btn bot-btn-primary" onclick="adminBot.applyCustomPriceChange()">Aplicar</button>
+                <button class="bot-btn bot-btn-primary" onclick="window.adminBot.applyCustomPriceChange()">Aplicar</button>
             </div>
         `);
     }
@@ -505,32 +505,32 @@ class AdminBot {
             <div class="bot-form-group">
                 <label>Color Principal</label>
                 <div class="color-picker">
-                    <div class="color-option" style="background: #ff6b9d" onclick="adminBot.changeColor('primary', '#ff6b9d')"></div>
-                    <div class="color-option" style="background: #667eea" onclick="adminBot.changeColor('primary', '#667eea')"></div>
-                    <div class="color-option" style="background: #f093fb" onclick="adminBot.changeColor('primary', '#f093fb')"></div>
-                    <div class="color-option" style="background: #4facfe" onclick="adminBot.changeColor('primary', '#4facfe')"></div>
-                    <div class="color-option" style="background: #43e97b" onclick="adminBot.changeColor('primary', '#43e97b')"></div>
-                    <div class="color-option" style="background: #fa709a" onclick="adminBot.changeColor('primary', '#fa709a')"></div>
+                    <div class="color-option" style="background: #ff6b9d" onclick="window.adminBot.changeColor('primary', '#ff6b9d')"></div>
+                    <div class="color-option" style="background: #667eea" onclick="window.adminBot.changeColor('primary', '#667eea')"></div>
+                    <div class="color-option" style="background: #f093fb" onclick="window.adminBot.changeColor('primary', '#f093fb')"></div>
+                    <div class="color-option" style="background: #4facfe" onclick="window.adminBot.changeColor('primary', '#4facfe')"></div>
+                    <div class="color-option" style="background: #43e97b" onclick="window.adminBot.changeColor('primary', '#43e97b')"></div>
+                    <div class="color-option" style="background: #fa709a" onclick="window.adminBot.changeColor('primary', '#fa709a')"></div>
                 </div>
-                <input type="color" id="customPrimaryColor" onchange="adminBot.changeColor('primary', this.value)">
+                <input type="color" id="customPrimaryColor" onchange="window.adminBot.changeColor('primary', this.value)">
             </div>
             
             <div class="bot-form-group">
                 <label>Color Secundario</label>
                 <div class="color-picker">
-                    <div class="color-option" style="background: #c44569" onclick="adminBot.changeColor('secondary', '#c44569')"></div>
-                    <div class="color-option" style="background: #764ba2" onclick="adminBot.changeColor('secondary', '#764ba2')"></div>
-                    <div class="color-option" style="background: #f8cdda" onclick="adminBot.changeColor('secondary', '#f8cdda')"></div>
-                    <div class="color-option" style="background: #a8edea" onclick="adminBot.changeColor('secondary', '#a8edea')"></div>
-                    <div class="color-option" style="background: #38ef7d" onclick="adminBot.changeColor('secondary', '#38ef7d')"></div>
-                    <div class="color-option" style="background: #fecfef" onclick="adminBot.changeColor('secondary', '#fecfef')"></div>
+                    <div class="color-option" style="background: #c44569" onclick="window.adminBot.changeColor('secondary', '#c44569')"></div>
+                    <div class="color-option" style="background: #764ba2" onclick="window.adminBot.changeColor('secondary', '#764ba2')"></div>
+                    <div class="color-option" style="background: #f8cdda" onclick="window.adminBot.changeColor('secondary', '#f8cdda')"></div>
+                    <div class="color-option" style="background: #a8edea" onclick="window.adminBot.changeColor('secondary', '#a8edea')"></div>
+                    <div class="color-option" style="background: #38ef7d" onclick="window.adminBot.changeColor('secondary', '#38ef7d')"></div>
+                    <div class="color-option" style="background: #fecfef" onclick="window.adminBot.changeColor('secondary', '#fecfef')"></div>
                 </div>
-                <input type="color" id="customSecondaryColor" onchange="adminBot.changeColor('secondary', this.value)">
+                <input type="color" id="customSecondaryColor" onchange="window.adminBot.changeColor('secondary', this.value)">
             </div>
             
             <div class="bot-actions">
-                <button class="bot-btn bot-btn-secondary" onclick="adminBot.closeModal()">Cancelar</button>
-                <button class="bot-btn bot-btn-primary" onclick="adminBot.applyColorChanges()">Aplicar Cambios</button>
+                <button class="bot-btn bot-btn-secondary" onclick="window.adminBot.closeModal()">Cancelar</button>
+                <button class="bot-btn bot-btn-primary" onclick="window.adminBot.applyColorChanges()">Aplicar Cambios</button>
             </div>
         `);
     }
@@ -591,7 +591,7 @@ class AdminBot {
             content = `
                 <div class="bot-form-group">
                     <label>Seleccionar Producto</label>
-                    <select id="productSelect" onchange="adminBot.loadProductText()">
+                    <select id="productSelect" onchange="window.adminBot.loadProductText()">
                         <option value="">Seleccionar producto...</option>
                         ${productManager.products.map(p => `<option value="${p.id}">${p.name}</option>`).join('')}
                     </select>
@@ -618,8 +618,8 @@ class AdminBot {
         
         const modal = this.createModal(`Editor de Textos - ${section === 'design' ? 'Diseño' : 'Productos'}`, content + `
             <div class="bot-actions">
-                <button class="bot-btn bot-btn-secondary" onclick="adminBot.closeModal()">Cancelar</button>
-                <button class="bot-btn bot-btn-primary" onclick="adminBot.saveTextChanges('${section}')">Guardar Cambios</button>
+                <button class="bot-btn bot-btn-secondary" onclick="window.adminBot.closeModal()">Cancelar</button>
+                <button class="bot-btn bot-btn-primary" onclick="window.adminBot.saveTextChanges('${section}')">Guardar Cambios</button>
             </div>
         `);
     }
@@ -737,8 +737,8 @@ class AdminBot {
             </div>
             
             <div class="bot-actions">
-                <button class="bot-btn bot-btn-secondary" onclick="adminBot.closeModal()">Cancelar</button>
-                <button class="bot-btn bot-btn-primary" onclick="adminBot.saveGitHubConfig()">Guardar</button>
+                <button class="bot-btn bot-btn-secondary" onclick="window.adminBot.closeModal()">Cancelar</button>
+                <button class="bot-btn bot-btn-primary" onclick="window.adminBot.saveGitHubConfig()">Guardar</button>
             </div>
         `);
     }
@@ -988,7 +988,7 @@ class AdminBot {
             
         this.createModal('Historial de Cambios', content + `
             <div class="bot-actions">
-                <button class="bot-btn bot-btn-secondary" onclick="adminBot.closeModal()">Cerrar</button>
+                <button class="bot-btn bot-btn-secondary" onclick="window.adminBot.closeModal()">Cerrar</button>
             </div>
         `);
     }
