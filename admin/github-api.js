@@ -311,11 +311,22 @@ if (typeof AdminBot !== 'undefined') {
             this.hideProgress();
             this.showNotification('✅ Repositorio actualizado correctamente', 'success');
             
+            // Mostrar URL correcta del sitio
+            setTimeout(() => {
+                this.showSiteUrl();
+            }, 2000);
+            
         } catch (error) {
             this.hideProgress();
             this.showNotification(`❌ Error: ${error.message}`, 'error');
             console.error('Error updating repository:', error);
         }
+    };
+
+    // Generar mensaje de commit
+    AdminBot.prototype.generateCommitMessage = function() {
+        const timestamp = new Date().toLocaleDateString('es-ES');
+        return `Actualización automática del sitio ALuna - ${timestamp}`;
     };
 
     // Preparar archivos para actualización
@@ -411,5 +422,73 @@ if (typeof AdminBot !== 'undefined') {
     AdminBot.prototype.generateUpdatedAdmin = async function() {
         const products = productManager.products;
         return `// Admin actualizado automáticamente\nconst adminProducts = ${JSON.stringify(products, null, 2)};`;
+    };
+
+    // Mostrar URL correcta del sitio
+    AdminBot.prototype.showSiteUrl = function() {
+        const correctUrl = `https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}`;
+        
+        const notification = document.createElement('div');
+        notification.className = 'admin-notification';
+        notification.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10001;
+            max-width: 500px;
+            text-align: center;
+        `;
+        
+        notification.innerHTML = `
+            <div style="margin-bottom: 20px;">
+                <div style="font-size: 48px; color: #28a745; margin-bottom: 15px;">🌐</div>
+                <h3 style="color: #28a745; margin-bottom: 10px;">¡Sitio Web Actualizado!</h3>
+                <p style="color: #666; margin-bottom: 20px;">Tu sitio web está disponible en:</p>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <a href="${correctUrl}" target="_blank" style="
+                    color: #007bff; 
+                    text-decoration: none; 
+                    font-weight: bold;
+                    word-break: break-all;
+                ">${correctUrl}</a>
+            </div>
+            
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="window.open('${correctUrl}', '_blank')" style="
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    font-weight: bold;
+                ">🚀 Ver Sitio</button>
+                
+                <button onclick="this.parentElement.parentElement.remove()" style="
+                    background: #6c757d;
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                ">Cerrar</button>
+            </div>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Auto-cerrar después de 10 segundos
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 10000);
     };
 }
