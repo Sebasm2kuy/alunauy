@@ -34,7 +34,7 @@ $(document).ready(function() {
         changeHash: false,
         scrollSpeed: 950,
         scrollThreshold: 0.2,
-        filter: '',
+        filter: '.scroll-link',
         easing: 'swing',
         begin: function() {
         },
@@ -52,17 +52,6 @@ $(document).ready(function() {
             } else {
                 $('.header').removeClass('addBg');
             }
-        }
-    });
-
-    // Smooth scrolling for product links
-    $('a[href^="#products"]').on('click', function(e) {
-        e.preventDefault();
-        var target = $(this.getAttribute('href'));
-        if (target.length) {
-            $('html, body').stop().animate({
-                scrollTop: target.offset().top - 70
-            }, 1000);
         }
     });
 
