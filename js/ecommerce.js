@@ -18,6 +18,35 @@ class AlunaEcommerce {
         this.setupCartIcon();
         this.setupProductButtons();
         this.renderFeaturedProducts();
+        this.setupMessageListener();
+    }
+    // Actualizar catálogo de productos en la página
+    updateProductCatalog() {
+        // Actualizar precios en el portafolio
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        portfolioItems.forEach((item, index) => {
+            const priceOverlay = item.querySelector('.product-price-overlay');
+            if (priceOverlay && this.products[index]) {
+                priceOverlay.textContent = `$${this.products[index].price} ${this.config.currency}`;
+            }
+        });
+        
+        // Actualizar productos destacados
+        this.renderFeaturedProducts();
+    }
+
+
+    // Configurar listener para mensajes del admin
+    setupMessageListener() {
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'PRODUCTS_UPDATED') {
+                console.log('📥 Productos actualizados desde admin');
+                this.products = event.data.products;
+                this.renderFeaturedProducts();
+                this.updateProductCatalog();
+                this.showNotification('Productos actualizados automáticamente', 'success');
+            }
+        });
     }
 
     // Cargar datos del sitio web
@@ -123,8 +152,33 @@ class AlunaEcommerce {
             }
         ];
         
+        // Intentar cargar desde website_data primero, luego desde products
+        const websiteData = localStorage.getItem('aluna_website_data');
+        if (websiteData) {
+            try {
+                const data = JSON.parse(websiteData);
+                if (data.products && data.products.length > 0) {
+                    console.log('✅ Productos cargados desde website_data');
+                    return data.products;
+                }
+            } catch (e) {
+                console.error('Error parsing website_data:', e);
+            }
+        }
+        
         const saved = localStorage.getItem('aluna_products');
-        return saved ? JSON.parse(saved) : defaultProducts;
+        if (saved) {
+            try {
+                const products = JSON.parse(saved);
+                console.log('✅ Productos cargados desde aluna_products');
+                return products;
+            } catch (e) {
+                console.error('Error parsing aluna_products:', e);
+            }
+        }
+        
+        console.log('ℹ️ Usando productos por defecto');
+        return defaultProducts;
     }
 
     // Cargar carrito

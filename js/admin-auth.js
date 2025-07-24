@@ -15,6 +15,9 @@ class AdminAuth {
         
         // Agregar event listeners
         this.setupEventListeners();
+        
+        // Configurar el botón de login inicial
+        this.updateLoginButton(this.isLoggedIn());
     }
 
     setupEventListeners() {
@@ -32,6 +35,29 @@ class AdminAuth {
                 this.closeModal();
             }
         });
+
+        // Cerrar sesión al salir de la página
+        window.addEventListener('beforeunload', () => {
+            if (this.isLoggedIn()) {
+                this.logout();
+            }
+        });
+    }
+
+    isLoggedIn() {
+        const session = localStorage.getItem(this.sessionKey);
+        if (session) {
+            try {
+                const sessionData = JSON.parse(session);
+                const now = new Date();
+                const expires = new Date(sessionData.expires);
+                return now < expires;
+            } catch (e) {
+                localStorage.removeItem(this.sessionKey);
+                return false;
+            }
+        }
+        return false;
     }
 
     showModal() {
@@ -63,7 +89,6 @@ class AdminAuth {
         
         const username = document.getElementById('adminUser').value.trim();
         const password = document.getElementById('adminPass').value;
-        const errorDiv = document.getElementById('adminLoginError');
 
         // Validar credenciales
         if (username === this.credentials.username && password === this.credentials.password) {
@@ -89,6 +114,7 @@ class AdminAuth {
         };
         
         localStorage.setItem(this.sessionKey, JSON.stringify(sessionData));
+        this.updateLoginButton(true);
     }
 
     checkExistingSession() {
@@ -105,27 +131,62 @@ class AdminAuth {
                 } else {
                     // Sesión expirada
                     localStorage.removeItem(this.sessionKey);
+                    this.updateLoginButton(false);
                 }
             } catch (e) {
                 localStorage.removeItem(this.sessionKey);
+                this.updateLoginButton(false);
             }
         }
     }
 
     updateLoginButton(isLoggedIn) {
         const loginBtn = document.querySelector('.admin-login-btn');
-        if (isLoggedIn) {
-            loginBtn.innerHTML = '<i class="fa fa-cog"></i> Panel';
-            loginBtn.onclick = () => this.redirectToAdmin();
-        } else {
-            loginBtn.innerHTML = '<i class="fa fa-user-circle"></i> Admin';
-            loginBtn.onclick = () => this.showModal();
+        if (loginBtn) {
+            if (isLoggedIn) {
+                loginBtn.innerHTML = '<i class="fa fa-cog"></i> Panel Admin';
+                loginBtn.onclick = () => this.redirectToAdmin();
+                
+                // Agregar botón de cerrar sesión
+                this.addLogoutButton();
+            } else {
+                loginBtn.innerHTML = '<i class="fa fa-user-circle"></i> Iniciar Sesión';
+                loginBtn.onclick = () => this.showModal();
+                
+                // Remover botón de cerrar sesión si existe
+                this.removeLogoutButton();
+            }
+        }
+    }
+
+    addLogoutButton() {
+        // Verificar si ya existe
+        if (document.querySelector('.admin-logout-btn')) return;
+        
+        const nav = document.querySelector('.navStyle ul');
+        if (nav) {
+            const logoutItem = document.createElement('li');
+            logoutItem.innerHTML = `
+                <a href="#" onclick="adminAuth.logout()" class="admin-logout-btn" style="color: #ff6b9d;">
+                    <i class="fa fa-sign-out"></i> Cerrar Sesión
+                </a>
+            `;
+            nav.appendChild(logoutItem);
+        }
+    }
+
+    removeLogoutButton() {
+        const logoutBtn = document.querySelector('.admin-logout-btn');
+        if (logoutBtn) {
+            logoutBtn.parentElement.remove();
         }
     }
 
     showError() {
         const errorDiv = document.getElementById('adminLoginError');
         errorDiv.style.display = 'block';
+        errorDiv.className = 'admin-error';
+        errorDiv.innerHTML = '<i class="fa fa-exclamation-triangle"></i> Usuario o contraseña incorrectos';
         
         // Auto-ocultar después de 5 segundos
         setTimeout(() => {
@@ -248,6 +309,11 @@ class AdminAuth {
         localStorage.removeItem(this.sessionKey);
         this.updateLoginButton(false);
         this.showNotification('Sesión cerrada correctamente', 'info');
+        
+        // Recargar la página para limpiar el estado
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000);
     }
 
     showNotification(message, type = 'info') {
@@ -300,7 +366,11 @@ class AdminAuth {
 
 // Funciones globales para el HTML
 function showAdminLogin() {
-    adminAuth.showModal();
+    if (adminAuth.isLoggedIn()) {
+        adminAuth.redirectToAdmin();
+    } else {
+        adminAuth.showModal();
+    }
 }
 
 function closeAdminLogin() {

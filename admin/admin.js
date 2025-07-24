@@ -235,22 +235,58 @@ class ProductManager {
 
     // Actualizar sitio web principal
     updateWebsite() {
-        // Generar JSON para el sitio principal
-        const websiteData = {
-            products: this.products,
-            lastUpdate: new Date().toISOString(),
-            config: {
-                currency: 'UYU',
-                location: 'Maldonado, Uruguay',
-                freeShippingMin: 1500,
-                paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos']
+        try {
+            // Generar JSON para el sitio principal
+            const websiteData = {
+                products: this.products,
+                lastUpdate: new Date().toISOString(),
+                config: {
+                    currency: 'UYU',
+                    location: 'Maldonado, Uruguay',
+                    freeShippingMin: 1500,
+                    paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos']
+                }
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('aluna_website_data', JSON.stringify(websiteData));
+            
+            // También guardar los productos por separado para compatibilidad
+            localStorage.setItem('aluna_products', JSON.stringify(this.products));
+            
+            // Verificar que se guardó correctamente
+            const saved = localStorage.getItem('aluna_website_data');
+            if (saved) {
+                console.log('✅ Datos guardados correctamente:', JSON.parse(saved));
+                this.showNotification('✅ Productos actualizados y guardados correctamente', 'success');
+                
+                // Actualizar la ventana principal si está abierta
+                this.updateMainWindow();
+            } else {
+                throw new Error('No se pudieron guardar los datos');
             }
-        };
-        
-        localStorage.setItem('aluna_website_data', JSON.stringify(websiteData));
-        
-        // Mostrar mensaje de éxito
-        this.showNotification('Productos actualizados correctamente', 'success');
+            
+        } catch (error) {
+            console.error('❌ Error guardando datos:', error);
+            this.showNotification('❌ Error al guardar los cambios: ' + error.message, 'danger');
+        }
+    }
+
+    // Actualizar ventana principal
+    updateMainWindow() {
+        try {
+            // Intentar comunicarse con la ventana principal
+            if (window.opener && !window.opener.closed) {
+                // Enviar mensaje a la ventana principal para que recargue los productos
+                window.opener.postMessage({
+                    type: 'PRODUCTS_UPDATED',
+                    products: this.products
+                }, '*');
+                console.log('📤 Mensaje enviado a ventana principal');
+            }
+        } catch (error) {
+            console.log('ℹ️ No se pudo comunicar con la ventana principal:', error.message);
+        }
     }
 
     // Exportar productos
