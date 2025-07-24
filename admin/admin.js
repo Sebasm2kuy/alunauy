@@ -6,12 +6,15 @@ class ProductManager {
             domain: 'tu-tienda.myshopify.com', // Cambiar por tu dominio de Shopify
             storefrontToken: 'tu-storefront-token' // Token de Shopify Storefront API
         };
+        this.githubConfig = null;
+        this.githubAPI = null;
         this.init();
     }
 
     init() {
         this.renderProducts();
         this.setupImagePreview();
+        this.setupGitHub();
     }
 
     // Cargar productos desde localStorage
