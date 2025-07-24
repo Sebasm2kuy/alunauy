@@ -69,12 +69,30 @@
                 </button>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-success btn-lg w-100" onclick="exportProducts()">
-                    <i class="fas fa-download"></i> Exportar Productos
+                <button class="btn btn-info btn-lg w-100" onclick="productManager.viewOrders()">
+                    <i class="fas fa-shopping-bag"></i> Ver Pedidos
                 </button>
             </div>
         </div>
 
+        <!-- Botones adicionales -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <button class="btn btn-success w-100" onclick="exportProducts()">
+                    <i class="fas fa-download"></i> Exportar Productos
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-warning w-100" onclick="productManager.syncWithShopify()">
+                    <i class="fas fa-sync"></i> Sincronizar Shopify
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary w-100" onclick="window.open('../', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> Ver Sitio Web
+                </button>
+            </div>
+        </div>
         <!-- Lista de Productos -->
         <div class="row">
             <div class="col-12">

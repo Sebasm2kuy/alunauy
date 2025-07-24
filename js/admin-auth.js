@@ -115,10 +115,10 @@ class AdminAuth {
     updateLoginButton(isLoggedIn) {
         const loginBtn = document.querySelector('.admin-login-btn');
         if (isLoggedIn) {
-            loginBtn.innerHTML = '<i class="fa fa-cog"></i> Panel Admin';
+            loginBtn.innerHTML = '<i class="fa fa-cog"></i> Panel';
             loginBtn.onclick = () => this.redirectToAdmin();
         } else {
-            loginBtn.innerHTML = '<i class="fa fa-user-circle"></i> Iniciar Sesión';
+            loginBtn.innerHTML = '<i class="fa fa-user-circle"></i> Admin';
             loginBtn.onclick = () => this.showModal();
         }
     }

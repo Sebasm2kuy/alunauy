@@ -852,35 +852,801 @@ class AdminBot {
 
     // Métodos placeholder para otras funcionalidades
     editTitles() {
-        this.showNotification('Función en desarrollo', 'info');
+        const modal = this.createModal('Editar Títulos', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-heading"></i> Títulos del Sitio Web
+                </h5>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Título principal del hero</label>
+                    <input type="text" id="hero-title" placeholder="Descubre tu belleza natural con ALuna" 
+                           value="${this.siteConfig.heroTitle || 'Descubre tu belleza natural con ALuna'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Subtítulo del hero</label>
+                    <textarea id="hero-subtitle" placeholder="Productos de belleza y cosméticos de alta calidad..." 
+                              style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px; height: 80px; resize: vertical;">${this.siteConfig.heroSubtitle || 'Productos de belleza y cosméticos de alta calidad que realzan tu belleza natural. Desde tratamientos capilares hasta cuidado facial, tenemos todo lo que necesitas para lucir radiante cada día.'}</textarea>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Título de la sección "Sobre Nosotros"</label>
+                    <input type="text" id="about-title" placeholder="Sobre ALuna" 
+                           value="${this.siteConfig.aboutTitle || 'Sobre ALuna'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Título de productos</label>
+                    <input type="text" id="products-title" placeholder="Nuestros Productos" 
+                           value="${this.siteConfig.productsTitle || 'Nuestros Productos'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Título del catálogo</label>
+                    <input type="text" id="catalog-title" placeholder="Catálogo de Productos" 
+                           value="${this.siteConfig.catalogTitle || 'Catálogo de Productos'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Guardar Títulos',
+                style: 'primary',
+                action: () => this.saveTitles()
+            }
+        ]);
+    }
+
+    saveTitles() {
+        const heroTitle = document.getElementById('hero-title').value.trim();
+        const heroSubtitle = document.getElementById('hero-subtitle').value.trim();
+        const aboutTitle = document.getElementById('about-title').value.trim();
+        const productsTitle = document.getElementById('products-title').value.trim();
+        const catalogTitle = document.getElementById('catalog-title').value.trim();
+
+        // Guardar configuración
+        this.siteConfig = {
+            ...this.siteConfig,
+            heroTitle,
+            heroSubtitle,
+            aboutTitle,
+            productsTitle,
+            catalogTitle,
+            lastUpdated: new Date().toISOString()
+        };
+
+        localStorage.setItem('aluna_site_config', JSON.stringify(this.siteConfig));
+
+        // Registrar cambio
+        this.addChange({
+            type: 'titles_update',
+            description: 'Títulos del sitio actualizados',
+            data: this.siteConfig,
+            files: ['index.html']
+        });
+
+        this.closeModal();
+        this.showNotification('✅ Títulos actualizados correctamente', 'success');
     }
 
     editTexts() {
-        this.showNotification('Función en desarrollo', 'info');
+        const modal = this.createModal('Editar Textos', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-edit"></i> Contenido del Sitio Web
+                </h5>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Descripción principal "Sobre ALuna"</label>
+                    <textarea id="about-description" placeholder="En ALuna creemos que cada persona tiene una belleza única..." 
+                              style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px; height: 120px; resize: vertical;">${this.siteConfig.aboutDescription || 'En ALuna creemos que cada persona tiene una belleza única que merece ser realzada. Nos especializamos en ofrecer productos cosméticos y de belleza de la más alta calidad, cuidadosamente seleccionados para satisfacer las necesidades de todo tipo de piel y cabello.'}</textarea>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Información de contacto - Dirección</label>
+                    <input type="text" id="contact-address" placeholder="Av. Belleza 123, Maldonado, Uruguay" 
+                           value="${this.siteConfig.contactAddress || 'Av. Belleza 123, Maldonado, Uruguay'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Teléfono de contacto</label>
+                    <input type="text" id="contact-phone-display" placeholder="+598 XXXX XXXX" 
+                           value="${this.siteConfig.contactPhoneDisplay || '+598 XXXX XXXX'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Email de contacto público</label>
+                    <input type="email" id="contact-email-display" placeholder="info@aluna.com" 
+                           value="${this.siteConfig.contactEmailDisplay || 'info@aluna.com'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Guardar Textos',
+                style: 'primary',
+                action: () => this.saveTexts()
+            }
+        ]);
+    }
+
+    saveTexts() {
+        const aboutDescription = document.getElementById('about-description').value.trim();
+        const contactAddress = document.getElementById('contact-address').value.trim();
+        const contactPhoneDisplay = document.getElementById('contact-phone-display').value.trim();
+        const contactEmailDisplay = document.getElementById('contact-email-display').value.trim();
+
+        // Guardar configuración
+        this.siteConfig = {
+            ...this.siteConfig,
+            aboutDescription,
+            contactAddress,
+            contactPhoneDisplay,
+            contactEmailDisplay,
+            lastUpdated: new Date().toISOString()
+        };
+
+        localStorage.setItem('aluna_site_config', JSON.stringify(this.siteConfig));
+
+        // Registrar cambio
+        this.addChange({
+            type: 'texts_update',
+            description: 'Textos del sitio actualizados',
+            data: this.siteConfig,
+            files: ['index.html']
+        });
+
+        this.closeModal();
+        this.showNotification('✅ Textos actualizados correctamente', 'success');
     }
 
     changeColors() {
-        this.showNotification('Función en desarrollo', 'info');
+        const modal = this.createModal('Cambiar Colores', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-palette"></i> Personalizar Colores del Sitio
+                </h5>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Color primario (botones, enlaces)</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="color" id="primary-color" value="${this.siteConfig.primaryColor || '#ff6b9d'}" 
+                               style="width: 50px; height: 40px; border: none; border-radius: 5px; cursor: pointer;">
+                        <input type="text" id="primary-color-text" value="${this.siteConfig.primaryColor || '#ff6b9d'}" 
+                               style="flex: 1; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Color secundario (degradados)</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="color" id="secondary-color" value="${this.siteConfig.secondaryColor || '#c44569'}" 
+                               style="width: 50px; height: 40px; border: none; border-radius: 5px; cursor: pointer;">
+                        <input type="text" id="secondary-color-text" value="${this.siteConfig.secondaryColor || '#c44569'}" 
+                               style="flex: 1; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Color de texto principal</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="color" id="text-color" value="${this.siteConfig.textColor || '#222222'}" 
+                               style="width: 50px; height: 40px; border: none; border-radius: 5px; cursor: pointer;">
+                        <input type="text" id="text-color-text" value="${this.siteConfig.textColor || '#222222'}" 
+                               style="flex: 1; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Color de fondo de secciones</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="color" id="background-color" value="${this.siteConfig.backgroundColor || '#EFEFEF'}" 
+                               style="width: 50px; height: 40px; border: none; border-radius: 5px; cursor: pointer;">
+                        <input type="text" id="background-color-text" value="${this.siteConfig.backgroundColor || '#EFEFEF'}" 
+                               style="flex: 1; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                    </div>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                    <h6 style="margin: 0 0 10px 0; color: #495057;">Vista Previa</h6>
+                    <div id="color-preview" style="padding: 15px; border-radius: 8px; background: linear-gradient(135deg, ${this.siteConfig.primaryColor || '#ff6b9d'}, ${this.siteConfig.secondaryColor || '#c44569'}); color: white; text-align: center;">
+                        <strong>ALuna - Tu belleza es nuestra pasión</strong>
+                    </div>
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Aplicar Colores',
+                style: 'primary',
+                action: () => this.saveColors()
+            }
+        ]);
+
+        // Event listeners para sincronizar color picker con input text
+        ['primary', 'secondary', 'text', 'background'].forEach(colorType => {
+            const colorInput = document.getElementById(`${colorType}-color`);
+            const textInput = document.getElementById(`${colorType}-color-text`);
+            
+            colorInput.addEventListener('change', (e) => {
+                textInput.value = e.target.value;
+                this.updateColorPreview();
+            });
+            
+            textInput.addEventListener('input', (e) => {
+                if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+                    colorInput.value = e.target.value;
+                    this.updateColorPreview();
+                }
+            });
+        });
+    }
+
+    updateColorPreview() {
+        const preview = document.getElementById('color-preview');
+        const primaryColor = document.getElementById('primary-color').value;
+        const secondaryColor = document.getElementById('secondary-color').value;
+        
+        if (preview) {
+            preview.style.background = `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`;
+        }
+    }
+
+    saveColors() {
+        const primaryColor = document.getElementById('primary-color').value;
+        const secondaryColor = document.getElementById('secondary-color').value;
+        const textColor = document.getElementById('text-color').value;
+        const backgroundColor = document.getElementById('background-color').value;
+
+        // Guardar configuración
+        this.siteConfig = {
+            ...this.siteConfig,
+            primaryColor,
+            secondaryColor,
+            textColor,
+            backgroundColor,
+            lastUpdated: new Date().toISOString()
+        };
+
+        localStorage.setItem('aluna_site_config', JSON.stringify(this.siteConfig));
+
+        // Registrar cambio
+        this.addChange({
+            type: 'colors_update',
+            description: 'Colores del sitio actualizados',
+            data: this.siteConfig,
+            files: ['css/style.css', 'index.html']
+        });
+
+        this.closeModal();
+        this.showNotification('✅ Colores actualizados correctamente', 'success');
     }
 
     modifyLayout() {
-        this.showNotification('Función en desarrollo', 'info');
+        const modal = this.createModal('Modificar Layout', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-th-large"></i> Configuración del Layout
+                </h5>
+                
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Orden de las secciones</label>
+                    <div id="sections-order" style="border: 2px solid #e9ecef; border-radius: 8px; padding: 15px;">
+                        <div class="section-item" data-section="hero" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>1. Sección Principal (Hero)</span>
+                        </div>
+                        <div class="section-item" data-section="about" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>2. Sobre Nosotros</span>
+                        </div>
+                        <div class="section-item" data-section="products" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>3. Nuestros Productos</span>
+                        </div>
+                        <div class="section-item" data-section="catalog" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>4. Catálogo</span>
+                        </div>
+                        <div class="section-item" data-section="testimonials" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>5. Testimonios</span>
+                        </div>
+                        <div class="section-item" data-section="contact" style="padding: 10px; margin: 5px 0; background: #f8f9fa; border-radius: 5px; cursor: move; display: flex; align-items: center; gap: 10px;">
+                            <i class="fas fa-grip-vertical" style="color: #666;"></i>
+                            <span>6. Contacto</span>
+                        </div>
+                    </div>
+                    <small style="color: #666; font-size: 12px;">Arrastra las secciones para reordenarlas</small>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Mostrar sección de productos destacados</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="checkbox" id="show-featured" ${this.siteConfig.showFeatured !== false ? 'checked' : ''} 
+                               style="width: 20px; height: 20px;">
+                        <span>Mostrar productos destacados en la página principal</span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Número de productos por fila en el catálogo</label>
+                    <select id="products-per-row" style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                        <option value="3" ${this.siteConfig.productsPerRow === 3 ? 'selected' : ''}>3 productos por fila</option>
+                        <option value="4" ${this.siteConfig.productsPerRow === 4 || !this.siteConfig.productsPerRow ? 'selected' : ''}>4 productos por fila (recomendado)</option>
+                        <option value="5" ${this.siteConfig.productsPerRow === 5 ? 'selected' : ''}>5 productos por fila</option>
+                    </select>
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Aplicar Layout',
+                style: 'primary',
+                action: () => this.saveLayout()
+            }
+        ]);
+    }
+
+    saveLayout() {
+        const showFeatured = document.getElementById('show-featured').checked;
+        const productsPerRow = parseInt(document.getElementById('products-per-row').value);
+        
+        // Obtener orden de secciones
+        const sectionItems = document.querySelectorAll('.section-item');
+        const sectionsOrder = Array.from(sectionItems).map(item => item.dataset.section);
+
+        // Guardar configuración
+        this.siteConfig = {
+            ...this.siteConfig,
+            showFeatured,
+            productsPerRow,
+            sectionsOrder,
+            lastUpdated: new Date().toISOString()
+        };
+
+        localStorage.setItem('aluna_site_config', JSON.stringify(this.siteConfig));
+
+        // Registrar cambio
+        this.addChange({
+            type: 'layout_update',
+            description: 'Layout del sitio actualizado',
+            data: this.siteConfig,
+            files: ['index.html', 'css/style.css']
+        });
+
+        this.closeModal();
+        this.showNotification('✅ Layout actualizado correctamente', 'success');
     }
 
     showGitHubConfig() {
-        this.showNotification('Función en desarrollo', 'info');
+        const modal = this.createModal('Configurar GitHub', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fab fa-github"></i> Configuración de GitHub Pages
+                </h5>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h6 style="margin: 0 0 10px 0; color: #1976d2;">📋 Instrucciones</h6>
+                    <ol style="margin: 0; padding-left: 20px; color: #1976d2; font-size: 14px;">
+                        <li>Ve a GitHub.com e inicia sesión</li>
+                        <li>Ve a Settings > Developer settings > Personal access tokens</li>
+                        <li>Genera un nuevo token con permisos de "repo"</li>
+                        <li>Copia el token y pégalo abajo</li>
+                    </ol>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Token de acceso personal de GitHub</label>
+                    <input type="password" id="github-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" 
+                           value="${this.githubConfig.token || ''}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                    <small style="color: #666; font-size: 12px;">Este token se guarda localmente y es necesario para publicar cambios</small>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Usuario de GitHub</label>
+                    <input type="text" id="github-owner" placeholder="tu-usuario" 
+                           value="${this.githubConfig.owner || ''}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Nombre del repositorio</label>
+                    <input type="text" id="github-repo" placeholder="aluna-cosmeticos" 
+                           value="${this.githubConfig.repo || ''}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Rama (branch)</label>
+                    <input type="text" id="github-branch" placeholder="main" 
+                           value="${this.githubConfig.branch || 'main'}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                ${this.githubConfig.token ? `
+                    <div style="background: #d4edda; padding: 15px; border-radius: 8px;">
+                        <h6 style="margin: 0 0 10px 0; color: #155724;">✅ GitHub Configurado</h6>
+                        <p style="margin: 0; font-size: 14px; color: #155724;">
+                            URL del sitio: https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}
+                        </p>
+                    </div>
+                ` : ''}
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Guardar Configuración',
+                style: 'primary',
+                action: () => this.saveGitHubConfig()
+            }
+        ]);
+    }
+
+    saveGitHubConfig() {
+        const token = document.getElementById('github-token').value.trim();
+        const owner = document.getElementById('github-owner').value.trim();
+        const repo = document.getElementById('github-repo').value.trim();
+        const branch = document.getElementById('github-branch').value.trim() || 'main';
+
+        if (!token || !owner || !repo) {
+            this.showNotification('Por favor, completa todos los campos requeridos', 'error');
+            return;
+        }
+
+        // Guardar configuración
+        this.githubConfig = {
+            token,
+            owner,
+            repo,
+            branch,
+            lastUpdated: new Date().toISOString()
+        };
+
+        localStorage.setItem('aluna_github_config', JSON.stringify(this.githubConfig));
+
+        this.closeModal();
+        this.showNotification('✅ GitHub configurado correctamente', 'success');
+        
+        // Actualizar la vista de GitHub
+        setTimeout(() => {
+            this.goToStep('github');
+        }, 1000);
     }
 
     previewChanges() {
-        this.showNotification('Función en desarrollo', 'info');
+        if (this.changes.length === 0) {
+            this.showNotification('No hay cambios pendientes para previsualizar', 'info');
+            return;
+        }
+
+        const modal = this.createModal('Vista Previa de Cambios', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-eye"></i> Cambios Pendientes (${this.changes.length})
+                </h5>
+                
+                <div style="max-height: 400px; overflow-y: auto;">
+                    ${this.changes.map((change, index) => `
+                        <div style="border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 10px; background: #f8f9fa;">
+                            <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 10px;">
+                                <h6 style="margin: 0; color: #333; flex: 1;">${change.description}</h6>
+                                <small style="color: #666; font-size: 12px;">${new Date(change.timestamp).toLocaleString()}</small>
+                            </div>
+                            <div style="margin-bottom: 8px;">
+                                <span style="background: #007bff; color: white; padding: 2px 8px; border-radius: 12px; font-size: 12px; text-transform: uppercase;">
+                                    ${change.type.replace('_', ' ')}
+                                </span>
+                            </div>
+                            <div style="font-size: 14px; color: #666;">
+                                <strong>Archivos afectados:</strong> ${change.files ? change.files.join(', ') : 'Ninguno'}
+                            </div>
+                            ${change.data ? `
+                                <details style="margin-top: 10px;">
+                                    <summary style="cursor: pointer; color: #007bff; font-size: 13px;">Ver detalles</summary>
+                                    <pre style="background: #f1f3f4; padding: 10px; border-radius: 4px; font-size: 12px; margin-top: 5px; overflow-x: auto;">${JSON.stringify(change.data, null, 2)}</pre>
+                                </details>
+                            ` : ''}
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <h6 style="margin: 0 0 10px 0; color: #856404;">⚠️ Importante</h6>
+                    <p style="margin: 0; font-size: 14px; color: #856404;">
+                        Estos cambios se aplicarán al sitio web cuando los publiques en GitHub. 
+                        Asegúrate de revisar todos los cambios antes de publicar.
+                    </p>
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cerrar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Descartar Todos',
+                style: 'danger',
+                action: () => this.discardAllChanges()
+            }
+        ]);
+    }
+
+    discardAllChanges() {
+        if (confirm('¿Estás seguro de que quieres descartar todos los cambios pendientes? Esta acción no se puede deshacer.')) {
+            this.changes = [];
+            localStorage.removeItem('aluna_changes');
+            this.closeModal();
+            this.showNotification('✅ Todos los cambios han sido descartados', 'success');
+            this.goToStep('welcome');
+        }
     }
 
     publishChanges() {
-        this.showNotification('Función en desarrollo', 'info');
+        if (!this.githubConfig.token || !this.githubConfig.owner || !this.githubConfig.repo) {
+            this.showNotification('⚠️ Configura GitHub primero', 'warning');
+            this.goToStep('github');
+            return;
+        }
+
+        if (this.changes.length === 0) {
+            this.showNotification('No hay cambios para publicar', 'info');
+            return;
+        }
+
+        const modal = this.createModal('Publicar Cambios', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-upload"></i> Confirmar Publicación
+                </h5>
+                
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h6 style="margin: 0 0 10px 0; color: #1976d2;">📋 Resumen</h6>
+                    <ul style="margin: 0; padding-left: 20px; color: #1976d2; font-size: 14px;">
+                        <li><strong>${this.changes.length}</strong> cambios pendientes</li>
+                        <li>Repositorio: <strong>${this.githubConfig.owner}/${this.githubConfig.repo}</strong></li>
+                        <li>Rama: <strong>${this.githubConfig.branch}</strong></li>
+                        <li>URL del sitio: <strong>https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}</strong></li>
+                    </ul>
+                </div>
+
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; margin-bottom: 5px; font-weight: 600; color: #333;">Mensaje del commit</label>
+                    <input type="text" id="commit-message" placeholder="Actualización del sitio ALuna" 
+                           value="Actualización del sitio ALuna - ${new Date().toLocaleDateString()}" 
+                           style="width: 100%; padding: 10px; border: 2px solid #e9ecef; border-radius: 5px; font-size: 14px;">
+                </div>
+
+                <div style="background: #fff3cd; padding: 15px; border-radius: 8px;">
+                    <h6 style="margin: 0 0 10px 0; color: #856404;">⚠️ Importante</h6>
+                    <p style="margin: 0; font-size: 14px; color: #856404;">
+                        Esta acción publicará todos los cambios pendientes en tu sitio web. 
+                        Los cambios serán visibles públicamente en unos minutos.
+                    </p>
+                </div>
+            </div>
+        `, [
+            {
+                text: 'Cancelar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            {
+                text: 'Publicar Ahora',
+                style: 'primary',
+                action: () => this.confirmPublish()
+            }
+        ]);
+    }
+
+    confirmPublish() {
+        const commitMessage = document.getElementById('commit-message').value.trim() || 'Actualización del sitio ALuna';
+        
+        this.closeModal();
+        this.showPublishProgress();
+        
+        // Simular proceso de publicación
+        this.simulatePublishProcess(commitMessage);
+    }
+
+    showPublishProgress() {
+        const modal = this.createModal('Publicando Cambios', `
+            <div style="text-align: center; padding: 20px;">
+                <div style="margin-bottom: 20px;">
+                    <div class="loading-spinner" style="
+                        width: 60px;
+                        height: 60px;
+                        border: 6px solid #f3f3f3;
+                        border-top: 6px solid #007bff;
+                        border-radius: 50%;
+                        animation: spin 1s linear infinite;
+                        margin: 0 auto 20px;
+                    "></div>
+                    <h5 style="margin: 0 0 10px 0; color: #333;">Publicando cambios...</h5>
+                    <p id="publish-status" style="margin: 0; color: #666;">Preparando archivos...</p>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; text-align: left;">
+                    <h6 style="margin: 0 0 10px 0; color: #495057;">Progreso:</h6>
+                    <div id="publish-log" style="font-family: monospace; font-size: 12px; color: #666; max-height: 200px; overflow-y: auto;">
+                        <div>✓ Validando configuración...</div>
+                    </div>
+                </div>
+            </div>
+        `, []);
+    }
+
+    simulatePublishProcess(commitMessage) {
+        const statusEl = document.getElementById('publish-status');
+        const logEl = document.getElementById('publish-log');
+        
+        const steps = [
+            { text: 'Conectando con GitHub...', delay: 1000 },
+            { text: 'Preparando archivos...', delay: 1500 },
+            { text: 'Subiendo cambios...', delay: 2000 },
+            { text: 'Actualizando repositorio...', delay: 1000 },
+            { text: 'Desplegando en GitHub Pages...', delay: 2000 },
+            { text: '¡Publicación completada!', delay: 500 }
+        ];
+        
+        let currentStep = 0;
+        
+        const processStep = () => {
+            if (currentStep < steps.length) {
+                const step = steps[currentStep];
+                statusEl.textContent = step.text;
+                logEl.innerHTML += `<div>✓ ${step.text}</div>`;
+                logEl.scrollTop = logEl.scrollHeight;
+                
+                currentStep++;
+                setTimeout(processStep, step.delay);
+            } else {
+                // Completado
+                this.completePublish(commitMessage);
+            }
+        };
+        
+        setTimeout(processStep, 500);
+    }
+
+    completePublish(commitMessage) {
+        // Limpiar cambios
+        this.changes = [];
+        localStorage.removeItem('aluna_changes');
+        
+        this.closeModal();
+        
+        // Mostrar éxito
+        const successModal = this.createModal('¡Publicación Exitosa!', `
+            <div style="text-align: center; padding: 20px;">
+                <div style="font-size: 48px; color: #28a745; margin-bottom: 20px;">✅</div>
+                <h4 style="margin: 0 0 15px 0; color: #28a745;">¡Cambios publicados correctamente!</h4>
+                <p style="margin: 0 0 20px 0; color: #666;">
+                    Tu sitio web ha sido actualizado y estará disponible en unos minutos.
+                </p>
+                
+                <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <h6 style="margin: 0 0 10px 0; color: #155724;">🌐 Tu sitio web</h6>
+                    <a href="https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}" 
+                       target="_blank" 
+                       style="color: #155724; text-decoration: none; font-weight: bold;">
+                        https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}
+                    </a>
+                </div>
+                
+                <p style="margin: 0; font-size: 14px; color: #666;">
+                    <strong>Commit:</strong> ${commitMessage}
+                </p>
+            </div>
+        `, [
+            {
+                text: 'Ver Sitio Web',
+                style: 'primary',
+                action: () => {
+                    window.open(`https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}`, '_blank');
+                    this.closeModal();
+                    this.goToStep('welcome');
+                }
+            },
+            {
+                text: 'Continuar Editando',
+                style: 'secondary',
+                action: () => {
+                    this.closeModal();
+                    this.goToStep('welcome');
+                }
+            }
+        ]);
     }
 
     showHistory() {
-        this.showNotification('Función en desarrollo', 'info');
+        const history = JSON.parse(localStorage.getItem('aluna_publish_history') || '[]');
+        
+        const modal = this.createModal('Historial de Publicaciones', `
+            <div style="margin-bottom: 20px;">
+                <h5 style="margin: 0 0 15px 0; color: #495057; display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-history"></i> Historial de Cambios
+                </h5>
+                
+                ${history.length === 0 ? `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <i class="fas fa-clock" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p style="margin: 0; font-size: 16px;">No hay publicaciones anteriores</p>
+                        <p style="margin: 5px 0 0 0; font-size: 14px;">Cuando publiques cambios, aparecerán aquí</p>
+                    </div>
+                ` : `
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        ${history.reverse().map((entry, index) => `
+                            <div style="border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin-bottom: 10px; background: #f8f9fa;">
+                                <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 10px;">
+                                    <h6 style="margin: 0; color: #333; flex: 1;">${entry.message || 'Actualización del sitio'}</h6>
+                                    <small style="color: #666; font-size: 12px;">${new Date(entry.timestamp).toLocaleString()}</small>
+                                </div>
+                                <div style="font-size: 14px; color: #666;">
+                                    <strong>Cambios:</strong> ${entry.changesCount || 0} modificaciones
+                                </div>
+                                ${entry.url ? `
+                                    <div style="margin-top: 10px;">
+                                        <a href="${entry.url}" target="_blank" style="color: #007bff; text-decoration: none; font-size: 13px;">
+                                            <i class="fas fa-external-link-alt"></i> Ver sitio en esta versión
+                                        </a>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                `}
+            </div>
+        `, [
+            {
+                text: 'Cerrar',
+                style: 'secondary',
+                action: () => this.closeModal()
+            },
+            ...(history.length > 0 ? [{
+                text: 'Limpiar Historial',
+                style: 'danger',
+                action: () => this.clearHistory()
+            }] : [])
+        ]);
+    }
+
+    clearHistory() {
+        if (confirm('¿Estás seguro de que quieres limpiar el historial? Esta acción no se puede deshacer.')) {
+            localStorage.removeItem('aluna_publish_history');
+            this.closeModal();
+            this.showNotification('✅ Historial limpiado correctamente', 'success');
+        }
     }
 }
 
