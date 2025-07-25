@@ -500,33 +500,6 @@ class AlunaEcommerce {
 
     // Checkout con Shopify
     checkout() {
-<<<<<<< HEAD
-        // Preparar datos para Shopify
-        const checkoutData = {
-            lineItems: this.cart.map(item => ({
-                variantId: item.id,
-                quantity: item.quantity
-            })),
-            shippingAddress: {
-                country: 'Uruguay',
-                province: 'Maldonado'
-            }
-        };
-
-        // Redirigir a Shopify checkout
-        const shopifyUrl = `https://${this.config.shopifyDomain}/cart/add`;
-        const params = new URLSearchParams();
-        
-        this.cart.forEach(item => {
-            params.append(`items[${item.id}][id]`, item.id);
-            params.append(`items[${item.id}][quantity]`, item.quantity);
-        });
-
-        // Abrir Shopify checkout en nueva ventana
-        window.open(`${shopifyUrl}?${params.toString()}`, '_blank');
-        
-        this.showNotification('Redirigiendo al checkout seguro...', 'info');
-=======
         // Mostrar modal de checkout
         this.showCheckoutModal();
     }
@@ -798,6 +771,14 @@ class AlunaEcommerce {
                 <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
                     ${order.items.map(item => `
                         <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>$${item.price * item.quantity} UYU</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+        
         document.body.appendChild(modal);
         modal.style.display = 'block';
     }

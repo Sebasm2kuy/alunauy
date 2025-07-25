@@ -290,7 +290,6 @@ class ProductManager {
         } catch (error) {
             console.log('ℹ️ No se pudo comunicar con la ventana principal:', error.message);
         }
-
     }
 
     // Exportar productos
@@ -495,33 +494,8 @@ class ProductManager {
                                     </tr>
                                     <tr>
                                         <th colspan="3">Envío:</th>
-                                        <th>${order.shipping === 0 ? 'Gratis' : '
-}
-
-// Funciones globales
-let productManager;
-
-function showAddProduct() {
-    productManager.showAddProduct();
-}
-
-function saveProduct() {
-    productManager.saveProduct();
-}
-
-function exportProducts() {
-    productManager.exportProducts();
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    productManager = new ProductManager();
-    
-    // Mostrar mensaje de bienvenida
-    console.log('✅ Panel de administración cargado');
-    console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
-});
-
+                                        <th>${order.shipping === 0 ? 'Gratis' : order.shipping + ' UYU'}</th>
+                                    </tr>
                                     <tr class="table-primary">
                                         <th colspan="3">Total:</th>
                                         <th>${order.total} UYU</th>
@@ -622,134 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
             row.map(field => `"${field}"`).join(',')
         ).join('\n');
     }
-
-}
-
-// Funciones globales
-let productManager;
-
-function showAddProduct() {
-    productManager.showAddProduct();
-}
-
-function saveProduct() {
-    productManager.saveProduct();
-}
-
-function exportProducts() {
-    productManager.exportProducts();
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    productManager = new ProductManager();
-    
-    // Mostrar mensaje de bienvenida
-    console.log('✅ Panel de administración cargado');
-    console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
-});
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <th colspan="3">Total:</th>
-                                        <th>${order.total} UYU</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="productManager.viewOrders()">
-                            <i class="fas fa-arrow-left"></i> Volver a Pedidos
-                        </button>
-                        <button type="button" class="btn btn-success" onclick="productManager.markOrderAsProcessed('${order.id}')">
-                            <i class="fas fa-check"></i> Marcar como Procesado
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-    }
-
-    // Obtener nombre del método de pago
-    getPaymentMethodName(method) {
-        const methods = {
-            'mercadopago': 'Mercado Pago',
-            'abitab': 'Giros Abitab',
-            'redpagos': 'Red Pagos'
-        };
-        return methods[method] || method;
-    }
-
-    // Marcar pedido como procesado
-    markOrderAsProcessed(orderId) {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        const orderIndex = orders.findIndex(o => o.id === orderId);
-        
-        if (orderIndex !== -1) {
-            orders[orderIndex].status = 'processed';
-            orders[orderIndex].processedAt = new Date().toISOString();
-            localStorage.setItem('aluna_orders', JSON.stringify(orders));
-            
-            this.showNotification('✅ Pedido marcado como procesado', 'success');
-            
-            // Actualizar vista
-            document.querySelector('.modal').remove();
-            this.viewOrders();
-        }
-    }
-
-    // Exportar pedidos
-    exportOrders() {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        
-        if (orders.length === 0) {
-            this.showNotification('No hay pedidos para exportar', 'info');
-            return;
-        }
-
-        // Crear CSV
-        const csvContent = this.generateOrdersCSV(orders);
-        
-        // Descargar archivo
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = \`pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
-        link.click();
-        
-        this.showNotification('✅ Pedidos exportados correctamente', 'success');
-    }
-
-    // Generar CSV de pedidos
-    generateOrdersCSV(orders) {
-        const headers = [
-            'Pedido', 'Fecha', 'Cliente', 'Email', 'Teléfono', 'Ciudad', 'Dirección',
-            'Productos', 'Subtotal', 'Envío', 'Total', 'Método de Pago', 'Estado'
-        ];
-        
-        const rows = orders.map(order => [
-            order.id,
-            new Date(order.timestamp).toLocaleString(),
-            order.customer.name,
-            order.customer.email,
-            order.customer.phone,
-            order.customer.city,
-            order.customer.address,
-            order.items.map(item => \`${item.name} x${item.quantity}`).join('; '),
-            order.subtotal,
-            order.shipping,
-            order.total,
-            this.getPaymentMethodName(order.paymentMethod),
-            order.status || 'Pendiente'
-        ]);
-        
-        return [headers, ...rows].map(row => 
-            row.map(field => `"${field}"`).join(',')
-        ).join('\n');
-    }
-
 }
 
 // Funciones globales
