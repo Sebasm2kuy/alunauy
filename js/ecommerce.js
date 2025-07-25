@@ -245,6 +245,7 @@ class AlunaEcommerce {
                 font-size: 24px;
                 font-weight: bold;
             }
+
             .cart-modal {
                 position: fixed;
                 top: 0;
