@@ -290,6 +290,7 @@ class ProductManager {
         } catch (error) {
             console.log('ℹ️ No se pudo comunicar con la ventana principal:', error.message);
         }
+
     }
 
     // Exportar productos
@@ -596,6 +597,7 @@ class ProductManager {
             row.map(field => `"${field}"`).join(',')
         ).join('\n');
     }
+
 }
 
 // Funciones globales
