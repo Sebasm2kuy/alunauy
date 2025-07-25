@@ -716,7 +716,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
+        link.download = \`pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
         link.click();
         
         this.showNotification('✅ Pedidos exportados correctamente', 'success');
@@ -737,7 +737,7 @@ document.addEventListener('DOMContentLoaded', () => {
             order.customer.phone,
             order.customer.city,
             order.customer.address,
-            order.items.map(item => `${item.name} x${item.quantity}`).join('; '),
+            order.items.map(item => \`${item.name} x${item.quantity}`).join('; '),
             order.subtotal,
             order.shipping,
             order.total,
