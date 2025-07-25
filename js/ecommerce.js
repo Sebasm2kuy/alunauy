@@ -245,6 +245,7 @@ class AlunaEcommerce {
                 font-size: 24px;
                 font-weight: bold;
             }
+
             .cart-modal {
                 position: fixed;
                 top: 0;
@@ -774,25 +775,6 @@ class AlunaEcommerce {
                             <span>$${item.price * item.quantity} UYU</span>
                         </div>
                     `).join('')}
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>Subtotal:</span>
-                        <span>$${order.subtotal} UYU</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Envío:</span>
-                        <span>${order.shipping === 0 ? 'Gratis' : '$' + order.shipping + ' UYU'}</span>
-                    </div>
-                    <div class="d-flex justify-content-between fw-bold">
-                        <span>Total:</span>
-                        <span>$${order.total} UYU</span>
-                    </div>
-                </div>
-
-                <div class="mt-3 d-grid">
-                    <button class="btn btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">
-                        <i class="fa fa-arrow-left"></i> Cerrar
-                    </button>
                 </div>
             </div>
         `;
