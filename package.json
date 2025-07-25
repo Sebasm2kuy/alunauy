@@ -1,0 +1,20 @@
+{
+  "name": "aluna-cosmeticos",
+  "version": "1.0.0",
+  "description": "ALuna - Cosméticos y Productos de Belleza static site",
+  "main": "index.html",
+  "scripts": {
+    "dev": "live-server",
+    "start": "live-server"
+  },
+  "keywords": [
+    "ecommerce",
+    "static",
+    "github-pages"
+  ],
+  "author": "ALuna",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

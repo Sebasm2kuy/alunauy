@@ -6,12 +6,15 @@ class ProductManager {
             domain: 'tu-tienda.myshopify.com', // Cambiar por tu dominio de Shopify
             storefrontToken: 'tu-storefront-token' // Token de Shopify Storefront API
         };
+        this.githubConfig = null;
+        this.githubAPI = null;
         this.init();
     }
 
     init() {
         this.renderProducts();
         this.setupImagePreview();
+        this.setupGitHub();
     }
 
     // Cargar productos desde localStorage
@@ -235,22 +238,59 @@ class ProductManager {
 
     // Actualizar sitio web principal
     updateWebsite() {
-        // Generar JSON para el sitio principal
-        const websiteData = {
-            products: this.products,
-            lastUpdate: new Date().toISOString(),
-            config: {
-                currency: 'UYU',
-                location: 'Maldonado, Uruguay',
-                freeShippingMin: 1500,
-                paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos']
+        try {
+            // Generar JSON para el sitio principal
+            const websiteData = {
+                products: this.products,
+                lastUpdate: new Date().toISOString(),
+                config: {
+                    currency: 'UYU',
+                    location: 'Maldonado, Uruguay',
+                    freeShippingMin: 1500,
+                    paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos']
+                }
+            };
+            
+            // Guardar en localStorage
+            localStorage.setItem('aluna_website_data', JSON.stringify(websiteData));
+            
+            // También guardar los productos por separado para compatibilidad
+            localStorage.setItem('aluna_products', JSON.stringify(this.products));
+            
+            // Verificar que se guardó correctamente
+            const saved = localStorage.getItem('aluna_website_data');
+            if (saved) {
+                console.log('✅ Datos guardados correctamente:', JSON.parse(saved));
+                this.showNotification('✅ Productos actualizados y guardados correctamente', 'success');
+                
+                // Actualizar la ventana principal si está abierta
+                this.updateMainWindow();
+            } else {
+                throw new Error('No se pudieron guardar los datos');
             }
-        };
-        
-        localStorage.setItem('aluna_website_data', JSON.stringify(websiteData));
-        
-        // Mostrar mensaje de éxito
-        this.showNotification('Productos actualizados correctamente', 'success');
+            
+        } catch (error) {
+            console.error('❌ Error guardando datos:', error);
+            this.showNotification('❌ Error al guardar los cambios: ' + error.message, 'danger');
+        }
+    }
+
+    // Actualizar ventana principal
+    updateMainWindow() {
+        try {
+            // Intentar comunicarse con la ventana principal
+            if (window.opener && !window.opener.closed) {
+                // Enviar mensaje a la ventana principal para que recargue los productos
+                window.opener.postMessage({
+                    type: 'PRODUCTS_UPDATED',
+                    products: this.products
+                }, '*');
+                console.log('📤 Mensaje enviado a ventana principal');
+            }
+        } catch (error) {
+            console.log('ℹ️ No se pudo comunicar con la ventana principal:', error.message);
+        }
+
     }
 
     // Exportar productos
@@ -284,15 +324,178 @@ class ProductManager {
     // Integración con Shopify
     async syncWithShopify() {
         try {
-            // Aquí implementarías la sincronización con Shopify
-            // usando la Storefront API o Admin API
-            console.log('Sincronizando con Shopify...');
-            this.showNotification('Sincronización con Shopify completada', 'success');
+            this.showNotification('Iniciando sincronización con Shopify...', 'info');
+            
+            // Simular proceso de sincronización
+            await this.simulateShopifySync();
+            
+            this.showNotification('✅ Sincronización con Shopify completada', 'success');
         } catch (error) {
             console.error('Error sincronizando con Shopify:', error);
-            this.showNotification('Error en la sincronización con Shopify', 'danger');
+            this.showNotification('❌ Error en la sincronización con Shopify: ' + error.message, 'danger');
         }
     }
+
+    // Simular sincronización con Shopify
+    async simulateShopifySync() {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // Actualizar productos con datos simulados de Shopify
+                this.products.forEach(product => {
+                    product.shopifyId = 'gid://shopify/Product/' + (Math.floor(Math.random() * 1000000));
+                    product.shopifyHandle = product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                    product.lastSynced = new Date().toISOString();
+                });
+                
+                this.saveProducts();
+                resolve();
+            }, 2000);
+        });
+    }
+
+    // Ver pedidos
+    viewOrders() {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        
+        // Crear modal para mostrar pedidos
+        const modal = document.createElement('div');
+        modal.className = 'modal fade show';
+        modal.style.display = 'block';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-shopping-bag"></i> Pedidos Recibidos</h5>
+                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
+                    </div>
+                    <div class="modal-body">
+                        ${orders.length === 0 ? `
+                            <div class="text-center py-5">
+                                <i class="fas fa-shopping-bag" style="font-size: 64px; color: #ddd; margin-bottom: 20px;"></i>
+                                <h5>No hay pedidos aún</h5>
+                                <p class="text-muted">Los pedidos de los clientes aparecerán aquí</p>
+                            </div>
+                        ` : `
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Pedido</th>
+                                            <th>Cliente</th>
+                                            <th>Fecha</th>
+                                            <th>Total</th>
+                                            <th>Estado</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${orders.reverse().map(order => `
+                                            <tr>
+                                                <td><strong>${order.id}</strong></td>
+                                                <td>
+                                                    ${order.customer.name}<br>
+                                                    <small class="text-muted">${order.customer.email}</small>
+                                                </td>
+                                                <td>${new Date(order.timestamp).toLocaleDateString()}</td>
+                                                <td><strong>${order.total} UYU</strong></td>
+                                                <td><span class="badge bg-warning">Pendiente</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-outline-primary" onclick="productManager.viewOrderDetails('${order.id}')">
+                                                        <i class="fas fa-eye"></i> Ver
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        `}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cerrar</button>
+                        ${orders.length > 0 ? `
+                            <button type="button" class="btn btn-primary" onclick="productManager.exportOrders()">
+                                <i class="fas fa-download"></i> Exportar Pedidos
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+
+    // Ver detalles del pedido
+    viewOrderDetails(orderId) {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        const order = orders.find(o => o.id === orderId);
+        
+        if (!order) {
+            this.showNotification('Pedido no encontrado', 'danger');
+            return;
+        }
+
+        // Cerrar modal actual
+        document.querySelector('.modal').remove();
+
+        const modal = document.createElement('div');
+        modal.className = 'modal fade show';
+        modal.style.display = 'block';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-receipt"></i> Pedido ${order.id}</h5>
+                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> ${order.customer.name}</p>
+                                <p><strong>Email:</strong> ${order.customer.email}</p>
+                                <p><strong>Teléfono:</strong> ${order.customer.phone}</p>
+                                <p><strong>Ciudad:</strong> ${order.customer.city}</p>
+                                <p><strong>Dirección:</strong> ${order.customer.address}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Detalles del Pedido</h6>
+                                <p><strong>Fecha:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
+                                <p><strong>Método de pago:</strong> ${this.getPaymentMethodName(order.paymentMethod)}</p>
+                                <p><strong>Estado:</strong> <span class="badge bg-warning">Pendiente</span></p>
+                            </div>
+                        </div>
+                        
+                        <h6>Productos</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unit.</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>${item.name}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>${item.price} UYU</td>
+                                            <td>${item.price * item.quantity} UYU</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">Subtotal:</th>
+                                        <th>${order.subtotal} UYU</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Envío:</th>
+                                        <th>${order.shipping === 0 ? 'Gratis' : '
 }
 
 // Funciones globales
@@ -313,4 +516,141 @@ function exportProducts() {
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     productManager = new ProductManager();
+<<<<<<< HEAD
+=======
+    
+    // Mostrar mensaje de bienvenida
+    console.log('✅ Panel de administración cargado');
+    console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
+>>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
+}); + order.shipping + ' UYU'}</th>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <th colspan="3">Total:</th>
+                                        <th>${order.total} UYU</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="productManager.viewOrders()">
+                            <i class="fas fa-arrow-left"></i> Volver a Pedidos
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="productManager.markOrderAsProcessed('${order.id}')">
+                            <i class="fas fa-check"></i> Marcar como Procesado
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+
+    // Obtener nombre del método de pago
+    getPaymentMethodName(method) {
+        const methods = {
+            'mercadopago': 'Mercado Pago',
+            'abitab': 'Giros Abitab',
+            'redpagos': 'Red Pagos'
+        };
+        return methods[method] || method;
+    }
+
+    // Marcar pedido como procesado
+    markOrderAsProcessed(orderId) {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        const orderIndex = orders.findIndex(o => o.id === orderId);
+        
+        if (orderIndex !== -1) {
+            orders[orderIndex].status = 'processed';
+            orders[orderIndex].processedAt = new Date().toISOString();
+            localStorage.setItem('aluna_orders', JSON.stringify(orders));
+            
+            this.showNotification('✅ Pedido marcado como procesado', 'success');
+            
+            // Actualizar vista
+            document.querySelector('.modal').remove();
+            this.viewOrders();
+        }
+    }
+
+    // Exportar pedidos
+    exportOrders() {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        
+        if (orders.length === 0) {
+            this.showNotification('No hay pedidos para exportar', 'info');
+            return;
+        }
+
+        // Crear CSV
+        const csvContent = this.generateOrdersCSV(orders);
+        
+        // Descargar archivo
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        
+        this.showNotification('✅ Pedidos exportados correctamente', 'success');
+    }
+
+    // Generar CSV de pedidos
+    generateOrdersCSV(orders) {
+        const headers = [
+            'Pedido', 'Fecha', 'Cliente', 'Email', 'Teléfono', 'Ciudad', 'Dirección',
+            'Productos', 'Subtotal', 'Envío', 'Total', 'Método de Pago', 'Estado'
+        ];
+        
+        const rows = orders.map(order => [
+            order.id,
+            new Date(order.timestamp).toLocaleString(),
+            order.customer.name,
+            order.customer.email,
+            order.customer.phone,
+            order.customer.city,
+            order.customer.address,
+            order.items.map(item => `${item.name} x${item.quantity}`).join('; '),
+            order.subtotal,
+            order.shipping,
+            order.total,
+            this.getPaymentMethodName(order.paymentMethod),
+            order.status || 'Pendiente'
+        ]);
+        
+        return [headers, ...rows].map(row => 
+            row.map(field => `"${field}"`).join(',')
+        ).join('\n');
+    }
+
+}
+
+// Funciones globales
+let productManager;
+
+function showAddProduct() {
+    productManager.showAddProduct();
+}
+
+function saveProduct() {
+    productManager.saveProduct();
+}
+
+function exportProducts() {
+    productManager.exportProducts();
+}
+
+// Inicializar cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    productManager = new ProductManager();
+<<<<<<< HEAD
+=======
+    
+    // Mostrar mensaje de bienvenida
+    console.log('✅ Panel de administración cargado');
+    console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
+>>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
 });

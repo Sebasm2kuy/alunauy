@@ -34,7 +34,7 @@ $(document).ready(function() {
         changeHash: false,
         scrollSpeed: 950,
         scrollThreshold: 0.2,
-        filter: '',
+        filter: '.scroll-link',
         easing: 'swing',
         begin: function() {
         },
@@ -55,17 +55,11 @@ $(document).ready(function() {
         }
     });
 
-    // Smooth scrolling for product links
-    $('a[href^="#products"]').on('click', function(e) {
-        e.preventDefault();
-        var target = $(this.getAttribute('href'));
-        if (target.length) {
-            $('html, body').stop().animate({
-                scrollTop: target.offset().top - 70
-            }, 1000);
-        }
-    });
+<<<<<<< HEAD
+    
 
+=======
+>>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
     var container = $('#portfolio_wrapper');
 
 

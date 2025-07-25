@@ -69,12 +69,47 @@
                 </button>
             </div>
             <div class="col-md-6">
-                <button class="btn btn-success btn-lg w-100" onclick="exportProducts()">
-                    <i class="fas fa-download"></i> Exportar Productos
+                <button class="btn btn-info btn-lg w-100" onclick="productManager.viewOrders()">
+                    <i class="fas fa-shopping-bag"></i> Ver Pedidos
                 </button>
             </div>
         </div>
 
+<<<<<<< HEAD
+=======
+        <!-- Botones adicionales -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <button class="btn btn-success w-100" onclick="exportProducts()">
+                    <i class="fas fa-download"></i> Exportar Productos
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-warning w-100" onclick="productManager.syncWithShopify()">
+                    <i class="fas fa-sync"></i> Sincronizar Shopify
+                </button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-secondary w-100" onclick="productManager.showGitHubConfig()">
+                    <i class="fab fa-github"></i> Configurar GitHub
+                </button>
+            </div>
+        </div>
+
+        <!-- Botones adicionales -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-primary w-100" onclick="productManager.updateRepository()">
+                    <i class="fas fa-cloud-upload-alt"></i> Subir Cambios a GitHub
+                </button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-outline-primary w-100" onclick="window.open('../', '_blank')">
+                    <i class="fas fa-external-link-alt"></i> Ver Sitio Web
+                </button>
+            </div>
+        </div>
+>>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
         <!-- Lista de Productos -->
         <div class="row">
             <div class="col-12">
@@ -177,5 +212,54 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="admin.js"></script>
+    <script src="bot.js"></script>
+    <script src="github-api.js"></script>
+    
+    <script>
+        // Verificar que el bot esté disponible y crear el botón
+        window.addEventListener('load', function() {
+            // Crear botón del asistente si no existe
+            if (!document.getElementById('assistant-btn')) {
+                const assistantBtn = document.createElement('div');
+                assistantBtn.id = 'assistant-btn';
+                assistantBtn.style.cssText = `
+                    position: fixed;
+                    bottom: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    color: white;
+                    padding: 15px 20px;
+                    border-radius: 50px;
+                    cursor: pointer;
+                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-weight: 600;
+                    z-index: 10000;
+                    animation: pulse 2s infinite;
+                `;
+                assistantBtn.innerHTML = '<i class="fas fa-robot"></i> Asistente';
+                
+                assistantBtn.addEventListener('click', function() {
+                    if (window.adminBot) {
+                        window.adminBot.toggleBot();
+                    } else {
+                        alert('El asistente se está cargando, por favor espera un momento...');
+                        // Intentar inicializar el bot
+                        setTimeout(function() {
+                            if (typeof AdminBot !== 'undefined') {
+                                window.adminBot = new AdminBot();
+                                window.adminBot.toggleBot();
+                            }
+                        }, 500);
+                    }
+                });
+                
+                document.body.appendChild(assistantBtn);
+            }
+        });
+    </script>
 </body>
 </html>
