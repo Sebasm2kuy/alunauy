@@ -770,11 +770,8 @@ function exportProducts() {
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     productManager = new ProductManager();
-<<<<<<< HEAD
-=======
     
     // Mostrar mensaje de bienvenida
     console.log('✅ Panel de administración cargado');
     console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
 });

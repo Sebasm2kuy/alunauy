@@ -55,11 +55,6 @@ $(document).ready(function() {
         }
     });
 
-<<<<<<< HEAD
-    
-
-=======
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
     var container = $('#portfolio_wrapper');
 
 
