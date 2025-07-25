@@ -39,3 +39,4 @@ build/
 # Archivos específicos del proyecto
 *.lnk
 readme.txt
+.env
