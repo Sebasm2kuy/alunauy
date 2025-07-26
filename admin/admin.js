@@ -1,7 +1,13 @@
 // Sistema de administración para ALuna - Uruguay
 class ProductManager {
     constructor() {
-        this.products = [];
+        this.products = this.loadProducts();
+        this.shopifyConfig = {
+            domain: 'aluna-uruguay.myshopify.com',
+            storefrontToken: 'tu-storefront-token'
+        };
+        this.githubConfig = null;
+        this.githubAPI = null;
         this.init();
     }
 
@@ -236,6 +242,50 @@ class ProductManager {
         setTimeout(() => {
             notification.remove();
         }, 5000);
+    }
+
+    // Exportar productos (función de la rama remota)
+    exportProducts() {
+        // Implementación de exportProducts
+        const products = JSON.parse(localStorage.getItem('aluna_products') || '[]');
+        
+        if (products.length === 0) {
+            this.showNotification('No hay productos para exportar', 'info');
+            return;
+        }
+
+        const csvContent = this.generateProductsCSV(products);
+        
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `productos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        
+        this.showNotification('✅ Productos exportados correctamente', 'success');
+    }
+
+    // Generar CSV de productos (función de la rama remota)
+    generateProductsCSV(products) {
+        const headers = [
+            'ID', 'Nombre', 'Precio', 'Descripción', 'Categoría', 'Stock', 'Peso', 'Destacado', 'Imagen'
+        ];
+        
+        const rows = products.map(product => [
+            product.id,
+            product.name,
+            product.price,
+            product.description,
+            product.category,
+            product.stock,
+            product.weight,
+            product.featured ? 'Sí' : 'No',
+            product.image
+        ]);
+        
+        return [headers, ...rows].map(row => 
+            row.map(field => `"${field}"`).join(',')
+        ).join('\n');
     }
 }
 
@@ -611,9 +661,215 @@ class ContentManager {
     }
 }
 
+class OrderManager {
+    // Constructor y métodos de OrderManager (copia de la rama remota)
+    constructor() {
+        this.orders = [];
+        this.init();
+    }
+
+    async init() {
+        await this.loadOrders();
+        // No renderiza automáticamente, se llama desde viewOrders()
+    }
+
+    async loadOrders() {
+        // Simula la carga de pedidos desde una API o localStorage
+        this.orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        console.log('✅ Pedidos cargados:', this.orders);
+    }
+
+    viewOrders() {
+        const container = document.getElementById('ordersList');
+        if (!container) return;
+
+        container.innerHTML = this.orders.map(order => `
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Pedido #${order.id}</h5>
+                        <p class="card-text"><strong>Cliente:</strong> ${order.customer.name}</p>
+                        <p class="card-text"><strong>Total:</strong> ${order.total} UYU</p>
+                        <p class="card-text"><strong>Estado:</strong> <span class="badge bg-${order.status === 'processed' ? 'success' : 'warning'}">${order.status || 'Pendiente'}</span></p>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-sm btn-info" onclick="orderManager.showOrderDetails('${order.id}')">
+                            <i class="fas fa-info-circle"></i> Detalles
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    showOrderDetails(orderId) {
+        const order = this.orders.find(o => o.id == orderId);
+        if (!order) return;
+
+        const modal = document.createElement('div');
+        modal.className = 'modal fade show';
+        modal.style.display = 'block';
+        modal.innerHTML = `
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="fas fa-receipt"></i> Pedido ${order.id}</h5>
+                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6>Información del Cliente</h6>
+                                <p><strong>Nombre:</strong> ${order.customer.name}</p>
+                                <p><strong>Email:</strong> ${order.customer.email}</p>
+                                <p><strong>Teléfono:</strong> ${order.customer.phone}</p>
+                                <p><strong>Ciudad:</strong> ${order.customer.city}</p>
+                                <p><strong>Dirección:</strong> ${order.customer.address}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6>Detalles del Pedido</h6>
+                                <p><strong>Fecha:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
+                                <p><strong>Método de pago:</strong> ${this.getPaymentMethodName(order.paymentMethod)}</p>
+                                <p><strong>Estado:</strong> <span class="badge bg-warning">Pendiente</span></p>
+                            </div>
+                        </div>
+                        
+                        <h6>Productos</h6>
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unit.</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${order.items.map(item => `
+                                        <tr>
+                                            <td>${item.name}</td>
+                                            <td>${item.quantity}</td>
+                                            <td>${item.price} UYU</td>
+                                            <td>${item.price * item.quantity} UYU</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="3">Subtotal:</th>
+                                        <th>${order.subtotal} UYU</th>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="3">Envío:</th>
+                                        <th>${order.shipping === 0 ? 'Gratis' : order.shipping + ' UYU'}</th>
+                                    </tr>
+                                    <tr class="table-primary">
+                                        <th colspan="3">Total:</th>
+                                        <th>${order.total} UYU</th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="orderManager.viewOrders()">
+                            <i class="fas fa-arrow-left"></i> Volver a Pedidos
+                        </button>
+                        <button type="button" class="btn btn-success" onclick="orderManager.markOrderAsProcessed('${order.id}')">
+                            <i class="fas fa-check"></i> Marcar como Procesado
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+    }
+
+    // Obtener nombre del método de pago
+    getPaymentMethodName(method) {
+        const methods = {
+            'mercadopago': 'Mercado Pago',
+            'abitab': 'Giros Abitab',
+            'redpagos': 'Red Pagos'
+        };
+        return methods[method] || method;
+    }
+
+    // Marcar pedido como procesado
+    markOrderAsProcessed(orderId) {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        const orderIndex = orders.findIndex(o => o.id === orderId);
+        
+        if (orderIndex !== -1) {
+            orders[orderIndex].status = 'processed';
+            orders[orderIndex].processedAt = new Date().toISOString();
+            localStorage.setItem('aluna_orders', JSON.stringify(orders));
+            
+            this.showNotification('✅ Pedido marcado como procesado', 'success');
+            
+            // Actualizar vista
+            document.querySelector('.modal').remove();
+            this.viewOrders();
+        }
+    }
+
+    // Exportar pedidos
+    exportOrders() {
+        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
+        
+        if (orders.length === 0) {
+            this.showNotification('No hay pedidos para exportar', 'info');
+            return;
+        }
+
+        // Crear CSV
+        const csvContent = this.generateOrdersCSV(orders);
+        
+        // Descargar archivo
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
+        link.click();
+        
+        this.showNotification('✅ Pedidos exportados correctamente', 'success');
+    }
+
+    // Generar CSV de pedidos
+    generateOrdersCSV(orders) {
+        const headers = [
+            'Pedido', 'Fecha', 'Cliente', 'Email', 'Teléfono', 'Ciudad', 'Dirección',
+            'Productos', 'Subtotal', 'Envío', 'Total', 'Método de Pago', 'Estado'
+        ];
+        
+        const rows = orders.map(order => [
+            order.id,
+            new Date(order.timestamp).toLocaleString(),
+            order.customer.name,
+            order.customer.email,
+            order.customer.phone,
+            order.customer.city,
+            order.customer.address,
+            order.items.map(item => `${item.name} x${item.quantity}`).join('; '),
+            order.subtotal,
+            order.shipping,
+            order.total,
+            this.getPaymentMethodName(order.paymentMethod),
+            order.status || 'Pendiente'
+        ]);
+        
+        return [headers, ...rows].map(row => 
+            row.map(field => `"${field}"`).join(',')
+        ).join('\n');
+    }
+}
+
 // Funciones globales
 let productManager;
 let contentManager;
+let orderManager; // Declarar orderManager globalmente
 
 function showAddProduct() {
     productManager.showAddProduct();
@@ -625,6 +881,7 @@ function saveProduct() {
 
 function showContentEditor() {
     document.getElementById('productsSection').style.display = 'none';
+    document.getElementById('ordersSection').style.display = 'none'; // Ocultar sección de pedidos
     document.getElementById('contentSection').style.display = 'block';
     contentManager.renderContentForm();
 }
@@ -632,13 +889,22 @@ function showContentEditor() {
 function showProductManager() {
     document.getElementById('productsSection').style.display = 'block';
     document.getElementById('contentSection').style.display = 'none';
+    document.getElementById('ordersSection').style.display = 'none'; // Ocultar sección de pedidos
     productManager.renderProducts();
+}
+
+function showOrderManager() {
+    document.getElementById('productsSection').style.display = 'none';
+    document.getElementById('contentSection').style.display = 'none';
+    document.getElementById('ordersSection').style.display = 'block'; // Mostrar sección de pedidos
+    orderManager.viewOrders();
 }
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     productManager = new ProductManager();
     contentManager = new ContentManager();
+    orderManager = new OrderManager(); // Inicializar OrderManager
     
     // Mostrar el gestor de productos por defecto
     showProductManager();

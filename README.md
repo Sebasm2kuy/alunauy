@@ -1,10 +1,10 @@
 # ALuna - Cosméticos y Productos de Belleza
 
-Sitio web oficial de ALuna, tu tienda especializada en cosméticos y productos de belleza de alta calidad. Ubicada en Maldonado, Uruguay, con envíos a todo el país.
+Sitio web oficial de ALuna, tu tienda especializada en cosméticos y productos de belleza de alta calidad. Ubicada en Uruguay, con envíos a todo el país.
 
 ## 🌐 Ver sitio en vivo
 
-Visita nuestro sitio web: [https://tu-usuario.github.io/aluna-cosmeticos](https://tu-usuario.github.io/aluna-cosmeticos)
+Visita nuestro sitio web: [https://sebasm2kuy.github.io/alunauy](https://sebasm2kuy.github.io/alunauy)
 
 ## 🚀 Despliegue con GitHub Pages
 
@@ -12,7 +12,7 @@ Este sitio está configurado para funcionar automáticamente con GitHub Pages:
 
 1. **Sube el código a GitHub**: Crea un repositorio público en GitHub
 2. **Activa GitHub Pages**: Ve a Settings > Pages > Source: Deploy from a branch > Branch: main
-3. **¡Listo!**: Tu sitio estará disponible en `https://tu-usuario.github.io/nombre-repositorio`
+3. **¡Listo!**: Tu sitio estará disponible en `https://sebasm2kuy.github.io/alunauy`
 
 ### Configuración automática
 - ✅ Archivo `.nojekyll` incluido para evitar procesamiento Jekyll
@@ -30,6 +30,12 @@ ALuna es una marca uruguaya dedicada a realzar la belleza natural de cada person
 - **Productos Naturales**: Cosméticos con ingredientes naturales y orgánicos
 - **Sets de Regalo**: Combos especiales en presentaciones elegantes
 - **Envío Gratis**: En compras superiores a $1500 UYU
+
+## 📍 Repositorio
+
+- **GitHub**: [https://github.com/Sebasm2kuy/alunauy](https://github.com/Sebasm2kuy/alunauy)
+- **Sitio web**: [https://sebasm2kuy.github.io/alunauy](https://sebasm2kuy.github.io/alunauy)
+- **Directorio local**: `c:\alunauy-main`
 
 ## 🛒 Sistema E-commerce Completo
 

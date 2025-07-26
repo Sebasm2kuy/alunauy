@@ -1,2 +1,32 @@
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+*.bak
+*.swp
+*~
+
+# Carpetas de dependencias (si las hubiera)
 node_modules/
+.npm/
+
+# Archivos de configuración local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de editor
+.vscode/
+.idea/
+*.sublime-*
+
+# Archivos de Windows
+ehthumbs.db
+Desktop.ini
 .env

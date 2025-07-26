@@ -511,7 +511,7 @@ if (typeof ProductManager !== 'undefined') {
     ProductManager.prototype.showSiteUrl = function() {
         if (!this.githubConfig) return;
         
-        const siteUrl = `https://${this.githubConfig.owner}.github.io/${this.githubConfig.repo}`;
+        const siteUrl = `https://sebasm2kuy.github.io/alunauy`;
         
         const modal = document.createElement('div');
         modal.className = 'modal fade show';

@@ -16,21 +16,82 @@
 
     <ul class="nav nav-tabs mb-4">
       <li class="nav-item">
-        <a class="nav-link active" href="#" onclick="showProductManager()">Gestor de Productos</a>
+        <a class="nav-link active" id="products-tab" href="#" onclick="showProductManager()">Gestor de Productos</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#" onclick="showContentEditor()">Editor de Contenido</a>
+        <a class="nav-link" id="content-tab" href="#" onclick="showContentEditor()">Editor de Contenido</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="orders-tab" href="#" onclick="showOrderManager()">Gestor de Pedidos</a>
       </li>
     </ul>
 
     <div id="productsSection">
-      <button class="btn btn-primary mb-3" onclick="productManager.showAddProduct()">Agregar Nuevo Producto</button>
-      <div id="productsList" class="row"></div>
+      <!-- Botones de Acción -->
+      <div class="row mb-4">
+          <div class="col-md-6">
+              <button class="btn btn-primary btn-lg w-100" onclick="productManager.showAddProduct()">
+                  <i class="fas fa-plus"></i> Agregar Nuevo Producto
+              </button>
+          </div>
+          <div class="col-md-6">
+              <button class="btn btn-success w-100" onclick="productManager.exportProducts()">
+                  <i class="fas fa-download"></i> Exportar Productos
+              </button>
+          </div>
+      </div>
+
+      <!-- Botones adicionales -->
+      <div class="row mb-4">
+          <div class="col-md-6">
+              <button class="btn btn-warning w-100" onclick="productManager.syncWithShopify()">
+                  <i class="fas fa-sync"></i> Sincronizar Shopify
+              </button>
+          </div>
+          <div class="col-md-6">
+              <button class="btn btn-secondary w-100" onclick="productManager.showGitHubConfig()">
+                  <i class="fab fa-github"></i> Configurar GitHub
+              </button>
+          </div>
+      </div>
+
+      <!-- Botón para subir cambios a GitHub -->
+      <div class="row mb-4">
+          <div class="col-md-12">
+              <button class="btn btn-primary w-100" onclick="productManager.updateRepository()">
+                  <i class="fas fa-cloud-upload-alt"></i> Subir Cambios a GitHub
+              </button>
+          </div>
+      </div>
+
+      <!-- Lista de Productos -->
+      <div class="row">
+          <div class="col-12">
+              <h3>Productos Actuales</h3>
+              <div id="productsList" class="row">
+                  <!-- Los productos se cargarán aquí -->
+              </div>
+          </div>
+      </div>
     </div>
 
     <div id="contentSection" style="display: none;">
       <h2>Editor de Contenido de la Web</h2>
       <div id="contentEditor"></div>
+    </div>
+
+    <div id="ordersSection" style="display: none;">
+        <h2>Gestor de Pedidos</h2>
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <button class="btn btn-success w-100" onclick="orderManager.exportOrders()">
+                    <i class="fas fa-download"></i> Exportar Pedidos
+                </button>
+            </div>
+        </div>
+        <div id="ordersList" class="row">
+            <!-- Los pedidos se cargarán aquí -->
+        </div>
     </div>
 
     <!-- Product Modal -->
