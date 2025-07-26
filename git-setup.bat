@@ -33,6 +33,7 @@ REM Configurar usuario Git (cambiar por tus datos)
 echo 👤 Configurando usuario Git...
 git config user.name "Sebastian"
 git config user.email "sebasm2kuy@gmail.com"
+git config --global init.defaultBranch main
 echo.
 
 REM Inicializar repositorio si no existe
@@ -53,18 +54,17 @@ echo.
 
 REM Verificar conexion con GitHub
 echo 🌐 Verificando conexion con GitHub...
-git ls-remote origin >nul 2>&1
+git fetch origin >nul 2>&1
 if errorlevel 1 (
     echo ⚠️ No se pudo conectar con GitHub. Verifica:
     echo   - Tu conexion a internet
-    echo   - Que el repositorio existe: https://github.com/Sebasm2kuy/alunauy
+    echo   - Que el repositorio existe y es accesible
     echo   - Tus credenciales de GitHub
     echo.
-    pause
-    exit /b 1
+    echo 💡 Continuando con la configuracion local...
 )
 
-echo ✅ Conexion con GitHub exitosa
+echo ✅ Configuracion de repositorio remoto completada
 echo.
 
 REM Agregar todos los archivos
@@ -84,18 +84,19 @@ echo.
 
 REM Subir cambios
 echo 🚀 Subiendo cambios a GitHub...
-git push -u origin main --force
+git push -u origin main
 if errorlevel 1 (
     echo.
-    echo ⚠️ Error al subir archivos. Esto puede deberse a:
-    echo   - Necesitas autenticarte en GitHub
-    echo   - El repositorio tiene restricciones
+    echo ⚠️ No se pudieron subir los archivos automaticamente.
+    echo 💡 Ejecuta manualmente estos comandos:
     echo.
-    echo 💡 Intenta ejecutar manualmente:
-    echo    git push -u origin main
+    echo   git remote -v
+    echo   git push -u origin main
     echo.
-    pause
-    exit /b 1
+    echo 🔑 Si necesitas autenticarte, GitHub te pedira tus credenciales.
+    echo.
+) else (
+    echo ✅ Archivos subidos exitosamente!
 )
 
 echo.
@@ -106,16 +107,15 @@ echo.
 echo 🎉 Tu repositorio ha sido configurado exitosamente!
 echo.
 echo 📍 Repositorio local: c:\alunauy-main
-echo 🌐 Repositorio GitHub: https://github.com/Sebasm2kuy/alunauy
+echo 🌐 Repositorio remoto: https://github.com/Sebasm2kuy/alunauy
+echo 🌍 Sitio web: https://sebasm2kuy.github.io/alunauy
 echo.
 echo 🔧 Proximos pasos:
-echo   1. Configura GitHub Pages en tu repositorio
-echo   2. Ve a Settings ^> Pages ^> Source: Deploy from branch ^> main
-echo   3. Tu sitio estara en: https://sebasm2kuy.github.io/alunauy
+echo   1. Verifica que GitHub Pages este activado
+echo   2. Usa el panel admin para gestionar productos
+echo   3. Los cambios se sincronizaran automaticamente
 echo.
-echo 📝 Para futuros cambios, usa estos comandos:
-echo   git add .
-echo   git commit -m "Descripcion de cambios"
-echo   git push
+echo 📝 Para sincronizar cambios manualmente:
+echo   Ejecuta: sync-github.bat
 echo.
 pause

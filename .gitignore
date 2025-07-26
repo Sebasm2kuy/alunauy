@@ -1,26 +1,19 @@
-# Dependencias
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Archivos de sistema
+# Archivos del sistema
 .DS_Store
 Thumbs.db
-
-# Archivos de editor
-.vscode/
-.idea/
-*.swp
-*.swo
+desktop.ini
 
 # Archivos temporales
 *.tmp
 *.temp
-
-# Logs
-logs/
 *.log
+*.bak
+*.swp
+*~
+
+# Carpetas de dependencias (si las hubiera)
+node_modules/
+.npm/
 
 # Archivos de configuración local
 .env.local
@@ -28,15 +21,11 @@ logs/
 .env.test.local
 .env.production.local
 
-# Cache
-.cache/
-.parcel-cache/
+# Archivos de editor
+.vscode/
+.idea/
+*.sublime-*
 
-# Build outputs
-dist/
-build/
-
-# Archivos específicos del proyecto
-*.lnk
-readme.txt
-.env
+# Archivos de Windows
+ehthumbs.db
+Desktop.ini

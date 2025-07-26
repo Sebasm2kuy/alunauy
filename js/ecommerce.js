@@ -8,7 +8,7 @@ class AlunaEcommerce {
             location: 'Maldonado, Uruguay',
             freeShippingMin: 1500,
             paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos'],
-            shopifyDomain: 'tu-tienda.myshopify.com' // Cambiar por tu dominio
+            shopifyDomain: 'aluna-uruguay.myshopify.com'
         };
         this.init();
     }

@@ -3,8 +3,8 @@ class ProductManager {
     constructor() {
         this.products = this.loadProducts();
         this.shopifyConfig = {
-            domain: 'tu-tienda.myshopify.com', // Cambiar por tu dominio de Shopify
-            storefrontToken: 'tu-storefront-token' // Token de Shopify Storefront API
+            domain: 'aluna-uruguay.myshopify.com',
+            storefrontToken: 'tu-storefront-token'
         };
         this.githubConfig = null;
         this.githubAPI = null;
