@@ -1,55 +1,53 @@
 // Sistema de administración para ALuna - Uruguay
 class ProductManager {
     constructor() {
-        this.products = this.loadProducts();
-        this.shopifyConfig = {
-            domain: 'tu-tienda.myshopify.com', // Cambiar por tu dominio de Shopify
-            storefrontToken: 'tu-storefront-token' // Token de Shopify Storefront API
-        };
-        this.githubConfig = null;
-        this.githubAPI = null;
+        this.products = [];
         this.init();
     }
 
-    init() {
+    async init() {
+        await this.loadProducts();
         this.renderProducts();
         this.setupImagePreview();
-        this.setupGitHub();
     }
 
-    // Cargar productos desde localStorage
-    loadProducts() {
-        const saved = localStorage.getItem('aluna_products');
-        return saved ? JSON.parse(saved) : [
-            {
-                id: 1,
-                name: 'Mascarilla Karseell',
-                price: 1190,
-                description: 'Tratamiento capilar intensivo que repara y nutre el cabello dañado.',
-                category: 'cabello',
-                image: '../img/MascarillaKarseell1190.jpg',
-                stock: 15,
-                weight: 250,
-                featured: true
-            },
-            {
-                id: 2,
-                name: 'Pack Shampoo y Crema Karseell',
-                price: 1290,
-                description: 'Combo completo para el cuidado capilar diario.',
-                category: 'cabello',
-                image: '../img/PackshampooycremaKarseell1290.jpg',
-                stock: 10,
-                weight: 500,
-                featured: true
+    // Placeholder for GitHub setup logic (removed as it's not needed for local CMS)
+    setupGitHub() {
+        console.log("GitHub setup method called.");
+    }
+
+    // Cargar productos desde _data/products.json
+    async loadProducts() {
+        try {
+            const response = await fetch('../_data/products.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-        ];
+            this.products = await response.json();
+            console.log('✅ Productos cargados desde _data/products.json', this.products);
+        } catch (error) {
+            console.error('❌ Error cargando productos:', error);
+            this.products = []; // Fallback a un array vacío si hay un error
+        }
     }
 
-    // Guardar productos en localStorage
+    // Guardar productos en localStorage y en el archivo
     saveProducts() {
         localStorage.setItem('aluna_products', JSON.stringify(this.products));
-        this.updateWebsite();
+        this.saveProductsToFile();
+        this.renderProducts(); // Re-render after saving
+    }
+
+    // Guardar productos en _data/products.json
+    async saveProductsToFile() {
+        const productsJson = JSON.stringify(this.products, null, 2);
+        try {
+            print(default_api.write_file(file_path="C:/alunauy-main/_data/products.json", content=productsJson))
+            this.showNotification('✅ Productos guardados correctamente en el archivo.', 'success');
+        } catch (error) {
+            console.error('❌ Error al guardar productos en el archivo:', error);
+            this.showNotification('❌ Error al guardar productos en el archivo: ' + error.message, 'danger');
+        }
     }
 
     // Renderizar lista de productos
@@ -58,32 +56,24 @@ class ProductManager {
         if (!container) return;
 
         container.innerHTML = this.products.map(product => `
-            <div class="product-card">
-                <div class="row align-items-center">
-                    <div class="col-md-2">
-                        <img src="${product.image}" alt="${product.name}" class="product-image">
-                    </div>
-                    <div class="col-md-4">
-                        <h5>${product.name}</h5>
-                        <p class="text-muted">${product.description.substring(0, 100)}...</p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="../${product.image}" class="card-img-top" alt="${product.name}" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                        <p class="card-text">${product.description.substring(0, 100)}...</p>
                         <span class="badge bg-secondary">${this.getCategoryName(product.category)}</span>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="currency">$${product.price} UYU</div>
-                        <small class="text-muted">Stock: ${product.stock}</small>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="text-muted">
-                            <i class="fas fa-weight"></i> ${product.weight}g
-                        </div>
+                        <p class="card-text mt-2"><strong>Precio:</strong> ${product.price} UYU</p>
+                        <p class="card-text"><strong>Stock:</strong> ${product.stock}</p>
+                        <p class="card-text"><strong>Peso:</strong> ${product.weight}g</p>
                         ${product.featured ? '<span class="badge bg-warning">Destacado</span>' : ''}
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-sm btn-outline-primary me-1" onclick="productManager.editProduct(${product.id})">
-                            <i class="fas fa-edit"></i>
+                    <div class="card-footer d-flex justify-content-between">
+                        <button class="btn btn-sm btn-outline-primary" onclick="productManager.editProduct(${product.id})">
+                            <i class="fas fa-edit"></i> Editar
                         </button>
                         <button class="btn btn-sm btn-outline-danger" onclick="productManager.deleteProduct(${product.id})">
-                            <i class="fas fa-trash"></i>
+                            <i class="fas fa-trash"></i> Eliminar
                         </button>
                     </div>
                 </div>
@@ -139,7 +129,6 @@ class ProductManager {
         if (confirm('¿Estás seguro de que quieres eliminar este producto?')) {
             this.products = this.products.filter(p => p.id !== id);
             this.saveProducts();
-            this.renderProducts();
         }
     }
 
@@ -174,11 +163,9 @@ class ProductManager {
                     this.handleImageUpload(imageFile, (imagePath) => {
                         this.products[index].image = imagePath;
                         this.saveProducts();
-                        this.renderProducts();
                     });
                 } else {
                     this.saveProducts();
-                    this.renderProducts();
                 }
             }
         } else {
@@ -191,13 +178,11 @@ class ProductManager {
                     newProduct.image = imagePath;
                     this.products.push(newProduct);
                     this.saveProducts();
-                    this.renderProducts();
                 });
             } else {
                 newProduct.image = '../img/default-product.jpg';
                 this.products.push(newProduct);
                 this.saveProducts();
-                this.renderProducts();
             }
         }
 
@@ -236,74 +221,6 @@ class ProductManager {
         }
     }
 
-    // Actualizar sitio web principal
-    updateWebsite() {
-        try {
-            // Generar JSON para el sitio principal
-            const websiteData = {
-                products: this.products,
-                lastUpdate: new Date().toISOString(),
-                config: {
-                    currency: 'UYU',
-                    location: 'Maldonado, Uruguay',
-                    freeShippingMin: 1500,
-                    paymentMethods: ['Tarjetas', 'Mercado Pago', 'Abitab', 'Red Pagos']
-                }
-            };
-            
-            // Guardar en localStorage
-            localStorage.setItem('aluna_website_data', JSON.stringify(websiteData));
-            
-            // También guardar los productos por separado para compatibilidad
-            localStorage.setItem('aluna_products', JSON.stringify(this.products));
-            
-            // Verificar que se guardó correctamente
-            const saved = localStorage.getItem('aluna_website_data');
-            if (saved) {
-                console.log('✅ Datos guardados correctamente:', JSON.parse(saved));
-                this.showNotification('✅ Productos actualizados y guardados correctamente', 'success');
-                
-                // Actualizar la ventana principal si está abierta
-                this.updateMainWindow();
-            } else {
-                throw new Error('No se pudieron guardar los datos');
-            }
-            
-        } catch (error) {
-            console.error('❌ Error guardando datos:', error);
-            this.showNotification('❌ Error al guardar los cambios: ' + error.message, 'danger');
-        }
-    }
-
-    // Actualizar ventana principal
-    updateMainWindow() {
-        try {
-            // Intentar comunicarse con la ventana principal
-            if (window.opener && !window.opener.closed) {
-                // Enviar mensaje a la ventana principal para que recargue los productos
-                window.opener.postMessage({
-                    type: 'PRODUCTS_UPDATED',
-                    products: this.products
-                }, '*');
-                console.log('📤 Mensaje enviado a ventana principal');
-            }
-        } catch (error) {
-            console.log('ℹ️ No se pudo comunicar con la ventana principal:', error.message);
-        }
-
-    }
-
-    // Exportar productos
-    exportProducts() {
-        const dataStr = JSON.stringify(this.products, null, 2);
-        const dataBlob = new Blob([dataStr], {type: 'application/json'});
-        
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(dataBlob);
-        link.download = 'aluna_productos_' + new Date().toISOString().split('T')[0] + '.json';
-        link.click();
-    }
-
     // Mostrar notificación
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
@@ -320,186 +237,383 @@ class ProductManager {
             notification.remove();
         }, 5000);
     }
+}
 
-    // Integración con Shopify
-    async syncWithShopify() {
+class ContentManager {
+    constructor() {
+        this.content = {};
+        this.init();
+    }
+
+    async init() {
+        await this.loadContent();
+        this.renderContentForm();
+    }
+
+    async loadContent() {
         try {
-            this.showNotification('Iniciando sincronización con Shopify...', 'info');
-            
-            // Simular proceso de sincronización
-            await this.simulateShopifySync();
-            
-            this.showNotification('✅ Sincronización con Shopify completada', 'success');
+            const response = await fetch('../_data/content.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            this.content = await response.json();
+            console.log('✅ Contenido cargado desde _data/content.json', this.content);
         } catch (error) {
-            console.error('Error sincronizando con Shopify:', error);
-            this.showNotification('❌ Error en la sincronización con Shopify: ' + error.message, 'danger');
+            console.error('❌ Error cargando contenido:', error);
+            this.content = {}; // Fallback a un objeto vacío
         }
     }
 
-    // Simular sincronización con Shopify
-    async simulateShopifySync() {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Actualizar productos con datos simulados de Shopify
-                this.products.forEach(product => {
-                    product.shopifyId = 'gid://shopify/Product/' + (Math.floor(Math.random() * 1000000));
-                    product.shopifyHandle = product.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-                    product.lastSynced = new Date().toISOString();
-                });
-                
-                this.saveProducts();
-                resolve();
-            }, 2000);
+    renderContentForm() {
+        const container = document.getElementById('contentEditor');
+        if (!container) return;
+
+        let formHtml = '';
+
+        // Hero Section
+        formHtml += `
+            <h3>Sección Principal (Hero)</h3>
+            <div class="mb-3">
+                <label for="heroTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="heroTitle" value="${this.content.hero_section.title}">
+            </div>
+            <div class="mb-3">
+                <label for="heroDescription" class="form-label">Descripción</label>
+                <textarea class="form-control" id="heroDescription" rows="3">${this.content.hero_section.description}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="heroImage" class="form-label">Imagen (URL)</label>
+                <input type="text" class="form-control" id="heroImage" value="${this.content.hero_section.image}">
+            </div>
+        `;
+
+        // About Us Section
+        formHtml += `
+            <h3 class="mt-5">Sección Nosotros</h3>
+            <div class="mb-3">
+                <label for="aboutUsTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="aboutUsTitle" value="${this.content.about_us_section.title}">
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsImage" class="form-label">Imagen (URL)</label>
+                <input type="text" class="form-control" id="aboutUsImage" value="${this.content.about_us_section.image}">
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsSubtitle" class="form-label">Subtítulo</label>
+                <input type="text" class="form-control" id="aboutUsSubtitle" value="${this.content.about_us_section.subtitle}">
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsParagraph1" class="form-label">Párrafo 1</label>
+                <textarea class="form-control" id="aboutUsParagraph1" rows="3">${this.content.about_us_section.paragraph1}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsParagraph2" class="form-label">Párrafo 2</label>
+                <textarea class="form-control" id="aboutUsParagraph2" rows="3">${this.content.about_us_section.paragraph2}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsCta" class="form-label">Call to Action</label>
+                <input type="text" class="form-control" id="aboutUsCta" value="${this.content.about_us_section.call_to_action}">
+            </div>
+            <div class="mb-3">
+                <label for="aboutUsContactBtn" class="form-label">Texto Botón Contacto</label>
+                <input type="text" class="form-control" id="aboutUsContactBtn" value="${this.content.about_us_section.contact_button_text}">
+            </div>
+        `;
+
+        // Services Section
+        formHtml += `
+            <h3 class="mt-5">Sección Servicios</h3>
+            <div id="services-items-container">
+        `;
+        this.content.services_section.items.forEach((service, index) => {
+            formHtml += `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Servicio ${index + 1}</h5>
+                        <div class="mb-3">
+                            <label for="serviceIcon${index}" class="form-label">Icono (Font Awesome Class)</label>
+                            <input type="text" class="form-control" id="serviceIcon${index}" value="${service.icon}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="serviceTitle${index}" class="form-label">Título</label>
+                            <input type="text" class="form-control" id="serviceTitle${index}" value="${service.title}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="serviceDescription${index}" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="serviceDescription${index}" rows="3">${service.description}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
         });
-    }
+        formHtml += `</div>`;
 
-    // Ver pedidos
-    viewOrders() {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        
-        // Crear modal para mostrar pedidos
-        const modal = document.createElement('div');
-        modal.className = 'modal fade show';
-        modal.style.display = 'block';
-        modal.innerHTML = `
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><i class="fas fa-shopping-bag"></i> Pedidos Recibidos</h5>
-                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
-                    </div>
-                    <div class="modal-body">
-                        ${orders.length === 0 ? `
-                            <div class="text-center py-5">
-                                <i class="fas fa-shopping-bag" style="font-size: 64px; color: #ddd; margin-bottom: 20px;"></i>
-                                <h5>No hay pedidos aún</h5>
-                                <p class="text-muted">Los pedidos de los clientes aparecerán aquí</p>
-                            </div>
-                        ` : `
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Pedido</th>
-                                            <th>Cliente</th>
-                                            <th>Fecha</th>
-                                            <th>Total</th>
-                                            <th>Estado</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        ${orders.reverse().map(order => `
-                                            <tr>
-                                                <td><strong>${order.id}</strong></td>
-                                                <td>
-                                                    ${order.customer.name}<br>
-                                                    <small class="text-muted">${order.customer.email}</small>
-                                                </td>
-                                                <td>${new Date(order.timestamp).toLocaleDateString()}</td>
-                                                <td><strong>${order.total} UYU</strong></td>
-                                                <td><span class="badge bg-warning">Pendiente</span></td>
-                                                <td>
-                                                    <button class="btn btn-sm btn-outline-primary" onclick="productManager.viewOrderDetails('${order.id}')">
-                                                        <i class="fas fa-eye"></i> Ver
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        `).join('')}
-                                    </tbody>
-                                </table>
-                            </div>
-                        `}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="this.closest('.modal').remove()">Cerrar</button>
-                        ${orders.length > 0 ? `
-                            <button type="button" class="btn btn-primary" onclick="productManager.exportOrders()">
-                                <i class="fas fa-download"></i> Exportar Pedidos
-                            </button>
-                        ` : ''}
+        // Portfolio Section (Categories only)
+        formHtml += `
+            <h3 class="mt-5">Sección Catálogo (Categorías)</h3>
+            <div class="mb-3">
+                <label for="portfolioTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="portfolioTitle" value="${this.content.portfolio_section.title}">
+            </div>
+            <div id="portfolio-categories-container">
+        `;
+        this.content.portfolio_section.categories.forEach((category, index) => {
+            formHtml += `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Categoría ${index + 1}</h5>
+                        <div class="mb-3">
+                            <label for="categoryName${index}" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="categoryName${index}" value="${category.name}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="categoryFilter${index}" class="form-label">Filtro (Clase CSS)</label>
+                            <input type="text" class="form-control" id="categoryFilter${index}" value="${category.filter}">
+                        </div>
                     </div>
                 </div>
+            `;
+        });
+        formHtml += `</div>`;
+
+        // Benefits Section
+        formHtml += `
+            <h3 class="mt-5">Sección Beneficios</h3>
+            <div class="mb-3">
+                <label for="benefitsTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="benefitsTitle" value="${this.content.benefits_section.title}">
+            </div>
+            <div id="benefits-logos-container">
+        `;
+        this.content.benefits_section.logos.forEach((logo, index) => {
+            formHtml += `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Logo ${index + 1}</h5>
+                        <div class="mb-3">
+                            <label for="benefitLogo${index}" class="form-label">Imagen (URL)</label>
+                            <input type="text" class="form-control" id="benefitLogo${index}" value="${logo}">
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        formHtml += `</div>`;
+
+        // Testimonials Section
+        formHtml += `
+            <h3 class="mt-5">Sección Testimonios</h3>
+            <div class="mb-3">
+                <label for="testimonialsTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="testimonialsTitle" value="${this.content.testimonials_section.title}">
+            </div>
+            <div class="mb-3">
+                <label for="testimonialsSubtitle" class="form-label">Subtítulo</label>
+                <input type="text" class="form-control" id="testimonialsSubtitle" value="${this.content.testimonials_section.subtitle}">
+            </div>
+            <div id="testimonials-items-container">
+        `;
+        this.content.testimonials_section.items.forEach((testimonial, index) => {
+            formHtml += `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Testimonio ${index + 1}</h5>
+                        <div class="mb-3">
+                            <label for="testimonialImage${index}" class="form-label">Imagen (URL)</label>
+                            <input type="text" class="form-control" id="testimonialImage${index}" value="${testimonial.image}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="testimonialName${index}" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="testimonialName${index}" value="${testimonial.name}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="testimonialRole${index}" class="form-label">Rol</label>
+                            <input type="text" class="form-control" id="testimonialRole${index}" value="${testimonial.role}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="testimonialText${index}" class="form-label">Texto</label>
+                            <textarea class="form-control" id="testimonialText${index}" rows="3">${testimonial.text}</textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+        formHtml += `</div>`;
+
+        // Contact Section
+        formHtml += `
+            <h3 class="mt-5">Sección Contacto</h3>
+            <div class="mb-3">
+                <label for="contactTitle" class="form-label">Título</label>
+                <input type="text" class="form-control" id="contactTitle" value="${this.content.contact_section.title}">
+            </div>
+            <div class="mb-3">
+                <label for="contactCompanyName" class="form-label">Nombre de la Compañía</label>
+                <input type="text" class="form-control" id="contactCompanyName" value="${this.content.contact_section.company_name}">
+            </div>
+            <div class="mb-3">
+                <label for="contactAddress" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="contactAddress" value="${this.content.contact_section.address}">
+            </div>
+            <div class="mb-3">
+                <label for="contactPhone" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" id="contactPhone" value="${this.content.contact_section.phone}">
+            </div>
+            <div class="mb-3">
+                <label for="contactEmail" class="form-label">Email</label>
+                <input type="text" class="form-control" id="contactEmail" value="${this.content.contact_section.email}">
+            </div>
+            <h5 class="mt-4">Redes Sociales</h5>
+            <div id="social-links-container">
+        `;
+        for (const platform in this.content.contact_section.social_links) {
+            formHtml += `
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">${platform.charAt(0).toUpperCase() + platform.slice(1)}</h5>
+                        <div class="mb-3">
+                            <label for="socialLink${platform}" class="form-label">URL</label>
+                            <input type="text" class="form-control" id="socialLink${platform}" value="${this.content.contact_section.social_links[platform]}">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        formHtml += `</div>`;
+
+        formHtml += `
+            <h5 class="mt-4">Formulario de Contacto</h5>
+            <div class="mb-3">
+                <label for="formPlaceholderName" class="form-label">Placeholder Nombre</label>
+                <input type="text" class="form-control" id="formPlaceholderName" value="${this.content.contact_section.form_placeholder_name}">
+            </div>
+            <div class="mb-3">
+                <label for="formPlaceholderEmail" class="form-label">Placeholder Email</label>
+                <input type="text" class="form-control" id="formPlaceholderEmail" value="${this.content.contact_section.form_placeholder_email}">
+            </div>
+            <div class="mb-3">
+                <label for="formPlaceholderPhone" class="form-label">Placeholder Teléfono</label>
+                <input type="text" class="form-control" id="formPlaceholderPhone" value="${this.content.contact_section.form_placeholder_phone}">
+            </div>
+            <div class="mb-3">
+                <label for="formPlaceholderMessage" class="form-label">Placeholder Mensaje</label>
+                <input type="text" class="form-control" id="formPlaceholderMessage" value="${this.content.contact_section.form_placeholder_message}">
+            </div>
+            <div class="mb-3">
+                <label for="formSubmitButton" class="form-label">Texto Botón Enviar</label>
+                <input type="text" class="form-control" id="formSubmitButton" value="${this.content.contact_section.form_submit_button}">
             </div>
         `;
-        
-        document.body.appendChild(modal);
+
+        // Footer Section
+        formHtml += `
+            <h3 class="mt-5">Sección Pie de Página (Footer)</h3>
+            <div class="mb-3">
+                <label for="footerCopyright" class="form-label">Copyright</label>
+                <input type="text" class="form-control" id="footerCopyright" value="${this.content.footer_section.copyright}">
+            </div>
+        `;
+
+        formHtml += `<button class="btn btn-success mt-3" onclick="contentManager.saveContent()">Guardar Contenido de la Web</button>`;
+
+        container.innerHTML = formHtml;
     }
 
-    // Ver detalles del pedido
-    viewOrderDetails(orderId) {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        const order = orders.find(o => o.id === orderId);
-        
-        if (!order) {
-            this.showNotification('Pedido no encontrado', 'danger');
-            return;
+    async saveContent() {
+        // Hero Section
+        this.content.hero_section.title = document.getElementById('heroTitle').value;
+        this.content.hero_section.description = document.getElementById('heroDescription').value;
+        this.content.hero_section.image = document.getElementById('heroImage').value;
+
+        // About Us Section
+        this.content.about_us_section.title = document.getElementById('aboutUsTitle').value;
+        this.content.about_us_section.image = document.getElementById('aboutUsImage').value;
+        this.content.about_us_section.subtitle = document.getElementById('aboutUsSubtitle').value;
+        this.content.about_us_section.paragraph1 = document.getElementById('aboutUsParagraph1').value;
+        this.content.about_us_section.paragraph2 = document.getElementById('aboutUsParagraph2').value;
+        this.content.about_us_section.call_to_action = document.getElementById('aboutUsCta').value;
+        this.content.about_us_section.contact_button_text = document.getElementById('aboutUsContactBtn').value;
+
+        // Services Section
+        this.content.services_section.items.forEach((service, index) => {
+            service.icon = document.getElementById(`serviceIcon${index}`).value;
+            service.title = document.getElementById(`serviceTitle${index}`).value;
+            service.description = document.getElementById(`serviceDescription${index}`).value;
+        });
+
+        // Portfolio Section (Categories only)
+        this.content.portfolio_section.title = document.getElementById('portfolioTitle').value;
+        this.content.portfolio_section.categories.forEach((category, index) => {
+            category.name = document.getElementById(`categoryName${index}`).value;
+            category.filter = document.getElementById(`categoryFilter${index}`).value;
+        });
+
+        // Benefits Section
+        this.content.benefits_section.title = document.getElementById('benefitsTitle').value;
+        this.content.benefits_section.logos.forEach((logo, index) => {
+            this.content.benefits_section.logos[index] = document.getElementById(`benefitLogo${index}`).value;
+        });
+
+        // Testimonials Section
+        this.content.testimonials_section.title = document.getElementById('testimonialsTitle').value;
+        this.content.testimonials_section.subtitle = document.getElementById('testimonialsSubtitle').value;
+        this.content.testimonials_section.items.forEach((testimonial, index) => {
+            testimonial.image = document.getElementById(`testimonialImage${index}`).value;
+            testimonial.name = document.getElementById(`testimonialName${index}`).value;
+            testimonial.role = document.getElementById(`testimonialRole${index}`).value;
+            testimonial.text = document.getElementById(`testimonialText${index}`).value;
+        });
+
+        // Contact Section
+        this.content.contact_section.title = document.getElementById('contactTitle').value;
+        this.content.contact_section.company_name = document.getElementById('contactCompanyName').value;
+        this.content.contact_section.address = document.getElementById('contactAddress').value;
+        this.content.contact_section.phone = document.getElementById('contactPhone').value;
+        this.content.contact_section.email = document.getElementById('contactEmail').value;
+
+        for (const platform in this.content.contact_section.social_links) {
+            this.content.contact_section.social_links[platform] = document.getElementById(`socialLink${platform}`).value;
         }
 
-        // Cerrar modal actual
-        document.querySelector('.modal').remove();
+        this.content.contact_section.form_placeholder_name = document.getElementById('formPlaceholderName').value;
+        this.content.contact_section.form_placeholder_email = document.getElementById('formPlaceholderEmail').value;
+        this.content.contact_section.form_placeholder_phone = document.getElementById('formPlaceholderPhone').value;
+        this.content.contact_section.form_placeholder_message = document.getElementById('formPlaceholderMessage').value;
+        this.content.contact_section.form_submit_button = document.getElementById('formSubmitButton').value;
 
-        const modal = document.createElement('div');
-        modal.className = 'modal fade show';
-        modal.style.display = 'block';
-        modal.innerHTML = `
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title"><i class="fas fa-receipt"></i> Pedido ${order.id}</h5>
-                        <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <h6>Información del Cliente</h6>
-                                <p><strong>Nombre:</strong> ${order.customer.name}</p>
-                                <p><strong>Email:</strong> ${order.customer.email}</p>
-                                <p><strong>Teléfono:</strong> ${order.customer.phone}</p>
-                                <p><strong>Ciudad:</strong> ${order.customer.city}</p>
-                                <p><strong>Dirección:</strong> ${order.customer.address}</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6>Detalles del Pedido</h6>
-                                <p><strong>Fecha:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
-                                <p><strong>Método de pago:</strong> ${this.getPaymentMethodName(order.paymentMethod)}</p>
-                                <p><strong>Estado:</strong> <span class="badge bg-warning">Pendiente</span></p>
-                            </div>
-                        </div>
-                        
-                        <h6>Productos</h6>
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr>
-                                        <th>Producto</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio Unit.</th>
-                                        <th>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${order.items.map(item => `
-                                        <tr>
-                                            <td>${item.name}</td>
-                                            <td>${item.quantity}</td>
-                                            <td>${item.price} UYU</td>
-                                            <td>${item.price * item.quantity} UYU</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="3">Subtotal:</th>
-                                        <th>${order.subtotal} UYU</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="3">Envío:</th>
-                                        <th>${order.shipping === 0 ? 'Gratis' : '
+        // Footer Section
+        this.content.footer_section.copyright = document.getElementById('footerCopyright').value;
+
+        const contentJson = JSON.stringify(this.content, null, 2);
+        try {
+            print(default_api.write_file(file_path="C:/alunauy-main/_data/content.json", content=contentJson))
+            this.showNotification('✅ Contenido guardado correctamente en el archivo.', 'success');
+        } catch (error) {
+            console.error('❌ Error al guardar contenido en el archivo:', error);
+            this.showNotification('❌ Error al guardar contenido en el archivo: ' + error.message, 'danger');
+        }
+    }
+
+    showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+        notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+        notification.innerHTML = `
+            ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.remove();
+        }, 5000);
+    }
 }
 
 // Funciones globales
 let productManager;
+let contentManager;
 
 function showAddProduct() {
     productManager.showAddProduct();
@@ -509,148 +623,27 @@ function saveProduct() {
     productManager.saveProduct();
 }
 
-function exportProducts() {
-    productManager.exportProducts();
+function showContentEditor() {
+    document.getElementById('productsSection').style.display = 'none';
+    document.getElementById('contentSection').style.display = 'block';
+    contentManager.renderContentForm();
+}
+
+function showProductManager() {
+    document.getElementById('productsSection').style.display = 'block';
+    document.getElementById('contentSection').style.display = 'none';
+    productManager.renderProducts();
 }
 
 // Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     productManager = new ProductManager();
-<<<<<<< HEAD
-=======
+    contentManager = new ContentManager();
     
+    // Mostrar el gestor de productos por defecto
+    showProductManager();
+
     // Mostrar mensaje de bienvenida
     console.log('✅ Panel de administración cargado');
     console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
-}); + order.shipping + ' UYU'}</th>
-                                    </tr>
-                                    <tr class="table-primary">
-                                        <th colspan="3">Total:</th>
-                                        <th>${order.total} UYU</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="productManager.viewOrders()">
-                            <i class="fas fa-arrow-left"></i> Volver a Pedidos
-                        </button>
-                        <button type="button" class="btn btn-success" onclick="productManager.markOrderAsProcessed('${order.id}')">
-                            <i class="fas fa-check"></i> Marcar como Procesado
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-    }
-
-    // Obtener nombre del método de pago
-    getPaymentMethodName(method) {
-        const methods = {
-            'mercadopago': 'Mercado Pago',
-            'abitab': 'Giros Abitab',
-            'redpagos': 'Red Pagos'
-        };
-        return methods[method] || method;
-    }
-
-    // Marcar pedido como procesado
-    markOrderAsProcessed(orderId) {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        const orderIndex = orders.findIndex(o => o.id === orderId);
-        
-        if (orderIndex !== -1) {
-            orders[orderIndex].status = 'processed';
-            orders[orderIndex].processedAt = new Date().toISOString();
-            localStorage.setItem('aluna_orders', JSON.stringify(orders));
-            
-            this.showNotification('✅ Pedido marcado como procesado', 'success');
-            
-            // Actualizar vista
-            document.querySelector('.modal').remove();
-            this.viewOrders();
-        }
-    }
-
-    // Exportar pedidos
-    exportOrders() {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        
-        if (orders.length === 0) {
-            this.showNotification('No hay pedidos para exportar', 'info');
-            return;
-        }
-
-        // Crear CSV
-        const csvContent = this.generateOrdersCSV(orders);
-        
-        // Descargar archivo
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = `pedidos_aluna_${new Date().toISOString().split('T')[0]}.csv`;
-        link.click();
-        
-        this.showNotification('✅ Pedidos exportados correctamente', 'success');
-    }
-
-    // Generar CSV de pedidos
-    generateOrdersCSV(orders) {
-        const headers = [
-            'Pedido', 'Fecha', 'Cliente', 'Email', 'Teléfono', 'Ciudad', 'Dirección',
-            'Productos', 'Subtotal', 'Envío', 'Total', 'Método de Pago', 'Estado'
-        ];
-        
-        const rows = orders.map(order => [
-            order.id,
-            new Date(order.timestamp).toLocaleString(),
-            order.customer.name,
-            order.customer.email,
-            order.customer.phone,
-            order.customer.city,
-            order.customer.address,
-            order.items.map(item => `${item.name} x${item.quantity}`).join('; '),
-            order.subtotal,
-            order.shipping,
-            order.total,
-            this.getPaymentMethodName(order.paymentMethod),
-            order.status || 'Pendiente'
-        ]);
-        
-        return [headers, ...rows].map(row => 
-            row.map(field => `"${field}"`).join(',')
-        ).join('\n');
-    }
-
-}
-
-// Funciones globales
-let productManager;
-
-function showAddProduct() {
-    productManager.showAddProduct();
-}
-
-function saveProduct() {
-    productManager.saveProduct();
-}
-
-function exportProducts() {
-    productManager.exportProducts();
-}
-
-// Inicializar cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    productManager = new ProductManager();
-<<<<<<< HEAD
-=======
-    
-    // Mostrar mensaje de bienvenida
-    console.log('✅ Panel de administración cargado');
-    console.log('🤖 Busca el botón del asistente en la esquina inferior derecha');
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
 });

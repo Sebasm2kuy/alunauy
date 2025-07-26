@@ -1,0 +1,117 @@
+{
+  "hero_section": {
+    "title": "Descubre tu belleza natural con ALuna",
+    "description": "Productos de belleza y cosméticos de alta calidad que realzan tu belleza natural. Desde tratamientos capilares hasta cuidado facial, tenemos todo lo que necesitas para lucir radiante cada día.",
+    "image": "img/main_device_image.png",
+    "button_text": "Ver Productos"
+  },
+  "about_us_section": {
+    "title": "Sobre ALuna",
+    "image": "img/about-img.jpg",
+    "subtitle": "Tu belleza es nuestra pasión",
+    "paragraph1": "En ALuna creemos que cada persona tiene una belleza única que merece ser realzada. Nos especializamos en ofrecer productos cosméticos y de belleza de la más alta calidad, cuidadosamente seleccionados para satisfacer las necesidades de todo tipo de piel y cabello.",
+    "paragraph2": "Nuestro compromiso es brindarte productos auténticos, efectivos y seguros que te ayuden a lucir y sentirte increíble. Desde tratamientos capilares profesionales hasta productos de cuidado facial, cada artículo en nuestro catálogo ha sido elegido pensando en tu bienestar y belleza.",
+    "call_to_action": "¿Lista para transformar tu rutina de belleza?",
+    "contact_button_text": "Contáctanos"
+  },
+  "services_section": {
+    "title": "Nuestros Productos",
+    "items": [
+      {
+        "icon": "fa-heart",
+        "title": "Cuidado Capilar",
+        "description": "Tratamientos profesionales para todo tipo de cabello. Mascarillas, champús y cremas que nutren, reparan y fortalecen tu cabello desde la raíz."
+      },
+      {
+        "icon": "fa-star",
+        "title": "Cuidado Facial",
+        "description": "Productos especializados para el cuidado de tu rostro. Cremas hidratantes, serums y tratamientos que mantienen tu piel radiante y saludable."
+      },
+      {
+        "icon": "fa-magic",
+        "title": "Maquillaje",
+        "description": "Cosméticos de alta calidad para realzar tu belleza natural. Bases, labiales, sombras y más productos para crear looks únicos."
+      },
+      {
+        "icon": "fa-leaf",
+        "title": "Productos Naturales",
+        "description": "Cosméticos con ingredientes naturales y orgánicos. Cuidamos tu piel y cabello con la pureza que la naturaleza nos ofrece."
+      },
+      {
+        "icon": "fa-gift",
+        "title": "Sets de Regalo",
+        "description": "Combos especiales y sets de regalo perfectos para sorprender. Productos cuidadosamente seleccionados en presentaciones elegantes."
+      },
+      {
+        "icon": "fa-truck",
+        "title": "Envío Gratis",
+        "description": "Disfruta de envío gratuito en compras superiores a $50. Recibe tus productos favoritos en la comodidad de tu hogar."
+      }
+    ]
+  },
+  "portfolio_section": {
+    "title": "Catálogo de Productos",
+    "categories": [
+      {"name": "Todos", "filter": "*"},
+      {"name": "Cabello", "filter": ".prototype"},
+      {"name": "Rostro", "filter": ".design"},
+      {"name": "Maquillaje", "filter": ".android"},
+      {"name": "Naturales", "filter": ".appleIOS"},
+      {"name": "Sets", "filter": ".web"}
+    ]
+  },
+  "benefits_section": {
+    "title": "¿Por qué elegir ALuna?",
+    "logos": [
+      "img/client_logo1.png",
+      "img/client_logo2.png",
+      "img/client_logo3.png",
+      "img/client_logo5.png"
+    ]
+  },
+  "testimonials_section": {
+    "title": "Testimonios",
+    "subtitle": "Lo que dicen nuestras clientas sobre ALuna",
+    "items": [
+      {
+        "image": "img/team_pic1.jpg",
+        "name": "María González",
+        "role": "Cliente Satisfecha",
+        "text": "Los productos de ALuna han transformado completamente mi rutina de belleza. Mi cabello nunca había estado tan suave y brillante. ¡Totalmente recomendado!"
+      },
+      {
+        "image": "img/team_pic2.jpg",
+        "name": "Ana Rodríguez",
+        "role": "Cliente Frecuente",
+        "text": "La calidad de los cosméticos es excepcional. Mi piel se ve más radiante y saludable desde que uso los productos de ALuna. El servicio al cliente es excelente."
+      },
+      {
+        "image": "img/team_pic3.jpg",
+        "name": "Carmen López",
+        "role": "Cliente VIP",
+        "text": "ALuna es mi tienda de belleza de confianza. Siempre encuentro productos de calidad a precios justos. Los envíos son rápidos y el empaque es hermoso."
+      }
+    ]
+  },
+  "contact_section": {
+    "title": "Contáctanos",
+    "company_name": "ALuna Cosméticos",
+    "address": "Av. Belleza 123, Ciudad de México, México",
+    "phone": "+52 55 1234 5678",
+    "email": "info@aluna.com",
+    "social_links": {
+      "twitter": "javascript:void(0)",
+      "facebook": "javascript:void(0)",
+      "pinterest": "javascript:void(0)",
+      "google_plus": "javascript:void(0)"
+    },
+    "form_placeholder_name": "Tu Nombre *",
+    "form_placeholder_email": "Tu Correo Electrónico *",
+    "form_placeholder_phone": "Tu Teléfono",
+    "form_placeholder_message": "¿En qué productos estás interesada? Cuéntanos sobre tu rutina de belleza...",
+    "form_submit_button": "Solicitar Información"
+  },
+  "footer_section": {
+    "copyright": "Copyright © 2024, ALuna Cosméticos. Todos los derechos reservados."
+  }
+}

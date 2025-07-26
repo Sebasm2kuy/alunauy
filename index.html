@@ -57,12 +57,12 @@
         <div class="row">
           <div class="col-lg-5 col-sm-7">
             <div class="top_left_cont zoomIn wow animated"> 
-              <h2>Descubre tu <strong>belleza natural</strong> con ALuna</h2>
-              <p>Productos de belleza y cosméticos de alta calidad que realzan tu belleza natural. Desde tratamientos capilares hasta cuidado facial, tenemos todo lo que necesitas para lucir radiante cada día.</p>
+              <h2 id="hero-title"></h2>
+              <p id="hero-description"></p>
               <a href="#products" class="read_more2">Ver Productos</a> </div>
           </div>
           <div class="col-lg-7 col-sm-5">
-			<img src="img/main_device_image.png" class="zoomIn wow animated" alt="" />
+			<img id="hero-image" src="" class="zoomIn wow animated" alt="" />
 		  </div>
         </div>
       </div>
@@ -74,17 +74,17 @@
 <section id="aboutUs"><!--Aboutus-->
 <div class="inner_wrapper">
   <div class="container">
-    <h2>Sobre ALuna</h2>
+    <h2 id="about-us-title"></h2>
     <div class="inner_section">
 	<div class="row">
-      <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 pull-right"><img src="img/about-img.jpg" class="img-circle delay-03s animated wow zoomIn" alt=""></div>
+      <div class=" col-lg-4 col-md-4 col-sm-4 col-xs-12 pull-right"><img id="about-us-image" src="" class="img-circle delay-03s animated wow zoomIn" alt=""></div>
       	<div class=" col-lg-7 col-md-7 col-sm-7 col-xs-12 pull-left">
         	<div class=" delay-01s animated fadeInDown wow animated">
-			<h3>Tu belleza es nuestra pasión</h3><br/> 
-            <p>En ALuna creemos que cada persona tiene una belleza única que merece ser realzada. Nos especializamos en ofrecer productos cosméticos y de belleza de la más alta calidad, cuidadosamente seleccionados para satisfacer las necesidades de todo tipo de piel y cabello.</p> <br/>
-<p>Nuestro compromiso es brindarte productos auténticos, efectivos y seguros que te ayuden a lucir y sentirte increíble. Desde tratamientos capilares profesionales hasta productos de cuidado facial, cada artículo en nuestro catálogo ha sido elegido pensando en tu bienestar y belleza.</p>
+			<h3 id="about-us-subtitle"></h3><br/> 
+            <p id="about-us-paragraph1"></p> <br/>
+<p id="about-us-paragraph2"></p>
 </div>
-<div class="work_bottom"> <span>¿Lista para transformar tu rutina de belleza?</span> <a href="#contact" class="contact_btn">Contáctanos</a> </div>       
+<div class="work_bottom"> <span id="about-us-cta"></span> <a href="#contact" class="contact_btn" id="about-us-contact-btn"></a> </div>       
 	   </div>
       	
       </div>
@@ -100,54 +100,9 @@
 <!--Service-->
 <section  id="products">
   <div class="container">
-    <h2>Nuestros Productos</h2>
-    <div class="service_wrapper">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="service_block">
-            <div class="service_icon delay-03s animated wow  zoomIn"> <span><i class="fa fa-heart"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Cuidado Capilar</h3>
-            <p class="animated fadeInDown wow">Tratamientos profesionales para todo tipo de cabello. Mascarillas, champús y cremas que nutren, reparan y fortalecen tu cabello desde la raíz.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 borderLeft">			
-          <div class="service_block">
-            <div class="service_icon icon2  delay-03s animated wow zoomIn"> <span><i class="fa fa-star"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Cuidado Facial</h3>
-            <p class="animated fadeInDown wow">Productos especializados para el cuidado de tu rostro. Cremas hidratantes, serums y tratamientos que mantienen tu piel radiante y saludable.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 borderLeft">
-          <div class="service_block">
-            <div class="service_icon icon3  delay-03s animated wow zoomIn"> <span><i class="fa fa-magic"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Maquillaje</h3>
-            <p class="animated fadeInDown wow">Cosméticos de alta calidad para realzar tu belleza natural. Bases, labiales, sombras y más productos para crear looks únicos.</p>
-          </div>
-        </div>
-      </div>
-	   <div class="row borderTop">
-        <div class="col-lg-4 mrgTop">
-          <div class="service_block">
-            <div class="service_icon delay-03s animated wow  zoomIn"> <span><i class="fa fa-leaf"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Productos Naturales</h3>
-            <p class="animated fadeInDown wow">Cosméticos con ingredientes naturales y orgánicos. Cuidamos tu piel y cabello con la pureza que la naturaleza nos ofrece.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 borderLeft mrgTop">
-          <div class="service_block">
-            <div class="service_icon icon2  delay-03s animated wow zoomIn"> <span><i class="fa fa-gift"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Sets de Regalo</h3>
-            <p class="animated fadeInDown wow">Combos especiales y sets de regalo perfectos para sorprender. Productos cuidadosamente seleccionados en presentaciones elegantes.</p>
-          </div>
-        </div>
-        <div class="col-lg-4 borderLeft mrgTop">
-          <div class="service_block">
-            <div class="service_icon icon3  delay-03s animated wow zoomIn"> <span><i class="fa fa-truck"></i></span> </div>
-            <h3 class="animated fadeInUp wow">Envío Gratis</h3>
-            <p class="animated fadeInDown wow">Disfruta de envío gratuito en compras superiores a $50. Recibe tus productos favoritos en la comodidad de tu hogar.</p>
-          </div>
-        </div>
-      </div>
+    <h2 id="services-title"></h2>
+    <div class="service_wrapper" id="services-container">
+      <!-- Services will be dynamically loaded here -->
     </div>
   </div>
 </section>
@@ -164,7 +119,7 @@
     
     <!-- Title -->
     <div class="section-title">
-      <h2>Catálogo de Productos</h2>
+      <h2 id="portfolio-title"></h2>
     </div>
     <!--/Title --> 
     
@@ -177,25 +132,8 @@
   <div class="portfolio"> 
     
     <div id="filters" class="sixteen columns">
-      <ul class="clearfix">
-        <li><a id="all" href="#" data-filter="*" class="active">
-          <h5>Todos</h5>
-          </a></li>
-        <li><a class="" href="#" data-filter=".prototype">
-          <h5>Cabello</h5>
-          </a></li>
-        <li><a class="" href="#" data-filter=".design">
-          <h5>Rostro</h5>
-          </a></li>
-        <li><a class="" href="#" data-filter=".android">
-          <h5>Maquillaje</h5>
-          </a></li>
-        <li><a class="" href="#" data-filter=".appleIOS">
-          <h5>Naturales</h5>
-          </a></li>
-        <li><a class="" href="#" data-filter=".web">
-          <h5>Sets</h5>
-          </a></li>
+      <ul class="clearfix" id="portfolio-filters">
+        <!-- Portfolio filters will be dynamically loaded here -->
       </ul>
     </div>
     <!--/Portfolio Filters --> 
@@ -203,165 +141,7 @@
     <!-- Portfolio Wrapper -->
     <div class="isotope fadeInLeft animated wow" style="position: relative; overflow: hidden; height: 480px;" id="portfolio_wrapper"> 
       
-      <!-- Portfolio Item -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four   appleIOS isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/MascarillaKarseell1190.jpg" alt="Mascarilla Karseell"> 
-          <div class="product-price-overlay">$1190 UYU</div>
-        </div>        
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Mascarilla Karseell</h4>
-            <p class="project_description">Tratamiento capilar intensivo que repara y nutre el cabello dañado.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(1)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
-      
-      <!-- Portfolio Item-->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(337px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/PackshampooycremaKarseell1290.jpg" alt="Pack Shampoo y Crema Karseell">
-          <div class="product-price-overlay">$1290 UYU</div>
-        </div>
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Pack Shampoo y Crema Karseell</h4>
-            <p class="project_description">Combo completo para el cuidado capilar diario.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(2)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
-      
-      <!-- Portfolio Item -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(674px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design  isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/IMG-20250716-WA0039.jpg" alt="Producto de Belleza">
-          <div class="product-price-overlay">$890 UYU</div>
-        </div>
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Tratamiento Capilar Premium</h4>
-            <p class="project_description">Tratamiento profesional para cabello dañado y sin brillo.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(3)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item--> 
-      
-      <!-- Portfolio Item-->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(1011px, 0px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  android  prototype web isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/portfolio_pic4.jpg" alt="Serum Facial">
-          <div class="product-price-overlay">$750 UYU</div>
-        </div>
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Serum Facial Hidratante</h4>
-            <p class="project_description">Serum concentrado para hidratar y rejuvenecer la piel.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(4)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Portfolio Item --> 
-      
-      <!-- Portfolio Item -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(0px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/portfolio_pic5.jpg" alt="Crema Antiarrugas">
-          <div class="product-price-overlay">$1450 UYU</div>
-        </div>
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Crema Antiarrugas</h4>
-            <p class="project_description">Crema premium con ingredientes activos anti-edad.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(5)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
-      
-      <!-- Portfolio Item -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(337px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  web isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/portfolio_pic6.jpg" alt="Base de Maquillaje">
-          <div class="product-price-overlay">$980 UYU</div>
-        </div>
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Base de Maquillaje</h4>
-            <p class="project_description">Base de larga duración con cobertura natural.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(6)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
-      
-      <!-- Portfolio Item  -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(674px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four  design web isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/portfolio_pic7.jpg" alt="Kit de Labiales">
-          <div class="product-price-overlay">$650 UYU</div>
-        </div>       
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Kit de Labiales</h4>
-            <p class="project_description">Set de 3 labiales en tonos naturales y vibrantes.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(7)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
-      
-      <!-- Portfolio Item -->
-      <div style="position: absolute; left: 0px; top: 0px; transform: translate3d(1011px, 240px, 0px) scale3d(1, 1, 1); width: 337px; opacity: 1;" class="portfolio-item one-four   android isotope-item">
-        <div class="portfolio_img"> 
-          <img src="img/portfolio_pic8.jpg" alt="Set de Regalo">
-          <div class="product-price-overlay">$1850 UYU</div>
-        </div>       
-        <div class="item_overlay">
-          <div class="item_info"> 
-            <h4 class="project_name">Set de Regalo Completo</h4>
-            <p class="project_description">Set premium con productos seleccionados para regalo.</p>
-            <div class="product-actions">
-              <button class="btn-add-cart" onclick="ecommerce.addToCart(8)">
-                <i class="fa fa-shopping-cart"></i> Agregar al Carrito
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--/Portfolio Item --> 
+      <!-- Portfolio Items will be dynamically loaded here by ecommerce.js -->
       
     </div>
     <!--/Portfolio Wrapper --> 
@@ -382,15 +162,12 @@
 <!--/Portfolio --> 
 
 <section class="page_section" id="benefits"><!--page_section-->
-  <h2>¿Por qué elegir ALuna?</h2>
+  <h2 id="benefits-title"></h2>
 <!--page_section-->
 <div class="client_logos"><!--client_logos-->
   <div class="container">
-    <ul class="fadeInRight animated wow">
-      <li><a href="javascript:void(0)"><img src="img/client_logo1.png" alt=""></a></li>
-      <li><a href="javascript:void(0)"><img src="img/client_logo2.png" alt=""></a></li>
-      <li><a href="javascript:void(0)"><img src="img/client_logo3.png" alt=""></a></li>
-      <li><a href="javascript:void(0)"><img src="img/client_logo5.png" alt=""></a></li>
+    <ul class="fadeInRight animated wow" id="benefits-logos">
+      <!-- Benefit logos will be dynamically loaded here -->
     </ul>
   </div>
 </div>
@@ -399,57 +176,10 @@
 
 <section class="page_section team" id="testimonials"><!--main-section team-start-->
   <div class="container">
-    <h2>Testimonios</h2>
-    <h6>Lo que dicen nuestras clientas sobre ALuna</h6>
-    <div class="team_section clearfix">
-      <div class="team_area">
-        <div class="team_box wow fadeInDown delay-03s">
-          <div class="team_box_shadow"><a href="javascript:void(0)"></a></div>
-          <img src="img/team_pic1.jpg" alt="">
-          <ul>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-          </ul>
-        </div>
-        <h3 class="wow fadeInDown delay-03s">María González</h3>
-        <span class="wow fadeInDown delay-03s">Cliente Satisfecha</span>
-        <p class="wow fadeInDown delay-03s">"Los productos de ALuna han transformado completamente mi rutina de belleza. Mi cabello nunca había estado tan suave y brillante. ¡Totalmente recomendado!"</p>
-      </div>
-      <div class="team_area">
-        <div class="team_box  wow fadeInDown delay-06s">
-          <div class="team_box_shadow"><a href="javascript:void(0)"></a></div>
-          <img src="img/team_pic2.jpg" alt="">
-          <ul>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-          </ul>
-        </div>
-        <h3 class="wow fadeInDown delay-06s">Ana Rodríguez</h3>
-        <span class="wow fadeInDown delay-06s">Cliente Frecuente</span>
-        <p class="wow fadeInDown delay-06s">"La calidad de los cosméticos es excepcional. Mi piel se ve más radiante y saludable desde que uso los productos de ALuna. El servicio al cliente es excelente."</p>
-      </div>
-      <div class="team_area">
-        <div class="team_box wow fadeInDown delay-09s">
-          <div class="team_box_shadow"><a href="javascript:void(0)"></a></div>
-          <img src="img/team_pic3.jpg" alt="">
-          <ul>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-            <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
-          </ul>
-        </div>
-        <h3 class="wow fadeInDown delay-09s">Carmen López</h3>
-        <span class="wow fadeInDown delay-09s">Cliente VIP</span>
-        <p class="wow fadeInDown delay-09s">"ALuna es mi tienda de belleza de confianza. Siempre encuentro productos de calidad a precios justos. Los envíos son rápidos y el empaque es hermoso."</p>
-      </div>
+    <h2 id="testimonials-title"></h2>
+    <h6 id="testimonials-subtitle"></h6>
+    <div class="team_section clearfix" id="testimonials-container">
+      <!-- Testimonials will be dynamically loaded here -->
     </div>
   </div>
 </section>
@@ -459,7 +189,7 @@
   <div class="container">
     <section class="page_section contact" id="contact">
       <div class="contact_section">
-        <h2>Contáctanos</h2>
+        <h2 id="contact-title"></h2>
         <div class="row">
           <div class="col-lg-4">
             
@@ -477,41 +207,38 @@
 		 <div class="contact_info">
                             <div class="detail">
                                 <h4>ALuna Cosméticos</h4>
-                                <p>Av. Belleza 123, Ciudad de México, México</p>
+                                <p id="contact-address"></p>
                             </div>
                             <div class="detail">
                                 <h4>Llámanos</h4>
-                                <p>+52 55 1234 5678</p>
+                                <p id="contact-phone"></p>
                             </div>
                             <div class="detail">
                                 <h4>Envíanos un correo</h4>
-                                <p>info@aluna.com</p>
+                                <p id="contact-email"></p>
                             </div> 
                         </div>
        			  
 			  
           
-          <ul class="social_links">
-            <li class="twitter animated bounceIn wow delay-02s"><a href="javascript:void(0)"><i class="fa fa-twitter"></i></a></li>
-            <li class="facebook animated bounceIn wow delay-03s"><a href="javascript:void(0)"><i class="fa fa-facebook"></i></a></li>
-            <li class="pinterest animated bounceIn wow delay-04s"><a href="javascript:void(0)"><i class="fa fa-pinterest"></i></a></li>
-            <li class="gplus animated bounceIn wow delay-05s"><a href="javascript:void(0)"><i class="fa fa-google-plus"></i></a></li> 
+          <ul class="social_links" id="social-links">
+            <!-- Social links will be dynamically loaded here -->
           </ul>
         </div>
         <div class="col-lg-8 wow fadeInLeft delay-06s">
           <div class="form">
-            <input class="input-text" type="text" name="" placeholder="Tu Nombre *">
-            <input class="input-text" type="email" name="" placeholder="Tu Correo Electrónico *">
-            <input class="input-text" type="tel" name="" placeholder="Tu Teléfono">
-            <textarea class="input-text text-area" cols="0" rows="0" placeholder="¿En qué productos estás interesada? Cuéntanos sobre tu rutina de belleza..."></textarea>
-            <input class="input-btn" type="submit" value="Solicitar Información">
+            <input class="input-text" type="text" name="" id="form-name" placeholder="">
+            <input class="input-text" type="email" name="" id="form-email" placeholder="">
+            <input class="input-text" type="tel" name="" id="form-phone" placeholder="">
+            <textarea class="input-text text-area" cols="0" rows="0" id="form-message" placeholder=""></textarea>
+            <input class="input-btn" type="submit" id="form-submit" value="">
           </div>
         </div>
       </div>
     </section>
   </div>
   <div class="container">
-    <div class="footer_bottom"><span>Copyright © 2024, ALuna Cosméticos. Todos los derechos reservados. </span> </div>
+    <div class="footer_bottom"><span id="footer-copyright"></span> </div>
   </div>
 </footer>
 
@@ -558,5 +285,121 @@
 <script type="text/javascript" src="js/ecommerce.js"></script>
 <script type="text/javascript" src="js/admin-auth.js"></script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch('_data/content.json');
+      const content = await response.json();
+
+      // Hero Section
+      document.getElementById('hero-title').innerHTML = content.hero_section.title;
+      document.getElementById('hero-description').textContent = content.hero_section.description;
+      document.getElementById('hero-image').src = content.hero_section.image;
+
+      // About Us Section
+      document.getElementById('about-us-title').textContent = content.about_us_section.title;
+      document.getElementById('about-us-image').src = content.about_us_section.image;
+      document.getElementById('about-us-subtitle').textContent = content.about_us_section.subtitle;
+      document.getElementById('about-us-paragraph1').textContent = content.about_us_section.paragraph1;
+      document.getElementById('about-us-paragraph2').textContent = content.about_us_section.paragraph2;
+      document.getElementById('about-us-cta').textContent = content.about_us_section.call_to_action;
+      document.getElementById('about-us-contact-btn').textContent = content.about_us_section.contact_button_text;
+
+      // Services Section
+      document.getElementById('services-title').textContent = content.services_section.title;
+      const servicesContainer = document.getElementById('services-container');
+      servicesContainer.innerHTML = ''; // Clear existing content
+      const servicesRow = document.createElement('div');
+      servicesRow.className = 'row';
+      content.services_section.items.forEach(service => {
+        const serviceBlock = document.createElement('div');
+        serviceBlock.className = 'col-lg-4';
+        serviceBlock.innerHTML = `
+          <div class="service_block">
+            <div class="service_icon delay-03s animated wow zoomIn"> <span><i class="fa ${service.icon}"></i></span> </div>
+            <h3 class="animated fadeInUp wow">${service.title}</h3>
+            <p class="animated fadeInDown wow">${service.description}</p>
+          </div>
+        `;
+        servicesRow.appendChild(serviceBlock);
+      });
+      servicesContainer.appendChild(servicesRow);
+
+      // Portfolio Section
+      document.getElementById('portfolio-title').textContent = content.portfolio_section.title;
+      const portfolioFilters = document.getElementById('portfolio-filters');
+      portfolioFilters.innerHTML = ''; // Clear existing content
+      content.portfolio_section.categories.forEach(category => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<a href="#" data-filter="${category.filter}" class="${category.filter === '*' ? 'active' : ''}"><h5>${category.name}</h5></a>`;
+        portfolioFilters.appendChild(listItem);
+      });
+
+      // Benefits Section
+      document.getElementById('benefits-title').textContent = content.benefits_section.title;
+      const benefitsLogos = document.getElementById('benefits-logos');
+      benefitsLogos.innerHTML = ''; // Clear existing content
+      content.benefits_section.logos.forEach(logo => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<a href="javascript:void(0)"><img src="${logo}" alt=""></a>`;
+        benefitsLogos.appendChild(listItem);
+      });
+
+      // Testimonials Section
+      document.getElementById('testimonials-title').textContent = content.testimonials_section.title;
+      document.getElementById('testimonials-subtitle').textContent = content.testimonials_section.subtitle;
+      const testimonialsContainer = document.getElementById('testimonials-container');
+      testimonialsContainer.innerHTML = ''; // Clear existing content
+      content.testimonials_section.items.forEach(testimonial => {
+        const testimonialBlock = document.createElement('div');
+        testimonialBlock.className = 'team_area';
+        testimonialBlock.innerHTML = `
+          <div class="team_box wow fadeInDown delay-03s">
+            <div class="team_box_shadow"><a href="javascript:void(0)"></a></div>
+            <img src="${testimonial.image}" alt="">
+            <ul>
+              <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
+              <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
+              <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
+              <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
+              <li><a href="javascript:void(0)" class="fa fa-star"></a></li>
+            </ul>
+          </div>
+          <h3 class="wow fadeInDown delay-03s">${testimonial.name}</h3>
+          <span class="wow fadeInDown delay-03s">${testimonial.role}</span>
+          <p class="wow fadeInDown delay-03s">"${testimonial.text}"</p>
+        `;
+        testimonialsContainer.appendChild(testimonialBlock);
+      });
+
+      // Contact Section
+      document.getElementById('contact-title').textContent = content.contact_section.title;
+      document.getElementById('contact-address').textContent = content.contact_section.address;
+      document.getElementById('contact-phone').textContent = content.contact_section.phone;
+      document.getElementById('contact-email').textContent = content.contact_section.email;
+
+      const socialLinks = document.getElementById('social-links');
+      socialLinks.innerHTML = ''; // Clear existing content
+      for (const platform in content.contact_section.social_links) {
+        const listItem = document.createElement('li');
+        listItem.className = `${platform} animated bounceIn wow delay-02s`;
+        listItem.innerHTML = `<a href="${content.contact_section.social_links[platform]}"><i class="fa fa-${platform}"></i></a>`;
+        socialLinks.appendChild(listItem);
+      }
+
+      document.getElementById('form-name').placeholder = content.contact_section.form_placeholder_name;
+      document.getElementById('form-email').placeholder = content.contact_section.form_placeholder_email;
+      document.getElementById('form-phone').placeholder = content.contact_section.form_placeholder_phone;
+      document.getElementById('form-message').placeholder = content.contact_section.form_placeholder_message;
+      document.getElementById('form-submit').value = content.contact_section.form_submit_button;
+
+      // Footer Section
+      document.getElementById('footer-copyright').textContent = content.footer_section.copyright;
+
+    } catch (error) {
+      console.error('Error loading content.json:', error);
+    }
+  });
+</script>
 </body>
 </html>

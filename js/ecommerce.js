@@ -18,35 +18,6 @@ class AlunaEcommerce {
         this.setupCartIcon();
         this.setupProductButtons();
         this.renderFeaturedProducts();
-        this.setupMessageListener();
-    }
-    // Actualizar catálogo de productos en la página
-    updateProductCatalog() {
-        // Actualizar precios en el portafolio
-        const portfolioItems = document.querySelectorAll('.portfolio-item');
-        portfolioItems.forEach((item, index) => {
-            const priceOverlay = item.querySelector('.product-price-overlay');
-            if (priceOverlay && this.products[index]) {
-                priceOverlay.textContent = `${this.products[index].price} ${this.config.currency}`;
-            }
-        });
-        
-        // Actualizar productos destacados
-        this.renderFeaturedProducts();
-    }
-
-
-    // Configurar listener para mensajes del admin
-    setupMessageListener() {
-        window.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'PRODUCTS_UPDATED') {
-                console.log('📥 Productos actualizados desde admin');
-                this.products = event.data.products;
-                this.renderFeaturedProducts();
-                this.updateProductCatalog();
-                this.showNotification('Productos actualizados automáticamente', 'success');
-            }
-        });
     }
 
     // Cargar datos del sitio web
@@ -61,124 +32,7 @@ class AlunaEcommerce {
 
     // Cargar productos
     loadProducts() {
-        const defaultProducts = [
-            {
-                id: 1,
-                name: 'Mascarilla Karseell',
-                price: 1190,
-                description: 'Tratamiento capilar intensivo que repara y nutre el cabello dañado.',
-                category: 'cabello',
-                image: 'img/MascarillaKarseell1190.jpg',
-                stock: 15,
-                weight: 250,
-                featured: true
-            },
-            {
-                id: 2,
-                name: 'Pack Shampoo y Crema Karseell',
-                price: 1290,
-                description: 'Combo completo para el cuidado capilar diario.',
-                category: 'cabello',
-                image: 'img/PackshampooycremaKarseell1290.jpg',
-                stock: 10,
-                weight: 500,
-                featured: true
-            },
-            {
-                id: 3,
-                name: 'Tratamiento Capilar Premium',
-                price: 890,
-                description: 'Tratamiento profesional para cabello dañado y sin brillo.',
-                category: 'cabello',
-                image: 'img/IMG-20250716-WA0039.jpg',
-                stock: 8,
-                weight: 200,
-                featured: false
-            },
-            {
-                id: 4,
-                name: 'Serum Facial Hidratante',
-                price: 750,
-                description: 'Serum concentrado para hidratar y rejuvenecer la piel.',
-                category: 'rostro',
-                image: 'img/portfolio_pic4.jpg',
-                stock: 12,
-                weight: 50,
-                featured: false
-            },
-            {
-                id: 5,
-                name: 'Crema Antiarrugas',
-                price: 1450,
-                description: 'Crema premium con ingredientes activos anti-edad.',
-                category: 'rostro',
-                image: 'img/portfolio_pic5.jpg',
-                stock: 6,
-                weight: 100,
-                featured: true
-            },
-            {
-                id: 6,
-                name: 'Base de Maquillaje',
-                price: 980,
-                description: 'Base de larga duración con cobertura natural.',
-                category: 'maquillaje',
-                image: 'img/portfolio_pic6.jpg',
-                stock: 20,
-                weight: 75,
-                featured: false
-            },
-            {
-                id: 7,
-                name: 'Kit de Labiales',
-                price: 650,
-                description: 'Set de 3 labiales en tonos naturales y vibrantes.',
-                category: 'maquillaje',
-                image: 'img/portfolio_pic7.jpg',
-                stock: 15,
-                weight: 30,
-                featured: false
-            },
-            {
-                id: 8,
-                name: 'Set de Regalo Completo',
-                price: 1850,
-                description: 'Set premium con productos seleccionados para regalo.',
-                category: 'sets',
-                image: 'img/portfolio_pic8.jpg',
-                stock: 5,
-                weight: 800,
-                featured: true
-            }
-        ];
-        
-        // Intentar cargar desde website_data primero, luego desde products
-        const websiteData = localStorage.getItem('aluna_website_data');
-        if (websiteData) {
-            try {
-                const data = JSON.parse(websiteData);
-                if (data.products && data.products.length > 0) {
-                    console.log('✅ Productos cargados desde website_data');
-                    return data.products;
-                }
-            } catch (e) {
-                console.error('Error parsing website_data:', e);
-            }
-        }
-        
-        const saved = localStorage.getItem('aluna_products');
-        if (saved) {
-            try {
-                const products = JSON.parse(saved);
-                console.log('✅ Productos cargados desde aluna_products');
-                return products;
-            } catch (e) {
-                console.error('Error parsing aluna_products:', e);
-            }
-        }
-        
-        console.log('ℹ️ Usando productos por defecto');
-        return defaultProducts;
+        return JSON.parse(localStorage.getItem('aluna_products') || '[]');
     }
 
     // Cargar carrito
@@ -227,7 +81,6 @@ class AlunaEcommerce {
                 align-items: center;
                 justify-content: center;
                 font-weight: bold;
-                min-width: 20px;
             }
             .product-card {
                 border: 1px solid #ddd;
@@ -245,8 +98,18 @@ class AlunaEcommerce {
                 font-size: 24px;
                 font-weight: bold;
             }
-
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
+            .btn-add-cart {
+                background: #ff6b9d;
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                transition: all 0.3s ease;
+            }
+            .btn-add-cart:hover {
+                background: #c44569;
+                transform: scale(1.05);
+            }
             .cart-modal {
                 position: fixed;
                 top: 0;
@@ -280,17 +143,22 @@ class AlunaEcommerce {
         document.head.appendChild(style);
     }
 
-<<<<<<< HEAD
-    // Los botones ya están en el HTML, no necesitamos configurarlos aquí
+    // Configurar botones de productos
     setupProductButtons() {
-        // Los productos ya tienen los botones integrados en el HTML
-        console.log('Productos configurados con botones integrados');
-=======
-    // Los botones ya están en el HTML, no necesitamos configurarlos aquí
-    setupProductButtons() {
-        // Los productos ya tienen los botones integrados en el HTML
-        console.log('Productos configurados con botones integrados');
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
+        // Agregar botones "Comprar" a productos existentes
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+        portfolioItems.forEach((item, index) => {
+            const overlay = item.querySelector('.item_overlay .item_info');
+            if (overlay && this.products[index]) {
+                const product = this.products[index];
+                overlay.innerHTML += `
+                    <div class="product-price">$${product.price} ${this.config.currency}</div>
+                    <button class="btn-add-cart" onclick="ecommerce.addToCart(${product.id})">
+                        Agregar al Carrito
+                    </button>
+                `;
+            }
+        });
     }
 
     // Renderizar productos destacados
@@ -345,14 +213,7 @@ class AlunaEcommerce {
     // Agregar al carrito
     addToCart(productId) {
         const product = this.products.find(p => p.id === productId);
-<<<<<<< HEAD
         if (!product) return;
-=======
-        if (!product) {
-            this.showNotification('Producto no encontrado', 'error');
-            return;
-        }
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
 
         const existingItem = this.cart.find(item => item.id === productId);
         if (existingItem) {
@@ -512,7 +373,6 @@ class AlunaEcommerce {
 
     // Checkout con Shopify
     checkout() {
-<<<<<<< HEAD
         // Preparar datos para Shopify
         const checkoutData = {
             lineItems: this.cart.map(item => ({
@@ -538,308 +398,6 @@ class AlunaEcommerce {
         window.open(`${shopifyUrl}?${params.toString()}`, '_blank');
         
         this.showNotification('Redirigiendo al checkout seguro...', 'info');
-=======
-        // Mostrar modal de checkout
-        this.showCheckoutModal();
-    }
-
-    // Mostrar modal de checkout
-    showCheckoutModal() {
-        const subtotal = this.getCartTotal();
-        const shipping = subtotal >= this.config.freeShippingMin ? 0 : 200;
-        const total = subtotal + shipping;
-
-        const modal = document.createElement('div');
-        modal.className = 'cart-modal';
-        modal.innerHTML = `
-            <div class="cart-content">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3><i class="fa fa-credit-card"></i> Finalizar Compra</h3>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-                
-                <div style="margin-bottom: 20px;">
-                    <h5>Resumen del Pedido</h5>
-                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-                        ${this.cart.map(item => `
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span>${item.name} x${item.quantity}</span>
-                                <span>$${item.price * item.quantity} UYU</span>
-                            </div>
-                        `).join('')}
-                        <hr>
-                        <div class="d-flex justify-content-between">
-                            <span>Subtotal:</span>
-                            <span>$${subtotal} UYU</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span>Envío:</span>
-                            <span>${shipping === 0 ? 'Gratis' : '$' + shipping + ' UYU'}</span>
-                        </div>
-                        <div class="d-flex justify-content-between fw-bold">
-                            <span>Total:</span>
-                            <span>$${total} UYU</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <h5>Información de Contacto</h5>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nombre completo *</label>
-                            <input type="text" id="customer-name" class="form-control" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" id="customer-email" class="form-control" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Teléfono *</label>
-                            <input type="tel" id="customer-phone" class="form-control" required>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Ciudad *</label>
-                            <input type="text" id="customer-city" class="form-control" required>
-                        </div>
-                        <div class="col-12 mb-3">
-                            <label class="form-label">Dirección completa *</label>
-                            <textarea id="customer-address" class="form-control" rows="2" required></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <h5>Método de Pago</h5>
-                    <div class="payment-methods">
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="payment-method" id="mercadopago" value="mercadopago" checked>
-                            <label class="form-check-label" for="mercadopago">
-                                <strong>Mercado Pago</strong> - Tarjetas de crédito/débito
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="payment-method" id="abitab" value="abitab">
-                            <label class="form-check-label" for="abitab">
-                                <strong>Giros Abitab</strong> - Pago en efectivo
-                            </label>
-                        </div>
-                        <div class="form-check mb-2">
-                            <input class="form-check-input" type="radio" name="payment-method" id="redpagos" value="redpagos">
-                            <label class="form-check-label" for="redpagos">
-                                <strong>Red Pagos</strong> - Pago en efectivo
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="d-grid">
-                    <button class="btn btn-primary btn-lg" onclick="ecommerce.processOrder()">
-                        <i class="fa fa-shopping-cart"></i> Confirmar Pedido - $${total} UYU
-                    </button>
-                </div>
-
-                <div style="margin-top: 15px; text-align: center; font-size: 12px; color: #666;">
-                    <i class="fa fa-shield-alt"></i> Compra 100% segura - Datos protegidos
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        modal.style.display = 'block';
-    }
-
-    // Procesar pedido
-    processOrder() {
-        // Validar formulario
-        const name = document.getElementById('customer-name').value.trim();
-        const email = document.getElementById('customer-email').value.trim();
-        const phone = document.getElementById('customer-phone').value.trim();
-        const city = document.getElementById('customer-city').value.trim();
-        const address = document.getElementById('customer-address').value.trim();
-        const paymentMethod = document.querySelector('input[name="payment-method"]:checked').value;
-
-        if (!name || !email || !phone || !city || !address) {
-            this.showNotification('Por favor, completa todos los campos requeridos', 'error');
-            return;
-        }
-
-        // Crear objeto del pedido
-        const order = {
-            id: 'ALU-' + Date.now(),
-            timestamp: new Date().toISOString(),
-            customer: { name, email, phone, city, address },
-            items: [...this.cart],
-            subtotal: this.getCartTotal(),
-            shipping: this.getCartTotal() >= this.config.freeShippingMin ? 0 : 200,
-            total: this.getCartTotal() + (this.getCartTotal() >= this.config.freeShippingMin ? 0 : 200),
-            paymentMethod,
-            status: 'pending'
-        };
-
-        // Guardar pedido
-        this.saveOrder(order);
-
-        // Cerrar modal
-        document.querySelector('.cart-modal').remove();
-
-        // Mostrar confirmación
-        this.showOrderConfirmation(order);
-
-        // Limpiar carrito
-        this.cart = [];
-        this.saveCart();
-    }
-
-    // Guardar pedido
-    saveOrder(order) {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('aluna_orders', JSON.stringify(orders));
-
-        // También enviar por email (simulado)
-        this.sendOrderEmail(order);
-    }
-
-    // Enviar email del pedido (simulado)
-    sendOrderEmail(order) {
-        console.log('Enviando email del pedido:', order);
-        // En un entorno real, aquí se enviaría el email a través de un servicio
-    }
-
-    // Mostrar confirmación del pedido
-    showOrderConfirmation(order) {
-        const modal = document.createElement('div');
-        modal.className = 'cart-modal';
-        modal.innerHTML = `
-            <div class="cart-content">
-                <div class="text-center mb-4">
-                    <div style="font-size: 64px; color: #28a745; margin-bottom: 20px;">✅</div>
-                    <h3 style="color: #28a745;">¡Pedido Confirmado!</h3>
-                    <p class="text-muted">Tu pedido ha sido recibido correctamente</p>
-                </div>
-
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
-                    <h5>Detalles del Pedido</h5>
-                    <p><strong>Número de pedido:</strong> ${order.id}</p>
-                    <p><strong>Total:</strong> $${order.total} UYU</p>
-                    <p><strong>Método de pago:</strong> ${this.getPaymentMethodName(order.paymentMethod)}</p>
-                    <p><strong>Envío a:</strong> ${order.customer.city}</p>
-                </div>
-
-                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                    <h6 style="color: #1976d2; margin-bottom: 10px;">📧 Próximos pasos</h6>
-                    <ul style="margin: 0; padding-left: 20px; color: #1976d2; font-size: 14px;">
-                        <li>Recibirás un email de confirmación</li>
-                        <li>Te contactaremos para coordinar el envío</li>
-                        <li>El pedido se procesa en 24-48 horas</li>
-                        ${order.paymentMethod !== 'mercadopago' ? '<li>Te enviaremos las instrucciones de pago</li>' : ''}
-                    </ul>
-                </div>
-
-                <div class="d-grid gap-2">
-                    <button class="btn btn-primary" onclick="this.parentElement.parentElement.parentElement.remove()">
-                        <i class="fa fa-check"></i> Entendido
-                    </button>
-                    <button class="btn btn-outline-secondary" onclick="ecommerce.showOrderDetails('${order.id}')">
-                        <i class="fa fa-eye"></i> Ver Detalles del Pedido
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        modal.style.display = 'block';
-    }
-
-    // Obtener nombre del método de pago
-    getPaymentMethodName(method) {
-        const methods = {
-            'mercadopago': 'Mercado Pago',
-            'abitab': 'Giros Abitab',
-            'redpagos': 'Red Pagos'
-        };
-        return methods[method] || method;
-    }
-
-    // Mostrar detalles del pedido
-    showOrderDetails(orderId) {
-        const orders = JSON.parse(localStorage.getItem('aluna_orders') || '[]');
-        const order = orders.find(o => o.id === orderId);
-        
-        if (!order) {
-            this.showNotification('Pedido no encontrado', 'error');
-            return;
-        }
-
-        // Cerrar modal actual
-        document.querySelector('.cart-modal').remove();
-
-        const modal = document.createElement('div');
-        modal.className = 'cart-modal';
-        modal.innerHTML = `
-            <div class="cart-content">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3><i class="fa fa-receipt"></i> Pedido ${order.id}</h3>
-                    <button class="btn btn-sm btn-outline-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5>Información del Cliente</h5>
-                        <p><strong>Nombre:</strong> ${order.customer.name}</p>
-                        <p><strong>Email:</strong> ${order.customer.email}</p>
-                        <p><strong>Teléfono:</strong> ${order.customer.phone}</p>
-                        <p><strong>Ciudad:</strong> ${order.customer.city}</p>
-                        <p><strong>Dirección:</strong> ${order.customer.address}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h5>Detalles del Pedido</h5>
-                        <p><strong>Fecha:</strong> ${new Date(order.timestamp).toLocaleString()}</p>
-                        <p><strong>Estado:</strong> <span class="badge bg-warning">Pendiente</span></p>
-                        <p><strong>Método de pago:</strong> ${this.getPaymentMethodName(order.paymentMethod)}</p>
-                        <p><strong>Total:</strong> $${order.total} UYU</p>
-                    </div>
-                </div>
-
-                <h5>Productos</h5>
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
-                    ${order.items.map(item => `
-                        <div class="d-flex justify-content-between align-items-center mb-2">
-                            <span>${item.name} x${item.quantity}</span>
-                            <span>$${item.price * item.quantity} UYU</span>
-                        </div>
-                    `).join('')}
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>Subtotal:</span>
-                        <span>$${order.subtotal} UYU</span>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <span>Envío:</span>
-                        <span>${order.shipping === 0 ? 'Gratis' : '$' + order.shipping + ' UYU'}</span>
-                    </div>
-                    <div class="d-flex justify-content-between fw-bold">
-                        <span>Total:</span>
-                        <span>$${order.total} UYU</span>
-                    </div>
-                </div>
-
-                <div class="mt-3 d-grid">
-                    <button class="btn btn-secondary" onclick="this.parentElement.parentElement.parentElement.remove()">
-                        <i class="fa fa-arrow-left"></i> Cerrar
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(modal);
-        modal.style.display = 'block';
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
     }
 
     // Mostrar notificación

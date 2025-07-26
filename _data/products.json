@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "Mascarilla Karseell",
+    "price": 1190,
+    "description": "Tratamiento capilar intensivo que repara y nutre el cabello dañado.",
+    "category": "cabello",
+    "image": "img/MascarillaKarseell1190.jpg",
+    "stock": 15,
+    "weight": 250,
+    "featured": true
+  },
+  {
+    "id": 2,
+    "name": "Pack Shampoo y Crema Karseell",
+    "price": 1290,
+    "description": "Combo completo para el cuidado capilar diario.",
+    "category": "cabello",
+    "image": "img/PackshampooycremaKarseell1290.jpg",
+    "stock": 10,
+    "weight": 500,
+    "featured": true
+  },
+  {
+    "id": 3,
+    "name": "Tratamiento Capilar Premium",
+    "price": 890,
+    "description": "Tratamiento profesional para cabello dañado y sin brillo.",
+    "category": "cabello",
+    "image": "img/IMG-20250716-WA0039.jpg",
+    "stock": 8,
+    "weight": 200,
+    "featured": false
+  },
+  {
+    "id": 4,
+    "name": "Serum Facial Hidratante",
+    "price": 750,
+    "description": "Serum concentrado para hidratar y rejuvenecer la piel.",
+    "category": "rostro",
+    "image": "img/portfolio_pic4.jpg",
+    "stock": 12,
+    "weight": 50,
+    "featured": false
+  },
+  {
+    "id": 5,
+    "name": "Crema Antiarrugas",
+    "price": 1450,
+    "description": "Crema premium con ingredientes activos anti-edad.",
+    "category": "rostro",
+    "image": "img/portfolio_pic5.jpg",
+    "stock": 6,
+    "weight": 100,
+    "featured": true
+  },
+  {
+    "id": 6,
+    "name": "Base de Maquillaje",
+    "price": 980,
+    "description": "Base de larga duración con cobertura natural.",
+    "category": "maquillaje",
+    "image": "img/portfolio_pic6.jpg",
+    "stock": 20,
+    "weight": 75,
+    "featured": false
+  },
+  {
+    "id": 7,
+    "name": "Kit de Labiales",
+    "price": 650,
+    "description": "Set de 3 labiales en tonos naturales y vibrantes.",
+    "category": "maquillaje",
+    "image": "img/portfolio_pic7.jpg",
+    "stock": 15,
+    "weight": 30,
+    "featured": false
+  },
+  {
+    "id": 8,
+    "name": "Set de Regalo Completo",
+    "price": 1850,
+    "description": "Set premium con productos seleccionados para regalo.",
+    "category": "sets",
+    "image": "img/portfolio_pic8.jpg",
+    "stock": 5,
+    "weight": 800,
+    "featured": true
+  }
+]

@@ -1,265 +1,100 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - ALuna</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        .admin-header {
-            background: linear-gradient(135deg, #ff6b9d, #c44569);
-            color: white;
-            padding: 20px 0;
-        }
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .product-image {
-            width: 100px;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-        .btn-primary {
-            background: #ff6b9d;
-            border-color: #ff6b9d;
-        }
-        .btn-primary:hover {
-            background: #c44569;
-            border-color: #c44569;
-        }
-        .currency {
-            color: #28a745;
-            font-weight: bold;
-        }
-        .shipping-info {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Administración ALuna</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="icon" href="../favicon.png" type="image/png">
 </head>
 <body>
-    <div class="admin-header">
-        <div class="container">
-            <h1><i class="fas fa-crown"></i> Panel de Administración ALuna</h1>
-            <p>Gestiona tus productos y ventas desde Maldonado, Uruguay</p>
-        </div>
+  <div class="container mt-5">
+    <h1 class="mb-4">Panel de Administración ALuna</h1>
+
+    <ul class="nav nav-tabs mb-4">
+      <li class="nav-item">
+        <a class="nav-link active" href="#" onclick="showProductManager()">Gestor de Productos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="showContentEditor()">Editor de Contenido</a>
+      </li>
+    </ul>
+
+    <div id="productsSection">
+      <button class="btn btn-primary mb-3" onclick="productManager.showAddProduct()">Agregar Nuevo Producto</button>
+      <div id="productsList" class="row"></div>
     </div>
 
-    <div class="container mt-4">
-        <!-- Información de Envíos -->
-        <div class="shipping-info">
-            <h5><i class="fas fa-truck"></i> Información de Envíos</h5>
-            <p><strong>Ubicación:</strong> Maldonado, Uruguay</p>
-            <p><strong>Envíos:</strong> Todo el país - Gratis en compras superiores a $1500 UYU</p>
-            <p><strong>Métodos de pago:</strong> Tarjetas de crédito/débito, Mercado Pago, Giros Abitab, Red Pagos</p>
-        </div>
-
-        <!-- Botones de Acción -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <button class="btn btn-primary btn-lg w-100" onclick="showAddProduct()">
-                    <i class="fas fa-plus"></i> Agregar Nuevo Producto
-                </button>
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-info btn-lg w-100" onclick="productManager.viewOrders()">
-                    <i class="fas fa-shopping-bag"></i> Ver Pedidos
-                </button>
-            </div>
-        </div>
-
-<<<<<<< HEAD
-=======
-        <!-- Botones adicionales -->
-        <div class="row mb-4">
-            <div class="col-md-4">
-                <button class="btn btn-success w-100" onclick="exportProducts()">
-                    <i class="fas fa-download"></i> Exportar Productos
-                </button>
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-warning w-100" onclick="productManager.syncWithShopify()">
-                    <i class="fas fa-sync"></i> Sincronizar Shopify
-                </button>
-            </div>
-            <div class="col-md-4">
-                <button class="btn btn-secondary w-100" onclick="productManager.showGitHubConfig()">
-                    <i class="fab fa-github"></i> Configurar GitHub
-                </button>
-            </div>
-        </div>
-
-        <!-- Botones adicionales -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <button class="btn btn-primary w-100" onclick="productManager.updateRepository()">
-                    <i class="fas fa-cloud-upload-alt"></i> Subir Cambios a GitHub
-                </button>
-            </div>
-            <div class="col-md-6">
-                <button class="btn btn-outline-primary w-100" onclick="window.open('../', '_blank')">
-                    <i class="fas fa-external-link-alt"></i> Ver Sitio Web
-                </button>
-            </div>
-        </div>
->>>>>>> 599d5b9eb225891ab3ef9de4be65e3f33afa2657
-        <!-- Lista de Productos -->
-        <div class="row">
-            <div class="col-12">
-                <h3>Productos Actuales</h3>
-                <div id="productsList">
-                    <!-- Los productos se cargarán aquí -->
-                </div>
-            </div>
-        </div>
+    <div id="contentSection" style="display: none;">
+      <h2>Editor de Contenido de la Web</h2>
+      <div id="contentEditor"></div>
     </div>
 
-    <!-- Modal para Agregar/Editar Producto -->
-    <div class="modal fade" id="productModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Agregar Producto</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="productForm">
-                        <input type="hidden" id="productId">
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Nombre del Producto *</label>
-                                    <input type="text" class="form-control" id="productName" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Precio (UYU) *</label>
-                                    <input type="number" class="form-control" id="productPrice" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Descripción *</label>
-                            <textarea class="form-control" id="productDescription" rows="3" required></textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Categoría *</label>
-                                    <select class="form-control" id="productCategory" required>
-                                        <option value="">Seleccionar categoría</option>
-                                        <option value="cabello">Cuidado Capilar</option>
-                                        <option value="rostro">Cuidado Facial</option>
-                                        <option value="maquillaje">Maquillaje</option>
-                                        <option value="naturales">Productos Naturales</option>
-                                        <option value="sets">Sets de Regalo</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Stock Disponible</label>
-                                    <input type="number" class="form-control" id="productStock" value="10">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Imagen del Producto *</label>
-                            <input type="file" class="form-control" id="productImage" accept="image/*">
-                            <div class="mt-2">
-                                <img id="imagePreview" style="max-width: 200px; display: none;" class="img-thumbnail">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Peso (gramos) - Para envío</label>
-                                    <input type="number" class="form-control" id="productWeight" value="100">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Destacado</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="productFeatured">
-                                        <label class="form-check-label">Mostrar en página principal</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="saveProduct()">Guardar Producto</button>
-                </div>
-            </div>
+    <!-- Product Modal -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">Agregar Producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="productForm">
+              <input type="hidden" id="productId">
+              <div class="mb-3">
+                <label for="productName" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="productName" required>
+              </div>
+              <div class="mb-3">
+                <label for="productPrice" class="form-label">Precio</label>
+                <input type="number" class="form-control" id="productPrice" required>
+              </div>
+              <div class="mb-3">
+                <label for="productDescription" class="form-label">Descripción</label>
+                <textarea class="form-control" id="productDescription" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="productCategory" class="form-label">Categoría</label>
+                <select class="form-select" id="productCategory" required>
+                  <option value="">Seleccionar categoría</option>
+                  <option value="cabello">Cabello</option>
+                  <option value="rostro">Rostro</option>
+                  <option value="maquillaje">Maquillaje</option>
+                  <option value="naturales">Naturales</option>
+                  <option value="sets">Sets</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="productImage" class="form-label">Imagen (URL o Archivo)</label>
+                <input type="file" class="form-control" id="productImage" accept="image/*">
+                <img id="imagePreview" src="" alt="Vista previa" class="img-thumbnail mt-2" style="display: none; max-width: 150px;">
+              </div>
+              <div class="mb-3">
+                <label for="productStock" class="form-label">Stock</label>
+                <input type="number" class="form-control" id="productStock" required>
+              </div>
+              <div class="mb-3">
+                <label for="productWeight" class="form-label">Peso (gramos)</label>
+                <input type="number" class="form-control" id="productWeight" required>
+              </div>
+              <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="productFeatured">
+                <label class="form-check-label" for="productFeatured">Destacado</label>
+              </div>
+              <button type="submit" class="btn btn-success">Guardar Producto</button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="admin.js"></script>
-    <script src="bot.js"></script>
-    <script src="github-api.js"></script>
-    
-    <script>
-        // Verificar que el bot esté disponible y crear el botón
-        window.addEventListener('load', function() {
-            // Crear botón del asistente si no existe
-            if (!document.getElementById('assistant-btn')) {
-                const assistantBtn = document.createElement('div');
-                assistantBtn.id = 'assistant-btn';
-                assistantBtn.style.cssText = `
-                    position: fixed;
-                    bottom: 20px;
-                    right: 20px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    color: white;
-                    padding: 15px 20px;
-                    border-radius: 50px;
-                    cursor: pointer;
-                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-                    transition: all 0.3s ease;
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    font-weight: 600;
-                    z-index: 10000;
-                    animation: pulse 2s infinite;
-                `;
-                assistantBtn.innerHTML = '<i class="fas fa-robot"></i> Asistente';
-                
-                assistantBtn.addEventListener('click', function() {
-                    if (window.adminBot) {
-                        window.adminBot.toggleBot();
-                    } else {
-                        alert('El asistente se está cargando, por favor espera un momento...');
-                        // Intentar inicializar el bot
-                        setTimeout(function() {
-                            if (typeof AdminBot !== 'undefined') {
-                                window.adminBot = new AdminBot();
-                                window.adminBot.toggleBot();
-                            }
-                        }, 500);
-                    }
-                });
-                
-                document.body.appendChild(assistantBtn);
-            }
-        });
-    </script>
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom Admin JS -->
+  <script src="admin.js"></script>
 </body>
 </html>

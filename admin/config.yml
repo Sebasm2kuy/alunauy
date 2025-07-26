@@ -1,0 +1,21 @@
+﻿backend:
+  name: test-repo
+
+media_folder: "img"
+public_folder: "/img"
+
+collections:
+  - name: "products"
+    label: "Productos"
+    folder: "_data"
+    create: true
+    slug: "{{name}}"
+    fields:
+      - {label: "Nombre", name: "name", widget: "string"}
+      - {label: "Precio", name: "price", widget: "number", value_type: "float"}
+      - {label: "Descripción", name: "description", widget: "text"}
+      - {label: "Categoría", name: "category", widget: "select", options: ["cabello", "rostro", "maquillaje", "naturales", "sets"]}
+      - {label: "Imagen", name: "image", widget: "image"}
+      - {label: "Stock", name: "stock", widget: "number", value_type: "int"}
+      - {label: "Peso (gramos)", name: "weight", widget: "number", value_type: "int"}
+      - {label: "Destacado", name: "featured", widget: "boolean", default: false}
